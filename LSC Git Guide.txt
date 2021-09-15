@@ -1,0 +1,9 @@
+1. cd "/Volumes/GoogleDrive/My Drive/LSC/Data Science/Project/Horsorion/Website Development/Working" 
+2. git add .
+3. git commit -m “comment”
+4. git push origin master
+
+#5. git push origin master --force
+
+horsalytics
+y13612978052
