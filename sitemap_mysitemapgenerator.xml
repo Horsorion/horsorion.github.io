@@ -2,53 +2,108 @@
 		<!--	created with www.mysitemapgenerator.com	-->
 		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-	<loc>https://horsorion.github.io/</loc>
-	<lastmod>2020-07-28T08:49:37+01:00</lastmod>
+	<loc>https://www.horsorion.com/</loc>
+	<lastmod>2021-12-31T12:11:47+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/.</loc>
+	<lastmod>2021-12-31T12:11:49+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/data_plan/</loc>
-	<lastmod>2020-07-28T08:49:41+01:00</lastmod>
+	<loc>https://www.horsorion.com/data_plan</loc>
+	<lastmod>2021-12-31T12:11:49+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/about_us/</loc>
-	<lastmod>2020-07-28T08:49:44+01:00</lastmod>
+	<loc>https://www.horsorion.com/en</loc>
+	<lastmod>2021-12-31T12:11:49+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/en/</loc>
-	<lastmod>2020-07-28T08:49:43+01:00</lastmod>
+	<loc>https://www.horsorion.com/data_plan/</loc>
+	<lastmod>2021-12-31T12:11:51+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/data_plan/en/</loc>
-	<lastmod>2020-07-28T08:49:44+01:00</lastmod>
+	<loc>https://www.horsorion.com/about_us/</loc>
+	<lastmod>2021-12-31T12:11:51+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/data_plan/en</loc>
+	<lastmod>2021-12-31T12:11:51+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/data_plan/standard_order_form/</loc>
-	<lastmod>2020-07-28T08:49:44+01:00</lastmod>
+	<loc>https://www.horsorion.com/horsotips/</loc>
+	<lastmod>2021-12-31T12:11:51+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/data_plan/standard_order_form</loc>
+	<lastmod>2021-12-31T12:11:51+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/data_plan/professional_order_form/</loc>
-	<lastmod>2020-07-28T08:49:44+01:00</lastmod>
+	<loc>https://www.horsorion.com/data_plan/professional_order_form</loc>
+	<lastmod>2021-12-31T12:11:51+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/about_us/en/</loc>
-	<lastmod>2020-07-28T08:49:44+01:00</lastmod>
+	<loc>https://www.horsorion.com/en/</loc>
+	<lastmod>2021-12-31T12:11:52+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/horsotips/en</loc>
+	<lastmod>2021-12-31T12:11:52+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/data_plan/standard_order_form/en/</loc>
-	<lastmod>2020-07-28T08:49:45+01:00</lastmod>
+	<loc>https://www.horsorion.com/data_plan/en/</loc>
+	<lastmod>2021-12-31T12:11:53+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/data_plan/standard_order_form/en</loc>
+	<lastmod>2021-12-31T12:11:53+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://horsorion.github.io/data_plan/professional_order_form/en/</loc>
-	<lastmod>2020-07-28T08:49:45+01:00</lastmod>
+	<loc>https://www.horsorion.com/data_plan/professional_order_form/en</loc>
+	<lastmod>2021-12-31T12:11:53+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/data_plan/standard_order_form/</loc>
+	<lastmod>2021-12-31T12:11:54+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/data_plan/professional_order_form/</loc>
+	<lastmod>2021-12-31T12:11:55+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/about_us/en/</loc>
+	<lastmod>2021-12-31T12:11:55+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/horsotips/en/</loc>
+	<lastmod>2021-12-31T12:11:56+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/data_plan/standard_order_form/en/</loc>
+	<lastmod>2021-12-31T12:11:56+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://www.horsorion.com/data_plan/professional_order_form/en/</loc>
+	<lastmod>2021-12-31T12:11:56+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 </urlset>
