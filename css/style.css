@@ -3417,12 +3417,20 @@ fieldset:disabled a.btn {
 
 .btn-yellow {
     background: var(--brand-yl2);
-    pointer-events: none;
+}
+
+.btn-yellow:hover {
+    background: var(--brand-bl);
+    color: #fff;
 }
 
 .btn-lightyellow {
     background: var(--brand-yl);
-    pointer-events: none;
+}
+
+.btn-lightyellow:hover {
+    -webkit-box-shadow: 0 0 0 .2rem rgba(52, 58, 64, .5);
+    box-shadow: 0 0 0 .2rem rgba(52, 58, 64, .5)
 }
 
 input[type="submit"].btn-block,
@@ -12178,7 +12186,8 @@ textarea.form-control {
     padding: 7em 0
 }
 
-.purchase-form {
+.purchase-form,
+.purchase-plan {
     position: relative;
     margin-bottom: 0;
     -webkit-border-radius: 10px;
@@ -12331,6 +12340,79 @@ textarea.form-control {
     background: var(--brand-yl2)!important;
     border-radius: 5px;
     font-size: 16px
+}
+
+.purchase-plan table {
+    border-radius: 10px;
+}
+
+.purchase-plan .table tbody tr td {
+    text-transform: none;
+    color: #000;
+}
+
+.purchase-plan .table tfoot {
+    background-color: var(--brand-yl1);
+}
+
+.purchase-plan .table a {
+    color: var(--brand-bl);
+    text-decoration: underline;
+}
+
+.purchase-plan .pic {
+    width: 20em;
+    aspect-ratio: 1 / 1;
+    background-color: #f2f2f2;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-radius: 1em;
+    margin: 1em auto;
+}
+
+.purchase-plan .btn {
+    border-radius: 5em;
+}
+
+.expandChildTable-zh,
+.expandChildTable-en {
+    cursor: pointer;
+}
+
+.expandChildTable-zh:before {
+    content: "檢視 ▼ ";
+    display: inline-block;
+}
+
+.expandChildTable-zh.selected:before {
+    content: "關閉 ▲ ";
+}
+
+.expandChildTable-en:before {
+    content: "Open ▼ ";
+    display: block;
+    cursor: pointer;
+}
+
+.expandChildTable-en.selected:before {
+    content: "Close ▲ ";
+}
+
+.childTableRow {
+    display: none;
+}
+
+.childTableRow>td {
+    background-color: #e8e8e8;
+}
+
+.childTableRow .table td {
+    padding: .25rem .75rem;
+}
+
+.childTableRow .table td:nth-child(2) {
+    text-align: left;
 }
 
 @media (max-width:575.98px) {
