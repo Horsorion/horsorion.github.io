@@ -2,30 +2,34 @@ function Std_PriceCalculate() {
     var e = document.getElementById("start_yr").value,
         n = document.getElementById("end_yr").value,
         t = Number(n) - Number(e),
-        o = (1200 - 10 * (t - 1)) * t * .7 / .8,
-        d = (1200 - 10 * (t - 1)) * t * .7,
+        o = (1200) * t * .7 / .8,
+        d = (1200 - 10 * (t - 1)) * t * .7 / .8,
+        // o = (1200 - 10 * (t - 1)) * t * .7 / .8,
+        // d = (1200 - 10 * (t - 1)) * t * .7,
         i = o - d,
         a = d / t,
         s = o / 7.75,
         r = d / 7.75,
         l = s - r,
         c = r / t;
-    e < 1979 | e > 2019 | n < 1980 | n > 2020 ? (document.getElementById("no_year").innerHTML = "-", document.getElementById("original_price_std").innerHTML = "-", document.getElementById("discount_price_std").innerHTML = "-", document.getElementById("discount_diff_std").innerHTML = "-", document.getElementById("avg_price_std").innerHTML = "-", document.getElementById("original_price_std_usd").innerHTML = "-", document.getElementById("discount_price_std_usd").innerHTML = "-", document.getElementById("discount_diff_std_usd").innerHTML = "-", document.getElementById("avg_price_std_usd").innerHTML = "-") : (document.getElementById("no_year").innerHTML = t, document.getElementById("original_price_std").innerHTML = o.toFixed(0), document.getElementById("discount_price_std").innerHTML = "HKD " + d.toFixed(0), document.getElementById("discount_diff_std").innerHTML = "- " + i.toFixed(0), document.getElementById("avg_price_std").innerHTML = a.toFixed(0), document.getElementById("original_price_std_usd").innerHTML = s.toFixed(0), document.getElementById("discount_price_std_usd").innerHTML = "USD " + r.toFixed(0), document.getElementById("discount_diff_std_usd").innerHTML = "- " + l.toFixed(0), document.getElementById("avg_price_std_usd").innerHTML = c.toFixed(0))
+    e < 1979 | e > 2022 | n < 1980 | n > 2023 ? (document.getElementById("no_year").innerHTML = "-", document.getElementById("original_price_std").innerHTML = "-", document.getElementById("discount_price_std").innerHTML = "-", document.getElementById("discount_diff_std").innerHTML = "-", document.getElementById("avg_price_std").innerHTML = "-", document.getElementById("original_price_std_usd").innerHTML = "-", document.getElementById("discount_price_std_usd").innerHTML = "-", document.getElementById("discount_diff_std_usd").innerHTML = "-", document.getElementById("avg_price_std_usd").innerHTML = "-") : (document.getElementById("no_year").innerHTML = t, document.getElementById("original_price_std").innerHTML = o.toFixed(1), document.getElementById("discount_price_std").innerHTML = "HKD " + d.toFixed(0), document.getElementById("discount_diff_std").innerHTML = "- " + i.toFixed(1), document.getElementById("avg_price_std").innerHTML = a.toFixed(0), document.getElementById("original_price_std_usd").innerHTML = s.toFixed(1), document.getElementById("discount_price_std_usd").innerHTML = "USD " + r.toFixed(0), document.getElementById("discount_diff_std_usd").innerHTML = "- " + l.toFixed(1), document.getElementById("avg_price_std_usd").innerHTML = c.toFixed(0))
 }
 
 function Pro_PriceCalculate() {
     var e = document.getElementById("start_yr").value,
         n = document.getElementById("end_yr").value,
         t = Number(n) - Number(e),
-        o = (1200 - 10 * (t - 1)) * t / .8,
-        d = (1200 - 10 * (t - 1)) * t,
+        o = (1200) * t / .8,
+        d = (1200 - 10 * (t - 1)) * t / .8,
+        // o = (1200 - 10 * (t - 1)) * t / .8,
+        // d = (1200 - 10 * (t - 1)) * t,
         i = o - d,
         a = d / t,
         s = o / 7.75,
         r = d / 7.75,
         l = s - r,
         c = r / t;
-    e < 1979 | e > 2019 | n < 1980 | n > 2020 ? (document.getElementById("no_year").innerHTML = "-", document.getElementById("original_price_pro").innerHTML = "-", document.getElementById("discount_price_pro").innerHTML = "-", document.getElementById("discount_diff_pro").innerHTML = "-", document.getElementById("avg_price_pro").innerHTML = "-", document.getElementById("original_price_pro_usd").innerHTML = "-", document.getElementById("discount_price_pro_usd").innerHTML = "-", document.getElementById("discount_diff_pro_usd").innerHTML = "-", document.getElementById("avg_price_pro_usd").innerHTML = "-") : (document.getElementById("no_year").innerHTML = t, document.getElementById("original_price_pro").innerHTML = o.toFixed(0), document.getElementById("discount_price_pro").innerHTML = "HKD" + d.toFixed(0), document.getElementById("discount_diff_pro").innerHTML = i.toFixed(0), document.getElementById("avg_price_pro").innerHTML = a.toFixed(0), document.getElementById("original_price_pro_usd").innerHTML = s.toFixed(0), document.getElementById("discount_price_pro_usd").innerHTML = "USD " + r.toFixed(0), document.getElementById("discount_diff_pro_usd").innerHTML = "- " + l.toFixed(0), document.getElementById("avg_price_pro_usd").innerHTML = c.toFixed(0))
+    e < 1979 | e > 2022 | n < 1980 | n > 2023 ? (document.getElementById("no_year").innerHTML = "-", document.getElementById("original_price_pro").innerHTML = "-", document.getElementById("discount_price_pro").innerHTML = "-", document.getElementById("discount_diff_pro").innerHTML = "-", document.getElementById("avg_price_pro").innerHTML = "-", document.getElementById("original_price_pro_usd").innerHTML = "-", document.getElementById("discount_price_pro_usd").innerHTML = "-", document.getElementById("discount_diff_pro_usd").innerHTML = "-", document.getElementById("avg_price_pro_usd").innerHTML = "-") : (document.getElementById("no_year").innerHTML = t, document.getElementById("original_price_pro").innerHTML = o.toFixed(1), document.getElementById("discount_price_pro").innerHTML = "HKD" + d.toFixed(0), document.getElementById("discount_diff_pro").innerHTML = i.toFixed(1), document.getElementById("avg_price_pro").innerHTML = a.toFixed(0), document.getElementById("original_price_pro_usd").innerHTML = s.toFixed(1), document.getElementById("discount_price_pro_usd").innerHTML = "USD " + r.toFixed(0), document.getElementById("discount_diff_pro_usd").innerHTML = "- " + l.toFixed(1), document.getElementById("avg_price_pro_usd").innerHTML = c.toFixed(0))
 }
 
 function pop_up_screen() { alert("即將推出 敬請期待！") }
