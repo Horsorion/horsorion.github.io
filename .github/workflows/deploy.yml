@@ -29,8 +29,8 @@ jobs:
       - run: npm run build
         working-directory: site
         env:
-          # Set in repo Settings → Secrets → Actions (full URL to Worker, any path).
           PUBLIC_LEAD_ENDPOINT: ${{ secrets.PUBLIC_LEAD_ENDPOINT }}
+          PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.PUBLIC_GA_MEASUREMENT_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist
