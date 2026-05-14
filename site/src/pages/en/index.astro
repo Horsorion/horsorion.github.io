@@ -8,8 +8,10 @@ import { Icon } from "astro-icon/components";
 import { getHomeContent } from "@/lib/content";
 import { getProductSchema, getServiceSchema } from "@/lib/schema";
 import { unsplashImages } from "@/lib/unsplash-images";
+import { getWhatsappHref } from "@/lib/whatsapp";
 
 const locale = "en";
+const whatsappHref = getWhatsappHref();
 const content = getHomeContent(locale);
 const title = "Hong Kong Horse Racing Data API & Datasets for Syndicates | Horsorion";
 const description =
@@ -73,7 +75,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
           <button type="button" class="btn-primary text-base px-7 py-3.5" data-lead-intent="request-info">
             {content.hero.primaryCta}
           </button>
-          <a href="https://wa.me/85296005554" target="_blank" rel="noopener noreferrer" class="btn-secondary text-base px-7 py-3.5">
+          <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn-secondary text-base px-7 py-3.5">
             {content.hero.secondaryCta}
           </a>
           <a href="/samples/horsorion-sample-2025-07-16.csv" download class="btn-secondary text-base px-7 py-3.5">

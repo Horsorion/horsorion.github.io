@@ -4,11 +4,13 @@ import ContactLeadForm from "@/components/ContactLeadForm";
 import { getContactContent } from "@/lib/content";
 import { getCopy } from "@/lib/i18n";
 import { resolveLeadIntent } from "@/lib/lead";
+import { getWhatsappHref } from "@/lib/whatsapp";
 
 const locale = "zh-Hant";
 const content = getContactContent(locale);
 const copy = getCopy(locale);
 const initialIntent = resolveLeadIntent(Astro.url.searchParams.get("intent"));
+const whatsappHref = getWhatsappHref();
 ---
 
 <BaseLayout
@@ -30,7 +32,7 @@ const initialIntent = resolveLeadIntent(Astro.url.searchParams.get("intent"));
       <h2 class="text-2xl font-bold text-brand-navy">{content.channelsTitle}</h2>
       <ul class="mt-6 space-y-4 text-sm text-slate-700">
         <li class="rounded-2xl bg-white p-4 shadow-card">
-          <a href="https://wa.me/85296005554" target="_blank" rel="noopener noreferrer">
+          <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
             WhatsApp: {copy.contact.whatsapp}
           </a>
         </li>

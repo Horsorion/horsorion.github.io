@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Icon } from "astro-icon/components";
+import { getWhatsappHref } from "@/lib/whatsapp";
+
+const ndaWhatsappHref = getWhatsappHref("Hi Horsorion, I'd like to discuss NDA terms");
 ---
 
 <BaseLayout
@@ -53,7 +56,7 @@ import { Icon } from "astro-icon/components";
             Email us about NDA
           </button>
           <a
-            href="https://wa.me/85296005554?text=Hi%20Horsorion%2C%20I%27d%20like%20to%20discuss%20NDA%20terms"
+            href={ndaWhatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             class="btn-outline"

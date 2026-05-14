@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Icon } from "astro-icon/components";
+import { getWhatsappHref } from "@/lib/whatsapp";
+
+const whatsappHref = getWhatsappHref();
 ---
 
 <BaseLayout
@@ -36,7 +39,7 @@ import { Icon } from "astro-icon/components";
         <div>
           <p class="font-semibold text-brand-navy">WhatsApp 加快回應</p>
           <p class="mt-1 text-sm text-slate-600">
-            急需回覆？<a href="https://wa.me/85296005554" target="_blank" rel="noopener noreferrer" class="font-semibold text-brand-navy underline hover:no-underline">直接 WhatsApp</a> 我們。
+            急需回覆？<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="font-semibold text-brand-navy underline hover:no-underline">直接 WhatsApp</a> 我們。
           </p>
         </div>
       </div>
