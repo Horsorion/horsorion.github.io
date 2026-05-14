@@ -22,7 +22,7 @@ const placeSchema = getPlaceSchema({
 const datasetSchema = getDatasetSchema(locale, {
   name: "Horsorion 跑馬地馬場歷史賽事數據",
   description:
-    "覆蓋香港跑馬地馬場由 1980 年代至今嘅全部正式賽事，包含排位、結果、分段時間、終場賠率與彩池資料。",
+    "覆蓋香港跑馬地馬場由 1980 年代至今的全部正式賽事，包含排位、結果、分段時間、終場賠率與彩池資料。",
   url,
   keywords: ["Happy Valley", "Hong Kong horse racing", "HKJC", "racecard", "sectional time", "night racing"],
   temporalStart: "1980",
@@ -52,7 +52,7 @@ const facts = [
       <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Happy Valley · 跑馬地馬場</p>
       <h1 class="mt-4 max-w-3xl text-4xl font-extrabold md:text-5xl">跑馬地馬場數據</h1>
       <p class="mt-4 max-w-2xl text-lg text-white/80">
-        跑馬地（Happy Valley, HV）係香港最具標誌性嘅市中心夜賽場館，1845 年啟用。
+        跑馬地（Happy Valley, HV）為香港最具標誌性的市中心夜賽場館，1845 年啟用。
         賽道周長僅 1,450 米、彎位較窄，賽事節奏快，對策略選擇有顯著影響。
       </p>
     </div>
@@ -74,7 +74,7 @@ const facts = [
         <h2 class="mt-12 text-2xl font-bold text-brand-navy">數據要點</h2>
         <ul class="mt-4 space-y-2 text-sm text-slate-700">
           <li>· 跑馬地賽事按 <code class="font-mono text-xs">race_id = HV-YYMMDD-NN</code> 編碼</li>
-          <li>· 由於彎位短，<code class="font-mono text-xs">draw</code>（檔位）係最重要嘅單一特徵之一</li>
+          <li>· 由於彎位短，<code class="font-mono text-xs">draw</code>（檔位）為最重要的單一特徵之一</li>
           <li>· 分段時間以每 200 米記錄，配速曲線通常呈「快起步、慢中段」</li>
           <li>· 夜間光照、氣溫差會反映於 <code class="font-mono text-xs">weather</code> 表</li>
         </ul>

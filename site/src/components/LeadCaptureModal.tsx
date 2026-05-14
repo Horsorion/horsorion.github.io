@@ -7,6 +7,7 @@ import type { SiteCopy } from "@/lib/i18n";
 const step1Schema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
+  whatsapp: z.string().optional(),
   intent: z.enum(["request-info", "request-sample", "request-dictionary", "talk-to-us", "api-waitlist"]),
   website: z.string().optional(),
 });
@@ -123,11 +124,12 @@ export default function LeadCaptureModal({ copy }: Props) {
         body: JSON.stringify({
           name: step1Data.name,
           email: step1Data.email,
+          whatsapp: step1Data.whatsapp ?? "",
           intent: step1Data.intent,
           company: data.company ?? "",
           role: data.role ?? "",
-          syndicateSize: data.syndicateSize ?? "N/A",
-          delivery: data.delivery ?? "N/A",
+          syndicateSize: data.syndicateSize ?? "",
+          delivery: data.delivery ?? "",
           datasets: data.datasets ? [data.datasets] : [],
           message: data.message ?? "",
           locale: copy.locale,
@@ -153,11 +155,12 @@ export default function LeadCaptureModal({ copy }: Props) {
         body: JSON.stringify({
           name: step1Data.name,
           email: step1Data.email,
+          whatsapp: step1Data.whatsapp ?? "",
           intent: step1Data.intent,
           company: "",
           role: "",
-          syndicateSize: "N/A",
-          delivery: "N/A",
+          syndicateSize: "",
+          delivery: "",
           datasets: [],
           message: "",
           locale: copy.locale,
@@ -248,6 +251,19 @@ export default function LeadCaptureModal({ copy }: Props) {
                 {...reg1("email")}
               />
               {e1.email && <span className="text-xs text-red-600">{t.requiredEmail}</span>}
+            </label>
+
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+              {lf.whatsapp}
+              <input
+                type="tel"
+                autoComplete="tel"
+                inputMode="tel"
+                placeholder={lf.whatsappPlaceholder}
+                className="rounded-xl border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-navy/30"
+                {...reg1("whatsapp")}
+              />
+              <span className="text-xs font-normal text-slate-400">{lf.whatsappHint}</span>
             </label>
 
             <fieldset className="flex flex-col gap-2">

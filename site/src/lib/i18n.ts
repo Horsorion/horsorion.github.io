@@ -44,6 +44,9 @@ export type SiteCopy = {
     subtitle: string;
     name: string;
     email: string;
+    whatsapp: string;
+    whatsappPlaceholder: string;
+    whatsappHint: string;
     company: string;
     role: string;
     syndicateSize: string;
@@ -98,6 +101,9 @@ const zhHant: SiteCopy = {
     subtitle: "留下聯絡方式，我們會以電郵或 WhatsApp 跟進並提供相應資料。",
     name: "姓名",
     email: "電郵",
+    whatsapp: "WhatsApp（選填）",
+    whatsappPlaceholder: "+852 9123 4567",
+    whatsappHint: "如希望以 WhatsApp 跟進，請填寫包含區號的號碼。",
     company: "公司 / 團隊",
     role: "職位",
     syndicateSize: "團隊規模",
@@ -105,8 +111,8 @@ const zhHant: SiteCopy = {
     delivery: "交付偏好",
     message: "需求說明",
     submit: "提交查詢",
-    success: "已收到查詢，我們會盡快聯絡你。",
-    error: "提交失敗，請稍後再試或直接以 WhatsApp 聯絡。",
+    success: "已收到查詢，我們會於 1 個工作天內回覆。",
+    error: "暫時未能提交，請稍候再試，或直接以 WhatsApp / 電郵聯絡我們。",
     intentLabels: {
       "request-info": "索取資料",
       "request-dictionary": "索取數據字典",
@@ -170,6 +176,9 @@ const en: SiteCopy = {
     subtitle: "Leave your details and we will follow up by email or WhatsApp with the right materials.",
     name: "Name",
     email: "Email",
+    whatsapp: "WhatsApp (optional)",
+    whatsappPlaceholder: "+852 9123 4567",
+    whatsappHint: "Include country code if you would prefer WhatsApp follow-up.",
     company: "Company / Team",
     role: "Role",
     syndicateSize: "Team size",
@@ -177,8 +186,8 @@ const en: SiteCopy = {
     delivery: "Delivery preference",
     message: "Requirements",
     submit: "Submit enquiry",
-    success: "Thanks — we received your enquiry and will be in touch shortly.",
-    error: "Submission failed. Please try again or contact us on WhatsApp.",
+    success: "Thanks — your enquiry has been received. We will reply within 1 business day.",
+    error: "We could not submit just now. Please try again, or reach us on WhatsApp / email.",
     intentLabels: {
       "request-info": "Request info",
       "request-dictionary": "Request data dictionary",

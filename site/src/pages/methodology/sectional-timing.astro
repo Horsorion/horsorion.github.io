@@ -9,11 +9,11 @@ const currentPath = "/methodology/sectional-timing";
 const url = `https://www.horsorion.com${currentPath}`;
 const title = "香港賽馬分段時間方法論 — Horsorion 200m / 400m / 600m 採集標準";
 const description =
-  "Horsorion 如何記錄、清洗、驗證香港賽馬嘅分段時間（sectional time）：採集間隔、座標系定義、場地容差校正、跨場地比較規則。供研究員與量化團隊使用。";
+  "Horsorion 如何記錄、清洗、驗證香港賽馬的分段時間（sectional time）：採集間隔、座標系定義、場地容差校正、跨場地比較規則。供研究員與量化團隊使用。";
 
 const schema = getTechArticleSchema(locale, {
   headline: "Horsorion 香港賽馬分段時間方法論",
-  description: "完整闡述 Horsorion 採集香港賽馬分段時間嘅標準、座標系、場地容差校正及交付欄位。",
+  description: "完整闡述 Horsorion 採集香港賽馬分段時間的標準、座標系、場地容差校正及交付欄位。",
   url,
   about: ["Sectional time", "Hong Kong horse racing", "Race timing methodology"],
 });
@@ -27,7 +27,7 @@ const schema = getTechArticleSchema(locale, {
         香港賽馬分段時間方法論
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-slate-600">
-        分段時間（sectional time）係香港賽馬定價與配速研究嘅基石。本頁說明 Horsorion 嘅採集標準、清洗流程、場地容差校正及交付欄位，方便研究團隊評估資料是否符合自身研究框架。
+        分段時間（sectional time）是香港賽馬定價與配速研究的基石。本頁說明 Horsorion 的採集標準、清洗流程、場地容差校正及交付欄位，方便研究團隊評估資料是否符合自身研究框架。
       </p>
     </div>
   </section>
@@ -49,10 +49,10 @@ const schema = getTechArticleSchema(locale, {
       </ol>
 
       <h2>4. 場地容差校正</h2>
-      <p>每個賽日 Horsorion 計算 <strong>going allowance</strong>（場地容差），按賽程及場地狀況分組，回歸至同距離 / 同班次 / 同場地嘅長期均值，輸出可加性嘅修正值（單位：秒）。</p>
+      <p>每個賽日 Horsorion 計算 <strong>going allowance</strong>（場地容差），按賽程及場地狀況分組，回歸至同距離 / 同班次 / 同場地的長期均值，輸出可加性的修正值（單位：秒）。</p>
 
       <h2>5. 跨場地比較</h2>
-      <p>沙田草地、沙田全天候、跑馬地草地三者嘅基準時間、彎位設計、表面摩擦差異顯著。Horsorion 不直接合併三者嘅原始秒數，而是先轉換為 <strong>速度指數（Speed Rating）</strong> 後再比較。</p>
+      <p>沙田草地、沙田全天候、跑馬地草地三者的基準時間、彎位設計、表面摩擦差異顯著。Horsorion 不直接合併三者的原始秒數，而是先轉換為 <strong>速度指數（Speed Rating）</strong> 後再比較。</p>
 
       <h2>6. 交付欄位</h2>
       <TerminalCodeBlock caption="schema.sectional">
@@ -64,7 +64,7 @@ sec_first_600m         numeric
 sec_last_600m          numeric
 sec_last_400m          numeric
 sec_last_200m          numeric
-position_at_800m       int      -- 該位置嘅場內名次
+position_at_800m       int      -- 該位置的場內名次
 position_at_600m       int
 position_at_400m       int
 going_allowance        numeric  -- 場地容差修正值（秒）

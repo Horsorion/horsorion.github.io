@@ -2,7 +2,6 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import WhatsAppFab from "@/components/WhatsAppFab.astro";
-import CookieBanner from "@/components/CookieBanner.astro";
 import LeadCaptureModal from "@/components/LeadCaptureModal";
 import { getCopy, switchLocalePath, type Locale } from "@/lib/i18n";
 import {
@@ -192,7 +191,6 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <Footer copy={copy} />
     <WhatsAppFab copy={copy} />
     <LeadCaptureModal client:load copy={copy} />
-    <CookieBanner locale={locale} />
     <script is:inline>
       document.addEventListener("click", (event) => {
         const target = event.target;

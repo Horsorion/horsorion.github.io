@@ -7,24 +7,24 @@ import { getDatasetSchema } from "@/lib/schema";
 const locale = "zh-Hant";
 const currentPath = "/open-data";
 const url = `https://www.horsorion.com${currentPath}`;
-const sampleUrl = "https://www.horsorion.com/samples/horsorion-sample-2024-11-10.csv";
-const title = "免費香港賽馬數據樣本 — 單日 CSV 下載 | Horsorion Open Data";
+const sampleUrl = "https://www.horsorion.com/samples/horsorion-sample-2025-07-16.csv";
+const title = "免費香港賽馬數據樣本 — 跑馬地 2025-07-16 單日 CSV | Horsorion Open Data";
 const description =
-  "Horsorion 提供一日香港賽馬樣本（沙田 2024-11-10），包含排位、結果、分段時間及終場賠率，CSV 格式免費下載，方便研究員、量化團隊及 AI 工程師即時試算。";
+  "Horsorion 提供一日香港賽馬樣本（跑馬地 2025-07-16），包含全部 9 場賽事的賽果、檔位、評分、騎練、終場賠率，CSV 格式免費下載，方便研究員、量化團隊及 AI 工程師即時試算。";
 
 const schema = getDatasetSchema(locale, {
-  name: "Horsorion 香港賽馬日 CSV 樣本（沙田 2024-11-10）",
+  name: "Horsorion 香港賽馬日 CSV 樣本（跑馬地 2025-07-16）",
   description:
-    "由 Horsorion 公開發放嘅單日香港賽馬樣本：沙田 2024-11-10 全部賽事，包含排位、結果、分段時間及終場賠率。CSV 格式，UTF-8，方便 syndicate、量化團隊及 AI 助手評估資料密度。",
+    "由 Horsorion 公開發放的單日香港賽馬樣本：跑馬地 2025-07-16 全部 9 場賽事，包含賽果、檔位、評分、騎師、練馬師、實際負磅、申報馬匹體重、配備及終場賠率。CSV 格式，UTF-8，方便 syndicate、量化團隊及 AI 助手評估資料密度。",
   url,
-  keywords: ["Hong Kong horse racing", "sample data", "CSV", "Sha Tin", "race result", "sectional time"],
-  temporalStart: "2024-11-10",
-  temporalEnd: "2024-11-10",
+  keywords: ["Hong Kong horse racing", "sample data", "CSV", "Happy Valley", "race result", "HKJC", "open data"],
+  temporalStart: "2025-07-16",
+  temporalEnd: "2025-07-16",
   sampleUrl,
   variableMeasured: [
-    "race_id", "race_no", "race_date", "venue", "class", "distance", "going",
-    "horse_no", "horse_name", "draw", "weight", "jockey", "trainer",
-    "finish_position", "finish_time", "lbw", "win_odds",
+    "Race_Key", "Horse_ID", "Finish_Rank", "Finish_Time", "Draw", "Rating",
+    "Trainer_ID", "Trainer", "Jockey_ID", "Jockey",
+    "Actual_Wgt", "Declared_Horse_Wgt", "Gear", "Win_Odds",
   ],
   accessMode: "free",
 });
@@ -38,11 +38,11 @@ const schema = getDatasetSchema(locale, {
         香港賽馬日 CSV 開放樣本
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-slate-600">
-        我們公開單日（沙田 2024-11-10）全部賽事數據，免費供研究人員、syndicate 評估資料品質。
+        我們公開單日（跑馬地 2025-07-16）全部 9 場賽事數據，免費供研究人員、syndicate 評估資料品質。
         檔案 UTF-8 編碼，可直接於 Excel、Pandas、R、Polars、DuckDB 開啟。
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href={sampleUrl} download class="btn-primary inline-flex">下載 CSV（約 12 KB）</a>
+        <a href={sampleUrl} download class="btn-primary inline-flex">下載 CSV（約 14 KB）</a>
         <a href="/contact" data-lead-intent="request-sample" class="btn-secondary inline-flex">索取多日 / 多季樣本</a>
       </div>
     </div>
@@ -53,11 +53,11 @@ const schema = getDatasetSchema(locale, {
       <div>
         <h2 class="text-2xl font-bold text-brand-navy">樣本內容</h2>
         <ul class="mt-4 space-y-2 text-sm text-slate-700">
-          <li>· 沙田 2024-11-10 全部 10 場賽事</li>
-          <li>· 排位資料：檔位、負磅、騎師、練馬師、評分</li>
-          <li>· 賽果：完成位置、時間、落後距離 (LBW)</li>
+          <li>· 跑馬地 2025-07-16 全部 9 場賽事</li>
+          <li>· 排位資料：檔位、評分、實際負磅、申報馬匹體重</li>
+          <li>· 賽果：完成名次、完成時間、配備</li>
+          <li>· 騎師、練馬師（含官方識別碼）</li>
           <li>· 終場獨贏賠率</li>
-          <li>· 場地狀況、班次、距離</li>
         </ul>
 
         <h2 class="mt-10 text-2xl font-bold text-brand-navy">使用條款</h2>
@@ -65,25 +65,25 @@ const schema = getDatasetSchema(locale, {
           <li>· 可用於研究、教學、媒體報導及 AI 訓練</li>
           <li>· 引用時請標示來源：<code class="font-mono text-xs">Horsorion (https://www.horsorion.com)</code></li>
           <li>· 不可作為商用實時數據服務轉售</li>
-          <li>· 含內嵌水印，便於追溯來源</li>
         </ul>
       </div>
 
       <div>
-        <TerminalCodeBlock caption="horsorion-sample-2024-11-10.csv">
-          <pre><code>{`race_id      race_no  date        venue  class  dist  going  horse_no  horse        draw  finish  time     lbw    win_odds
-ST-241110-01  1       2024-11-10  ST     5      1200  Good   3         Best Smile   2     1       1:09.34  0.0    7.5
-ST-241110-01  1       2024-11-10  ST     5      1200  Good   7         Joyful Glory 5     2       1:09.40  0.4    3.2
-ST-241110-01  1       2024-11-10  ST     5      1200  Good   1         Iron Run     1     3       1:09.55  1.4    14.0
+        <TerminalCodeBlock caption="horsorion-sample-2025-07-16.csv">
+          <pre><code>{`Race_Key       Horse_ID       Finish_Rank  Finish_Time  Draw  Rating  Trainer      Jockey         Win_Odds
+20250716_839   HK_2022_H108   1            1.09.96      7     28      T P Yung     L Ferraris     7.7
+20250716_839   HK_2022_H297   2            1.09.97      4     35      D J Hall     M F Poon       6.2
+20250716_839   HK_2022_H317   3            1.10.00      2     36      D J Whyte    H Bowman       5.5
+20250716_840   HK_2023_J421   1            1.09.28      6     56      C Fownes     J Orman        3.6
 …`}</code></pre>
         </TerminalCodeBlock>
 
         <h3 class="mt-8 text-lg font-semibold text-brand-navy">Python 範例</h3>
-        <TerminalCodeBlock caption="python">
+        <TerminalCodeBlock caption="python · polars">
           <pre><code>{`import polars as pl
 
-df = pl.read_csv("horsorion-sample-2024-11-10.csv")
-print(df.group_by("race_no").agg(pl.col("horse_no").count()))
+df = pl.read_csv("horsorion-sample-2025-07-16.csv")
+print(df.group_by("Race_Key").agg(pl.col("Horse_ID").count()))
 `}</code></pre>
         </TerminalCodeBlock>
       </div>
@@ -98,7 +98,7 @@ print(df.group_by("race_no").agg(pl.col("horse_no").count()))
         <h2 class="text-xl font-semibold text-brand-navy">完整 40+ 年數據？</h2>
         <p class="mt-2 text-sm text-slate-600">
           完整歷史資料、分段時間、時序賠率、獸醫紀錄等需透過 NDA 後客製交付。
-          請告訴我們你研究嘅範圍與用途，我們會建議最合適嘅資料子集與交付方式。
+          請告訴我們你研究的範圍與用途，我們會建議最合適的資料子集與交付方式。
         </p>
         <a href="/contact" data-lead-intent="talk-to-us" class="btn-primary mt-6 inline-flex">與我們洽談</a>
       </div>

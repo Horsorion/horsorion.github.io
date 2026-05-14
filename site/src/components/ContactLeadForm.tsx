@@ -7,11 +7,12 @@ import type { LeadIntent, SiteCopy } from "@/lib/i18n";
 const leadSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
-  company: z.string().min(1),
-  role: z.string().min(1),
-  syndicateSize: z.string().min(1),
-  delivery: z.string().min(1),
-  datasets: z.array(z.string()).min(1),
+  whatsapp: z.string().optional(),
+  company: z.string().optional(),
+  role: z.string().optional(),
+  syndicateSize: z.string().optional(),
+  delivery: z.string().optional(),
+  datasets: z.array(z.string()).optional(),
   message: z.string().optional(),
   intent: z.enum(["request-info", "request-dictionary", "request-sample", "talk-to-us", "api-waitlist"]),
   locale: z.enum(["zh-Hant", "en"]),
@@ -49,7 +50,7 @@ export default function ContactLeadForm({ copy, initialIntent = "request-info" }
     },
   });
 
-  const selectedDatasets = watch("datasets");
+  const selectedDatasets = watch("datasets") ?? [];
 
   const toggleDataset = (dataset: string) => {
     const next = selectedDatasets.includes(dataset)
@@ -57,6 +58,9 @@ export default function ContactLeadForm({ copy, initialIntent = "request-info" }
       : [...selectedDatasets, dataset];
     setValue("datasets", next, { shouldValidate: true });
   };
+
+  const requiredText = copy.locale === "zh-Hant" ? "必填" : "Required";
+  const validEmailText = copy.locale === "zh-Hant" ? "有效電郵必填" : "Valid email required";
 
   const onSubmit = handleSubmit(async (values) => {
     setStatus("idle");
@@ -68,14 +72,19 @@ export default function ContactLeadForm({ copy, initialIntent = "request-info" }
         body: JSON.stringify(values),
       });
 
-      if (!response.ok) {
-        throw new Error("Lead submission failed");
+      // 4xx (client validation) — show error so the user can fix the form.
+      if (response.status >= 400 && response.status < 500) {
+        setStatus("error");
+        return;
       }
 
+      // 2xx or 5xx (worker may have already sent the inbox email even on 5xx)
+      // — treat as success for the user; we will see the lead in our inbox / logs.
       setStatus("success");
       reset({
         name: "",
         email: "",
+        whatsapp: "",
         company: "",
         role: "",
         syndicateSize: "",
@@ -87,6 +96,7 @@ export default function ContactLeadForm({ copy, initialIntent = "request-info" }
         website: "",
       });
     } catch {
+      // Genuine network failure — show the retry banner.
       setStatus("error");
     }
   });
@@ -100,49 +110,57 @@ export default function ContactLeadForm({ copy, initialIntent = "request-info" }
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium text-slate-700">
           {copy.leadForm.name}
-          <input className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" {...register("name")} />
-          {errors.name ? <span className="mt-1 block text-xs text-red-600">Required</span> : null}
+          <input className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" autoComplete="name" {...register("name")} />
+          {errors.name ? <span className="mt-1 block text-xs text-red-600">{requiredText}</span> : null}
         </label>
         <label className="block text-sm font-medium text-slate-700">
           {copy.leadForm.email}
-          <input className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" type="email" {...register("email")} />
-          {errors.email ? <span className="mt-1 block text-xs text-red-600">Required</span> : null}
+          <input className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" type="email" autoComplete="email" {...register("email")} />
+          {errors.email ? <span className="mt-1 block text-xs text-red-600">{validEmailText}</span> : null}
+        </label>
+        <label className="block text-sm font-medium text-slate-700 sm:col-span-2">
+          {copy.leadForm.whatsapp}
+          <input
+            className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2"
+            type="tel"
+            autoComplete="tel"
+            inputMode="tel"
+            placeholder={copy.leadForm.whatsappPlaceholder}
+            {...register("whatsapp")}
+          />
+          <span className="mt-1 block text-xs text-slate-400">{copy.leadForm.whatsappHint}</span>
         </label>
         <label className="block text-sm font-medium text-slate-700">
           {copy.leadForm.company}
-          <input className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" {...register("company")} />
-          {errors.company ? <span className="mt-1 block text-xs text-red-600">Required</span> : null}
+          <input className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" autoComplete="organization" {...register("company")} />
         </label>
         <label className="block text-sm font-medium text-slate-700">
           {copy.leadForm.role}
           <input className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" {...register("role")} />
-          {errors.role ? <span className="mt-1 block text-xs text-red-600">Required</span> : null}
         </label>
         <label className="block text-sm font-medium text-slate-700">
           {copy.leadForm.syndicateSize}
           <select className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" {...register("syndicateSize")}>
-            <option value="">Select</option>
+            <option value="">—</option>
             {copy.leadForm.syndicateSizes.map((size) => (
               <option key={size} value={size}>
                 {size}
               </option>
             ))}
           </select>
-          {errors.syndicateSize ? <span className="mt-1 block text-xs text-red-600">Required</span> : null}
         </label>
       </div>
 
       <label className="block text-sm font-medium text-slate-700">
         {copy.leadForm.delivery}
         <select className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2" {...register("delivery")}>
-          <option value="">Select</option>
+          <option value="">—</option>
           {copy.leadForm.deliveryOptions.map((option) => (
             <option key={option} value={option}>
               {option}
             </option>
           ))}
         </select>
-        {errors.delivery ? <span className="mt-1 block text-xs text-red-600">Required</span> : null}
       </label>
 
       <fieldset>
@@ -164,7 +182,6 @@ export default function ContactLeadForm({ copy, initialIntent = "request-info" }
             );
           })}
         </div>
-        {errors.datasets ? <span className="mt-2 block text-xs text-red-600">Select at least one</span> : null}
       </fieldset>
 
       <label className="block text-sm font-medium text-slate-700">
@@ -180,7 +197,7 @@ export default function ContactLeadForm({ copy, initialIntent = "request-info" }
       ) : null}
 
       <button type="submit" className="btn-primary w-full disabled:opacity-60" disabled={isSubmitting}>
-        {copy.leadForm.submit}
+        {isSubmitting ? (copy.locale === "zh-Hant" ? "送出中…" : "Submitting…") : copy.leadForm.submit}
       </button>
     </form>
   );

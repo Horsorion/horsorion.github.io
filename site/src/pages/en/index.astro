@@ -45,16 +45,13 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
     <div class="absolute inset-0 z-0">
       <video
         autoplay muted loop playsinline
-        class="h-full w-full object-cover opacity-30 motion-reduce:hidden"
+        preload="auto"
+        poster="/images/background/home_powerby.jpeg"
+        class="h-full w-full object-cover opacity-30"
         aria-hidden="true"
       >
         <source src="/images/background/home_cover_bg.mp4" type="video/mp4" />
       </video>
-      <img
-        src="/images/background/home_powerby.jpeg"
-        alt="" aria-hidden="true"
-        class="absolute inset-0 h-full w-full object-cover opacity-25 motion-safe:hidden"
-      />
       <div class="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/90 to-brand-navy/50"></div>
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(201,162,39,0.15),transparent_40%)]"></div>
     </div>
@@ -79,7 +76,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
           <a href="https://wa.me/85296005554" target="_blank" rel="noopener noreferrer" class="btn-secondary text-base px-7 py-3.5">
             {content.hero.secondaryCta}
           </a>
-          <a href="/samples/horsorion-sample-2024-11-10.csv" download class="btn-secondary text-base px-7 py-3.5" data-lead-intent="request-sample">
+          <a href="/samples/horsorion-sample-2025-07-16.csv" download class="btn-secondary text-base px-7 py-3.5">
             Download sample CSV
           </a>
         </div>
@@ -93,13 +90,13 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
       </div>
 
       <div>
-        <TerminalCodeBlock caption="GET race_results · sample">
-          <pre><span class="text-emerald-400"># Past Performance — Sha Tin (watermarked sample)</span>
-<span class="text-sky-400">Race_Key</span>     <span class="text-sky-400">Horse_ID</span>  <span class="text-sky-400">Rank</span>  <span class="text-sky-400">Time</span>     <span class="text-sky-400">Odds</span>
-20XX1110+01  H001      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:09.82</span>  <span class="text-amber-300">2.2</span>
-20XX1110+01  H002      <span class="text-emerald-300">2</span>     <span class="text-amber-300">1:09.91</span>  <span class="text-amber-300">5.3</span>
-20XX1110+01  H003      <span class="text-emerald-300">3</span>     <span class="text-amber-300">1:09.95</span>  <span class="text-amber-300">6.1</span>
-20XX1110+02  H011      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:34.41</span>  <span class="text-amber-300">3.1</span>
+        <TerminalCodeBlock caption="GET race_results · 2025-07-16 · Happy Valley">
+          <pre><span class="text-emerald-400"># Race Results — Happy Valley · 2025-07-16 (sample)</span>
+<span class="text-sky-400">Race_Key</span>       <span class="text-sky-400">Horse_ID</span>       <span class="text-sky-400">Rank</span>  <span class="text-sky-400">Time</span>     <span class="text-sky-400">Odds</span>
+20250716_839   HK_2022_H108   <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:09.96</span>  <span class="text-amber-300">7.7</span>
+20250716_839   HK_2022_H297   <span class="text-emerald-300">2</span>     <span class="text-amber-300">1:09.97</span>  <span class="text-amber-300">6.2</span>
+20250716_839   HK_2022_H317   <span class="text-emerald-300">3</span>     <span class="text-amber-300">1:10.00</span>  <span class="text-amber-300">5.5</span>
+20250716_840   HK_2023_J421   <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:09.28</span>  <span class="text-amber-300">3.6</span>
 ...
 <span class="text-slate-500"># Full schema (40+ fields) shared after contact</span></pre>
         </TerminalCodeBlock>
@@ -223,7 +220,7 @@ cat(<span class="text-violet-400">nrow</span>(merged), <span class="text-amber-3
         <button type="button" class="btn-primary" data-lead-intent="request-dictionary">
           Request full schema
         </button>
-        <a href="/samples/horsorion-sample-2024-11-10.csv" download class="btn-secondary" data-lead-intent="request-sample">
+        <a href="/samples/horsorion-sample-2025-07-16.csv" download class="btn-secondary">
           Download sample
         </a>
       </div>
@@ -241,9 +238,6 @@ cat(<span class="text-violet-400">nrow</span>(merged), <span class="text-amber-3
           alt="Horse racing crowd in the grandstands"
         />
         <div class="absolute inset-0 bg-brand-navy/35"></div>
-        <p class="absolute bottom-3 right-4 font-mono text-[10px] text-white/40">
-          Photo: <a href={unsplashImages["crowd-stands"].credit.photoUrl} target="_blank" rel="noopener noreferrer" class="hover:text-white/70">{unsplashImages["crowd-stands"].credit.name}</a> / Unsplash
-        </p>
       </div>
       <div class="bg-brand-slate px-8 py-10 lg:px-12 lg:py-12">
         <p class="eyebrow text-brand-navy">{content.useCasesHeading}</p>

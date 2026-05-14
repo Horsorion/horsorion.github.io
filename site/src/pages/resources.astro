@@ -54,13 +54,13 @@ const blogPlaceholders = [
           <h2 class="text-xl font-bold text-brand-navy">Race-Day 樣本 CSV</h2>
         </div>
         <p class="mt-3 text-sm leading-7 text-slate-600">
-          沙田全日 Past Performance 樣本（含 watermark）。可直接以 Python / R 載入驗證 schema 及欄位完整度。
+          跑馬地 2025-07-16 全日賽事樣本，包含完整 9 場賽事的賽果、檔位、評分、騎練及終場賠率。可直接以 Python / R 載入驗證 schema 及欄位完整度。
         </p>
         <ul class="mt-4 space-y-2 text-sm text-slate-600">
           {[
-            "完整一日賽事（共 10 場、約 120 行）",
-            "27 個欄位，包含 sectional time、odds、騎師／練馬師",
-            "Watermark 標記不影響數值精度",
+            "完整一日賽事（共 9 場、約 110 行）",
+            "14 個核心欄位，包含 Race_Key、Horse_ID、Rank、Finish_Time、Draw、Rating、騎師／練馬師、終場賠率",
+            "資料源於官方公開賽果，已經多源交叉驗證",
           ].map((item) => (
             <li class="flex items-start gap-2">
               <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
@@ -69,7 +69,7 @@ const blogPlaceholders = [
           ))}
         </ul>
         <a
-          href="/samples/horsorion-sample-2024-11-10.csv"
+          href="/samples/horsorion-sample-2025-07-16.csv"
           download
           class="btn-primary mt-6 inline-flex"
         >

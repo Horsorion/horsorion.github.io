@@ -462,7 +462,7 @@ const whyZh: WhyPageContent = {
     },
     {
       question: "是否提供樣本數據？",
-      answer: "提供 — 完整一日 race-day CSV（含 watermark）可於 Resources 頁直接免費下載。更廣範圍樣本（多日、多賽季、客製欄位）於簽署互保 NDA 後提供。",
+      answer: "提供 — 完整一日 race-day CSV 可於 Resources 頁直接免費下載。更廣範圍樣本（多日、多賽季、客製欄位）於簽署互保 NDA 後提供。",
     },
     {
       question: "支援哪些交付格式？",
@@ -524,7 +524,7 @@ const whyEn: WhyPageContent = {
     },
     {
       question: "Do you provide sample data?",
-      answer: "Yes — a full race-day CSV (watermarked) is available for free direct download. Broader sample scope (multi-day, multi-season, custom fields) is shared after mutual NDA.",
+      answer: "Yes — a full race-day CSV is available for free direct download. Broader sample scope (multi-day, multi-season, custom fields) is shared after mutual NDA.",
     },
     {
       question: "Which delivery formats are supported?",

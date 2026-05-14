@@ -9,11 +9,11 @@ const currentPath = "/methodology/point-in-time";
 const url = `https://www.horsorion.com${currentPath}`;
 const title = "Point-in-Time 數據儲存方法論 — 避免回測前視偏差 | Horsorion";
 const description =
-  "Horsorion 如何以 point-in-time（PIT）原則儲存排位資料、評分變動及賠率快照，確保回測（back-test）時看到嘅永遠係賽前可見資料，避免 look-ahead bias。";
+  "Horsorion 如何以 point-in-time（PIT）原則儲存排位資料、評分變動及賠率快照，確保回測（back-test）時看到的永遠是賽前可見資料，避免 look-ahead bias。";
 
 const schema = getTechArticleSchema(locale, {
   headline: "Point-in-Time 數據儲存方法論",
-  description: "完整闡述 Horsorion 嘅 PIT 儲存策略、變更追蹤機制與查詢介面。",
+  description: "完整闡述 Horsorion 的 PIT 儲存策略、變更追蹤機制與查詢介面。",
   url,
   about: ["Point-in-time data", "Look-ahead bias", "Back-testing", "Horse racing"],
 });
@@ -27,7 +27,7 @@ const schema = getTechArticleSchema(locale, {
         Point-in-Time 數據儲存
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-slate-600">
-        所有排位資料、評分變動與賠率快照均以 <strong>point-in-time（PIT）</strong> 原則儲存：研究員回測歷史模型時，永遠只能睇到當時公開嘅資料，避免 look-ahead bias。
+        所有排位資料、評分變動與賠率快照均以 <strong>point-in-time（PIT）</strong> 原則儲存：研究員回測歷史模型時，永遠只能睇到當時公開的資料，避免 look-ahead bias。
       </p>
     </div>
   </section>
@@ -35,15 +35,15 @@ const schema = getTechArticleSchema(locale, {
   <section class="bg-white py-16">
     <div class="section-shell prose prose-slate mx-auto max-w-3xl">
       <h2>為何重要</h2>
-      <p>賽馬數據嘅大部分欄位（評分、檔位、騎師、負磅、退賽情況）會於賽前多次修訂。如果用最終定案版本回測歷史模型，等於默認模型可以「預先」知道改動 — 所有結果都會嚴重高估。</p>
+      <p>賽馬數據的大部分欄位（評分、檔位、騎師、負磅、退賽情況）會於賽前多次修訂。如果用最終定案版本回測歷史模型，等於默認模型可以「預先」知道改動 — 所有結果都會嚴重高估。</p>
 
       <h2>儲存模型</h2>
       <p>Horsorion 對每張可變表（racecard、ratings、odds_snapshots、scratchings）採用 <strong>bi-temporal</strong> 設計：</p>
       <ul>
-        <li><code>valid_from</code> / <code>valid_to</code> — 該紀錄反映嘅事實有效期。</li>
-        <li><code>recorded_at</code> — 該紀錄被 Horsorion 寫入庫嘅時間（系統時鐘）。</li>
+        <li><code>valid_from</code> / <code>valid_to</code> — 該紀錄反映的事實有效期。</li>
+        <li><code>recorded_at</code> — 該紀錄被 Horsorion 寫入庫的時間（系統時鐘）。</li>
       </ul>
-      <p>查詢「賽事 X 開閘前 5 分鐘可見嘅 racecard」即等於：</p>
+      <p>查詢「賽事 X 開閘前 5 分鐘可見的 racecard」即等於：</p>
 
       <TerminalCodeBlock caption="sql">
         <pre><code>{`SELECT *
@@ -56,7 +56,7 @@ ORDER BY horse_no;`}</code></pre>
       </TerminalCodeBlock>
 
       <h2>變更追蹤</h2>
-      <p>每次 racecard、評分或賠率變動，Horsorion 寫入新一行（不覆寫舊行）。客戶可以重建任何過去時刻嘅完整快照。</p>
+      <p>每次 racecard、評分或賠率變動，Horsorion 寫入新一行（不覆寫舊行）。客戶可以重建任何過去時刻的完整快照。</p>
 
       <h2>賠率快照頻率</h2>
       <p>時序賠率以 <strong>固定間隔（每 10 秒）</strong> + <strong>事件觸發（每筆莊家盤口變動）</strong> 雙策略採集，視乎客戶交付方式而定。</p>

@@ -28,7 +28,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "A handicap band that groups horses of similar ability. Hong Kong racing uses Class 1 (highest, ratings 80–100) down to Class 5 (lowest, 0–40), plus Group races (Group 1, 2, 3) for elite horses.",
     definitionZh:
-      "按馬匹評分劃分嘅組別。香港賽馬由 Class 1（最高，評分 80–100）至 Class 5（最低，0–40），另有 Group 1 / 2 / 3 等高級別賽事供頂尖馬匹爭奪。",
+      "按馬匹評分劃分的組別。香港賽馬由 Class 1（最高，評分 80–100）至 Class 5（最低，0–40），另有 Group 1 / 2 / 3 等高級別賽事供頂尖馬匹爭奪。",
   },
   {
     term: "Going",
@@ -37,7 +37,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Official description of turf or all-weather track condition before each meeting. HKJC categories include Firm, Good to Firm, Good, Good to Yielding, Yielding, Yielding to Soft, Soft and Heavy.",
     definitionZh:
-      "官方公佈嘅草地或全天候跑道狀況。賽馬會分類包括快地、快至好地、好地、好至黏地、黏地、黏至大爛地、大爛地、爛地。",
+      "官方公佈的草地或全天候跑道狀況。賽馬會分類包括快地、快至好地、好地、好至黏地、黏地、黏至大爛地、大爛地、爛地。",
   },
   {
     term: "Distance",
@@ -46,7 +46,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Race length in metres. Hong Kong races run from 1000 m sprints to 2400 m staying trips on turf, plus 1200–2000 m on the Sha Tin all-weather track.",
     definitionZh:
-      "賽事路程，以米為單位。香港賽事由 1000 米短途至 2400 米長途，另有沙田全天候跑道嘅 1200–2000 米賽事。",
+      "賽事路程，以米為單位。香港賽事由 1000 米短途至 2400 米長途，另有沙田全天候跑道的 1200–2000 米賽事。",
   },
   {
     term: "Race Card",
@@ -55,7 +55,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "The pre-race document listing each runner's draw, weight, jockey, trainer, recent form, and rating. Released by the HKJC the day before each race meeting.",
     definitionZh:
-      "賽前文件，列出每匹參賽馬嘅檔位、負磅、騎師、練馬師、近績及評分。香港賽馬會通常於賽事前一日發放。",
+      "賽前文件，列出每匹參賽馬的檔位、負磅、騎師、練馬師、近績及評分。香港賽馬會通常於賽事前一日發放。",
   },
   {
     term: "Draw",
@@ -64,7 +64,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "The starting gate position assigned to each horse, numbered from 1 (innermost) outward. Lower draws are statistically advantageous in shorter races.",
     definitionZh:
-      "每匹馬嘅起步閘位，由 1（最內側）向外排列。短途賽事中，低檔位通常較有利。",
+      "每匹馬的起步閘位，由 1（最內側）向外排列。短途賽事中，低檔位通常較有利。",
   },
   {
     term: "Going Allowance",
@@ -73,7 +73,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "An adjustment factor applied to raw finishing times to compare performances across different track conditions and meetings.",
     definitionZh:
-      "用於修正不同場地狀況下完賽時間嘅調整因子，以便跨賽日比較表現。",
+      "用於修正不同場地狀況下完賽時間的調整因子，以便跨賽日比較表現。",
   },
 
   /* ────────── Horse ────────── */
@@ -84,7 +84,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Official ability number assigned by HKJC handicappers, ranging roughly 0–135. Used to determine race class eligibility and weight carried.",
     definitionZh:
-      "由賽馬會評磅員給予嘅官方能力評分，範圍約 0–135，用於決定可參加班次及負磅。",
+      "由賽馬會評磅員給予的官方能力評分，範圍約 0–135，用於決定可參加班次及負磅。",
   },
   {
     term: "Import Type",
@@ -93,7 +93,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Classification at first registration: Privately Purchased (PP), Privately Purchased Griffin (PPG), Hong Kong International Sale (HKIS), or Hong Kong International Trial (HKIT).",
     definitionZh:
-      "馬匹首次登記時嘅類別，包括自購馬（PP）、自購未出賽馬（PPG）、香港國際馬匹拍賣會（HKIS）及香港國際試閘賽（HKIT）。",
+      "馬匹首次登記時的類別，包括自購馬（PP）、自購未出賽馬（PPG）、香港國際馬匹拍賣會（HKIS）及香港國際試閘賽（HKIT）。",
   },
   {
     term: "Stable",
@@ -102,7 +102,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "The trainer's licensed yard at Sha Tin where the horse is housed and prepared. Horse-stable assignments change only when a horse is transferred between trainers.",
     definitionZh:
-      "練馬師於沙田擁有嘅持牌馬房，馬匹喺度寄養及備戰。只有當馬匹轉廄時，馬房分配才會改變。",
+      "練馬師於沙田擁有的持牌馬房，馬匹於該處寄養及備戰。只有馬匹轉廄時，馬房分配才會更新。",
   },
   {
     term: "Sex",
@@ -122,7 +122,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Time taken to run each 200 m segment (or 400 m / 600 m aggregates) of a race, measured from finish line backward. Used to assess pace, stamina, and acceleration profiles.",
     definitionZh:
-      "賽事中每 200 米（或 400 米 / 600 米合計）嘅完成時間，由終點線回溯計算，用於分析配速、耐力與加速曲線。",
+      "賽事中每 200 米（或 400 米 / 600 米合計）的完成時間，由終點線回溯計算，用於分析配速、耐力與加速曲線。",
   },
   {
     term: "Sectional Position",
@@ -131,7 +131,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "A horse's running position at fixed points of the race (typically 800m, 600m, 400m before the finish), expressed as ordinal rank within the field.",
     definitionZh:
-      "馬匹於賽事固定位置（通常為終點前 800、600、400 米）嘅跑位，以場內名次表示。",
+      "馬匹於賽事固定位置（通常為終點前 800、600、400 米）的跑位，以場內名次表示。",
   },
   {
     term: "LBW",
@@ -140,7 +140,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "\"Lengths Behind Winner\" — official margin between a horse's nose and the winner's nose at the line, expressed in horse lengths (1 length ≈ 2.5 m / ≈ 0.18 s).",
     definitionZh:
-      "「Lengths Behind Winner」即落後頭馬嘅距離，以馬頭計算（一個馬位約 2.5 米 / 0.18 秒）。",
+      "「Lengths Behind Winner」即落後頭馬的距離，以馬頭計算（一個馬位約 2.5 米 / 0.18 秒）。",
   },
   {
     term: "Finishing Time",
@@ -149,7 +149,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Race time of the winning horse from gate release to crossing the finish line, measured to 0.01 second.",
     definitionZh:
-      "頭馬由閘門打開至越過終點線嘅總時間，精確至 0.01 秒。",
+      "頭馬由閘門打開至越過終點線的總時間，精確至 0.01 秒。",
   },
   {
     term: "Form",
@@ -158,7 +158,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Compact string of recent finishing positions (e.g. \"3-1-7\") shown on race cards. Shorthand for a horse's last several outings.",
     definitionZh:
-      "排位表上馬匹最近幾場嘅跑位（例如「3-1-7」），代表近期表現。",
+      "排位表上馬匹最近幾場的跑位（例如「3-1-7」），代表近期表現。",
   },
 
   /* ────────── Track / venue ────────── */
@@ -169,7 +169,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Larger of HKJC's two racecourses. Hosts both turf (1800 m circumference) and all-weather (1551 m, Polytrack) racing. Most weekend meetings are held here.",
     definitionZh:
-      "賽馬會兩個馬場中較大者，設有草地跑道（周長 1800 米）及全天候跑道（1551 米，Polytrack）。大部分週末賽日喺度舉行。",
+      "賽馬會兩個馬場中較大者，設有草地跑道（周長 1800 米）及全天候跑道（1551 米，Polytrack）。大部分週末賽日於此舉行。",
   },
   {
     term: "Happy Valley",
@@ -178,7 +178,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Iconic city-centre turf racecourse (1450 m circumference) used for midweek night meetings. Tight turns favour front-runners and inside draws.",
     definitionZh:
-      "市中心嘅標誌性草地馬場（周長 1450 米），多用於週中夜賽。彎位窄，較利前領馬及低檔位馬。",
+      "市中心的標誌性草地馬場（周長 1450 米），多用於週中夜賽。彎位窄，較利前領馬及低檔位馬。",
   },
   {
     term: "Trial",
@@ -187,7 +187,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Official non-betting practice race used to assess fitness, education a young horse, or rehabilitate one returning from layoff. Sectional times and form notes are recorded.",
     definitionZh:
-      "官方無投注嘅練習賽，用於測試狀態、訓練幼馬或復出馬。分段時間及表現評語會被記錄。",
+      "官方無投注的練習賽，用於測試狀態、訓練幼馬或復出馬。分段時間及表現評語會被記錄。",
   },
   {
     term: "Trackwork",
@@ -196,7 +196,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Daily morning gallops at Sha Tin or Conghua. Trackwork sectional times and pace notes are catalogued by HKJC and form a leading indicator of race fitness.",
     definitionZh:
-      "馬匹每日於沙田或從化嘅晨操訓練。賽馬會會記錄分段時間及操練評語，係馬匹備戰狀態嘅先行指標。",
+      "馬匹每日於沙田或從化的晨操訓練。賽馬會記錄分段時間及操練評語，是馬匹備戰狀態的先行指標。",
   },
 
   /* ────────── Betting / pools ────────── */
@@ -225,7 +225,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Bet selecting the two horses to finish first and second in any order. One of the most popular Hong Kong exotic bets.",
     definitionZh:
-      "投注組合：選中第一、第二名馬匹（不分次序）。係香港最受歡迎嘅綜合彩池之一。",
+      "投注組合：選中第一、第二名馬匹（不分次序），是香港最受歡迎的綜合彩池之一。",
   },
   {
     term: "Trio",
@@ -243,7 +243,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Bet selecting the winners of two designated consecutive races. Pools roll forward when not won.",
     definitionZh:
-      "投注組合：選中指定兩場連續賽事嘅頭馬。冇人中時彩池會滾存。",
+      "投注組合：選中指定兩場連續賽事的頭馬。冇人中時彩池會滾存。",
   },
   {
     term: "Time-Series Odds",
@@ -252,7 +252,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Odds quoted at successive points before race start (e.g. every 10 seconds), forming a time-indexed series. Used in market-microstructure and pricing models.",
     definitionZh:
-      "賽事開始前不同時點（例如每 10 秒）嘅賠率，形成時間序列，用於盤口微觀結構及定價模型研究。",
+      "賽事開始前不同時點（例如每 10 秒）的賠率，形成時間序列，用於盤口微觀結構及定價模型研究。",
   },
   {
     term: "Final Odds",
@@ -261,7 +261,7 @@ export const glossary: GlossaryEntry[] = [
     definition:
       "Last odds quoted at the moment the gates open, used for official dividend calculation and as the canonical settlement reference.",
     definitionZh:
-      "閘門打開瞬間嘅最後賠率，用於官方派彩計算及作為標準結算參考。",
+      "閘門打開瞬間的最後賠率，用於官方派彩計算及作為標準結算參考。",
   },
   {
     term: "Tote",

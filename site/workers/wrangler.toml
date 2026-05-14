@@ -10,4 +10,4 @@ compatibility_date = "2024-11-01"
 
 [vars]
 LEAD_TO_EMAIL = "horsorion@gmail.com"
-LEAD_FROM_EMAIL = "Horsorion <onboarding@resend.dev>"
+LEAD_FROM_EMAIL = "Horsorion <noreply@horsorion.com>"

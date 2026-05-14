@@ -154,7 +154,7 @@ export function getServiceSchema(locale: Locale) {
     description:
       locale === "en"
         ? "Cleaned, point-in-time Hong Kong racing datasets covering 1980 to today, delivered as historical CSV / Parquet, REST API (waitlist), or custom feeds."
-        : "經清洗、point-in-time 處理嘅香港賽馬歷史數據（1980 至今），以歷史 CSV / Parquet、REST API（waitlist）或自訂 feed 交付。",
+        : "經清洗、point-in-time 處理的香港賽馬歷史數據（1980 至今），以歷史 CSV / Parquet、REST API（waitlist）或自訂 feed 交付。",
     offers: {
       "@type": "Offer",
       availability: "https://schema.org/InStock",
