@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-brand-slate text-slate-900 antialiased;
+  }
+
+  /* Skip to content */
+  .skip-link {
+    @apply absolute -top-full left-4 z-50 rounded-b-xl bg-brand-gold px-4 py-2 text-sm font-semibold text-brand-navy focus:top-0;
+  }
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .surface-card {
+    @apply rounded-2xl border border-white/10 bg-white/95 p-6 shadow-card backdrop-blur;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-brand-gold px-5 py-3 text-sm font-semibold text-brand-navy transition hover:bg-brand-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-full border border-brand-navy/15 bg-white px-5 py-3 text-sm font-semibold text-brand-navy transition hover:border-brand-navy/30 hover:bg-brand-slate focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.24em] text-brand-gold;
+  }
+
+  /* Comparison table */
+  .compare-tick { @apply text-emerald-500 font-bold; }
+  .compare-cross { @apply text-red-400 font-bold; }
+  .compare-partial { @apply text-amber-500 font-bold; }
+
+  /* Duotone overlay for stock photos */
+  .photo-duotone {
+    @apply relative;
+  }
+  .photo-duotone::after {
+    content: "";
+    @apply absolute inset-0 bg-brand-navy/55 mix-blend-multiply;
+  }
+
+  /* Schema preview blur */
+  .schema-blur {
+    filter: blur(3px) brightness(0.92);
+    transition: filter 0.2s;
+  }
+  .schema-blur:hover {
+    filter: blur(1.5px) brightness(0.95);
+  }
+
+  /* Tab component */
+  .code-tab-active {
+    @apply border-b-2 border-brand-gold text-brand-gold;
+  }
+  .code-tab-inactive {
+    @apply text-white/60 hover:text-white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

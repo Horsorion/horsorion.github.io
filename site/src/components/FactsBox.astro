@@ -1,0 +1,53 @@
+---
+/**
+ * FactsBox — Wikipedia-style infobox.
+ *
+ * AEO note: LLMs (especially Perplexity / Gemini / Claude) are biased toward
+ * extracting facts that appear inside <table>/<dl> structured rows with clear
+ * key/value pairs. Keep keys short and noun-only.
+ */
+
+interface Fact {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  title: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  facts: Fact[];
+  /** Optional Wikipedia-style "as of" footer */
+  asOf?: string;
+}
+
+const { title, imageSrc, imageAlt, facts, asOf } = Astro.props;
+---
+
+<aside
+  class="float-none mb-8 w-full max-w-sm rounded-2xl border border-brand-navy/15 bg-white shadow-sm md:float-right md:ml-8 md:mb-4"
+  role="complementary"
+  aria-label={title}
+>
+  <h3 class="rounded-t-2xl border-b border-brand-navy/10 bg-brand-mist/60 px-5 py-3 text-sm font-bold uppercase tracking-wide text-brand-navy">
+    {title}
+  </h3>
+  {imageSrc ? (
+    <div class="border-b border-brand-navy/10 px-5 py-4 text-center">
+      <img src={imageSrc} alt={imageAlt ?? title} class="mx-auto h-auto max-h-32 w-auto" />
+    </div>
+  ) : null}
+  <dl class="divide-y divide-brand-navy/5 text-sm">
+    {facts.map((f) => (
+      <div class="grid grid-cols-3 gap-2 px-5 py-3">
+        <dt class="col-span-1 font-semibold text-brand-navy">{f.label}</dt>
+        <dd class="col-span-2 text-slate-700">{f.value}</dd>
+      </div>
+    ))}
+  </dl>
+  {asOf ? (
+    <p class="rounded-b-2xl border-t border-brand-navy/10 bg-brand-mist/40 px-5 py-2 font-mono text-[11px] text-slate-500">
+      {asOf}
+    </p>
+  ) : null}
+</aside>

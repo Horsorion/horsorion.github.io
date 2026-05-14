@@ -1,0 +1,112 @@
+---
+/**
+ * WorldMap — anonymized global client reach.
+ *
+ * Renders a CC-BY-SA simple world map (public/images/world-map.svg) and
+ * overlays 5 pulsing pins at approximate client regions. Names of clients
+ * are intentionally NOT shown — only country labels. Coordinates are
+ * percentages relative to the SVG viewBox (30.767, 241.591, 784.077, 458.627).
+ *
+ * Map: https://github.com/flekschas/simple-world-map (CC BY-SA 3.0)
+ */
+interface Props {
+  locale: "zh-Hant" | "en";
+}
+
+const { locale } = Astro.props;
+
+type Pin = { id: string; labelZh: string; labelEn: string; x: number; y: number };
+
+const pins: Pin[] = [
+  { id: "uk", labelZh: "英國",       labelEn: "United Kingdom", x: 47.1, y: 28.0 },
+  { id: "us", labelZh: "美國",       labelEn: "United States",  x: 21.6, y: 38.0 },
+  { id: "cn", labelZh: "中國",       labelEn: "China",          x: 78.3, y: 35.6 },
+  { id: "hk", labelZh: "香港",       labelEn: "Hong Kong",      x: 79.6, y: 42.6 },
+  { id: "au", labelZh: "澳洲",       labelEn: "Australia",      x: 88.0, y: 84.0 },
+];
+
+const t = locale === "zh-Hant"
+  ? {
+      eyebrow: "Global reach",
+      title: "客戶遍佈四大洲",
+      subtitle: "從亞太到歐美，量化團隊與賽馬分析師正使用 Horsorion 數據驅動建模與投注決策。",
+      footnote: "* 為保護客戶身份，僅展示活躍地區，不公開公司名稱或具體數目。",
+    }
+  : {
+      eyebrow: "Global reach",
+      title: "Clients across four continents",
+      subtitle:
+        "From Asia-Pacific to Europe and the Americas, quant teams and racing analysts use Horsorion data to power their models and betting decisions.",
+      footnote: "* Active regions shown only — client identities and counts withheld under NDA.",
+    };
+---
+
+<section class="section-shell py-16">
+  <p class="eyebrow text-brand-navy">{t.eyebrow}</p>
+  <h2 class="mt-3 text-3xl font-bold text-brand-navy">{t.title}</h2>
+  <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600">{t.subtitle}</p>
+
+  <div class="mt-10 relative mx-auto w-full max-w-5xl">
+    <div class="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-brand-slate to-white" aria-hidden="true"></div>
+    <div class="relative aspect-[784/458] w-full p-4 sm:p-8">
+      <img
+        src="/images/world-map.svg"
+        alt={locale === "zh-Hant" ? "顯示全球客戶分佈的世界地圖" : "World map showing global client distribution"}
+        class="h-full w-full object-contain select-none"
+        loading="lazy"
+        decoding="async"
+      />
+      {pins.map((pin) => (
+        <div
+          class="pointer-events-none absolute"
+          style={`left:${pin.x}%; top:${pin.y}%; transform: translate(-50%, -50%);`}
+          data-pin={pin.id}
+        >
+          <span class="pin-pulse block h-3 w-3 rounded-full bg-brand-gold ring-2 ring-white shadow-md"></span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <ul class="mt-8 flex flex-wrap justify-center gap-3">
+    {pins.map((pin) => (
+      <li class="inline-flex items-center gap-2 rounded-full border border-brand-navy/10 bg-white px-4 py-2 text-sm font-medium text-brand-navy shadow-sm">
+        <span class="h-2 w-2 rounded-full bg-brand-gold"></span>
+        {locale === "zh-Hant" ? pin.labelZh : pin.labelEn}
+      </li>
+    ))}
+  </ul>
+
+  <p class="mt-6 text-center text-xs text-slate-400">{t.footnote}</p>
+</section>
+
+<style>
+  .pin-pulse {
+    position: relative;
+  }
+  .pin-pulse::before,
+  .pin-pulse::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    background: rgba(201, 162, 39, 0.4);
+    animation: pin-pulse 2.4s ease-out infinite;
+    z-index: -1;
+  }
+  .pin-pulse::after {
+    animation-delay: 1.2s;
+  }
+  @keyframes pin-pulse {
+    0%   { transform: scale(1);   opacity: 0.6; }
+    100% { transform: scale(3.5); opacity: 0;   }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pin-pulse::before,
+    .pin-pulse::after {
+      animation: none;
+      opacity: 0.4;
+      transform: scale(2.2);
+    }
+  }
+</style>

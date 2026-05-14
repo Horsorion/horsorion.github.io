@@ -1,0 +1,61 @@
+---
+import type { Locale } from "@/lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === "en";
+
+const t = isEn
+  ? {
+      message:  "This site uses Google Analytics for anonymous traffic stats.",
+      learn:    "Learn more",
+      accept:   "Accept",
+      decline:  "Decline",
+      privacy:  "/en/privacy",
+    }
+  : {
+      message:  "本站使用 Google Analytics 統計匿名訪客數據。",
+      learn:    "了解更多",
+      accept:   "接受",
+      decline:  "拒絕統計",
+      privacy:  "/privacy",
+    };
+---
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-brand-navy/10 bg-white shadow-lg"
+  role="region"
+  aria-label="Cookie consent"
+>
+  <div class="section-shell flex flex-wrap items-center justify-between gap-4 py-4">
+    <p class="text-sm text-slate-600">
+      {t.message}
+      <a href={t.privacy} class="font-semibold text-brand-navy underline hover:no-underline">{t.learn}</a>
+    </p>
+    <div class="flex shrink-0 gap-3">
+      <button id="cookie-accept" type="button" class="btn-primary py-2 text-xs">{t.accept}</button>
+      <button id="cookie-decline" type="button" class="btn-outline py-2 text-xs">{t.decline}</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const PREF_KEY = "hs_cookie_pref";
+    const pref = localStorage.getItem(PREF_KEY);
+    const banner = document.getElementById("cookie-banner");
+    if (!pref && banner) banner.classList.remove("hidden");
+
+    document.getElementById("cookie-accept")?.addEventListener("click", () => {
+      localStorage.setItem(PREF_KEY, "accepted");
+      banner?.classList.add("hidden");
+    });
+    document.getElementById("cookie-decline")?.addEventListener("click", () => {
+      localStorage.setItem(PREF_KEY, "declined");
+      banner?.classList.add("hidden");
+    });
+  })();
+</script>

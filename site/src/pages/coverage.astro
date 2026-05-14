@@ -1,0 +1,164 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import StatusPill from "@/components/StatusPill.astro";
+import { catalog, bucketLabel } from "@/lib/catalog";
+import { getDatasetSchema } from "@/lib/schema";
+
+const locale = "zh-Hant";
+const currentPath = "/coverage";
+const url = `https://www.horsorion.com${currentPath}`;
+const title = "香港賽馬數據覆蓋範圍 — 40+ 年、30,000+ 場賽事、800 萬+ 結構化紀錄 | Horsorion";
+const description =
+  "Horsorion 香港賽馬數據覆蓋率全公開：30,000+ 場賽事、16,000+ 匹馬、超過 800 萬條結構化紀錄，涵蓋沙田及跑馬地，由 1980 年至今。每個產品均列出歷史深度、更新頻率及資料密度。";
+
+const facts = [
+  { label: "歷史深度",     value: "1980 → Today",  hint: "由八十年代起逐步擴展，部分類別覆蓋至 2010 年代起。" },
+  { label: "結構化紀錄",   value: "8,000,000+",     hint: "涵蓋賽事、馬匹、分段、賠率、獸醫等多類資料表。" },
+  { label: "賽事場次",     value: "30,000+",        hint: "包含全部正式賽事與大部分試閘場次。" },
+  { label: "馬匹追蹤",     value: "16,000+",        hint: "由初登場至退役全週期。" },
+  { label: "賽馬場",       value: "2",              hint: "沙田 (ST) 及跑馬地 (HV)。" },
+  { label: "更新節奏",     value: "賽日 T+0",        hint: "賽事完結後即時 ETL，每日批量交付。" },
+];
+
+const datasetSchema = getDatasetSchema(locale, {
+  name: "Horsorion 香港賽馬歷史數據集",
+  description:
+    "Horsorion 香港賽馬數據集涵蓋 1980 年至今、30,000+ 場賽事、16,000+ 匹馬，包含賽前、賽後、馬匹及彩池四大類別共 30+ 個產品，以 point-in-time 原則儲存以避免回測前視偏差。",
+  url,
+  keywords: [
+    "Hong Kong horse racing",
+    "HKJC data",
+    "Sha Tin",
+    "Happy Valley",
+    "sectional time",
+    "tote odds",
+    "race card",
+    "point-in-time",
+  ],
+  temporalStart: "1980",
+  variableMeasured: [
+    "race_id", "race_date", "venue", "class", "distance", "going",
+    "horse_id", "jockey", "trainer", "draw", "weight", "rating",
+    "finish_position", "finish_time", "lbw", "sec_400m", "sec_600m",
+    "win_odds", "place_odds", "quinella_odds", "tote_pool",
+  ],
+  accessMode: "contact",
+});
+---
+
+<BaseLayout title={title} description={description} locale={locale} currentPath={currentPath} schema={datasetSchema}>
+  <!-- HERO -->
+  <section class="bg-brand-navy py-20 text-white">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Coverage · 數據覆蓋</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold md:text-5xl">
+        香港賽馬數據完整覆蓋率
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/80">
+        Horsorion 把香港賽馬會（HKJC）公開及衍生數據整合成單一、結構化、可回溯嘅資料平台。
+        本頁公開所有可量化嘅覆蓋指標，方便研究團隊評估能否滿足你嘅模型需求。
+      </p>
+    </div>
+  </section>
+
+  <!-- KEY FACTS GRID -->
+  <section class="bg-white py-16">
+    <div class="section-shell">
+      <h2 class="text-2xl font-bold text-brand-navy md:text-3xl">核心指標</h2>
+      <p class="mt-2 max-w-2xl text-sm text-slate-600">所有數值依內部審計，於每個賽季尾複核。</p>
+      <dl class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {facts.map((f) => (
+          <div class="rounded-2xl border border-brand-navy/10 bg-brand-mist/40 p-6">
+            <dt class="font-mono text-xs uppercase tracking-wide text-brand-gold">{f.label}</dt>
+            <dd class="mt-2 text-3xl font-extrabold text-brand-navy">{f.value}</dd>
+            <p class="mt-2 text-xs text-slate-500">{f.hint}</p>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- COVERAGE TABLE -->
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <h2 class="text-2xl font-bold text-brand-navy md:text-3xl">分產品覆蓋深度</h2>
+      <p class="mt-2 max-w-2xl text-sm text-slate-600">
+        歷史深度按 PDF 數據目錄最早可追溯日期計，部分數據集會早於下表標示嘅 bucket。
+        實際樣本及 schema 於 NDA 後可向客戶提供。
+      </p>
+
+      {catalog.map((cat) => (
+        <div class="mt-10 overflow-hidden rounded-3xl border border-brand-navy/10 bg-white shadow-sm">
+          <div class="border-b border-brand-navy/10 bg-brand-navy px-6 py-4 text-white">
+            <h3 class="text-lg font-bold">{cat.title}</h3>
+            <p class="mt-1 text-sm text-white/70">{cat.description}</p>
+          </div>
+          <table class="w-full text-sm">
+            <thead class="bg-brand-mist/60 font-mono text-xs uppercase tracking-wider text-slate-500">
+              <tr>
+                <th class="px-6 py-3 text-left">產品</th>
+                <th class="px-6 py-3 text-left">英文名</th>
+                <th class="px-6 py-3 text-left">歷史深度</th>
+                <th class="px-6 py-3 text-left">更新節奏</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-brand-navy/5">
+              {cat.products.map((p) => (
+                <tr>
+                  <td class="px-6 py-3 font-medium text-brand-navy">{p.name}</td>
+                  <td class="px-6 py-3 font-mono text-xs text-slate-500">{p.nameEn}</td>
+                  <td class="px-6 py-3 text-slate-700">{bucketLabel[p.historyBucket]}</td>
+                  <td class="px-6 py-3"><StatusPill variant={p.status} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- VENUES -->
+  <section class="bg-white py-16">
+    <div class="section-shell">
+      <h2 class="text-2xl font-bold text-brand-navy md:text-3xl">賽馬場覆蓋</h2>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        <a href="/courses/sha-tin" class="group block rounded-3xl border border-brand-navy/10 bg-brand-mist/40 p-8 transition hover:border-brand-gold">
+          <p class="font-mono text-xs uppercase tracking-wide text-brand-gold">沙田 (ST)</p>
+          <h3 class="mt-2 text-2xl font-bold text-brand-navy group-hover:text-brand-gold">沙田馬場</h3>
+          <p class="mt-3 text-sm text-slate-600">
+            HKJC 主場館。設草地（周長 1800 米）及全天候跑道（1551 米，Polytrack）。週末日賽主要場地。
+          </p>
+          <p class="mt-4 font-mono text-xs text-brand-navy">→ 查看沙田數據覆蓋詳情</p>
+        </a>
+        <a href="/courses/happy-valley" class="group block rounded-3xl border border-brand-navy/10 bg-brand-mist/40 p-8 transition hover:border-brand-gold">
+          <p class="font-mono text-xs uppercase tracking-wide text-brand-gold">跑馬地 (HV)</p>
+          <h3 class="mt-2 text-2xl font-bold text-brand-navy group-hover:text-brand-gold">跑馬地馬場</h3>
+          <p class="mt-3 text-sm text-slate-600">
+            市中心夜賽場館，1450 米周長草地跑道。彎位窄、賽事節奏快，影響策略選擇。
+          </p>
+          <p class="mt-4 font-mono text-xs text-brand-navy">→ 查看跑馬地數據覆蓋詳情</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CITE -->
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="香港賽馬數據覆蓋範圍" url={url} />
+
+      <div class="mt-10 rounded-3xl border border-brand-navy/10 bg-white p-8">
+        <h2 class="text-xl font-semibold text-brand-navy">想驗證覆蓋率？</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          我們提供免費單日賽事樣本（CSV 格式，含 watermark），方便你即時試算覆蓋率與資料密度。
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="/open-data" class="btn-primary inline-flex">下載開放數據樣本</a>
+          <a href="/contact" data-lead-intent="request-info" class="btn-secondary inline-flex">索取完整覆蓋報告</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

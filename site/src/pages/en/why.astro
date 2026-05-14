@@ -1,0 +1,241 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+import { getWhyContent } from "@/lib/content";
+import { getFaqSchema } from "@/lib/schema";
+
+const locale = "en";
+const content = getWhyContent(locale);
+const faqSchema = getFaqSchema(content.faq);
+
+const decades = [
+  { year: 1980, label: "1980" },
+  { year: 1990, label: "1990" },
+  { year: 2000, label: "2000" },
+  { year: 2010, label: "2010" },
+  { year: 2020, label: "2020" },
+  { year: 2030, label: "Today" },
+];
+const totalSpan = 2030 - 1980;
+
+const heatmapDatasets = [
+  "Race results",
+  "Past performance",
+  "Racecards",
+  "Sectionals",
+  "Tote pools",
+  "Veterinary",
+];
+const heatmapDecades = ["1980s", "1990s", "2000s", "2010s", "2020s"];
+// Coverage matrix derived from PDF earliest dates:
+//   Race results (Sep 1987), Past perf (= Race results), Racecards (Sep 2006),
+//   Sectionals (Sep 1987 position / Apr 2008 time — using position),
+//   Tote pools (Sep 2000), Veterinary (Sep 2008)
+const heatmapData: Record<string, Record<string, "full"|"partial"|"none">> = {
+  "Race results":     { "1980s": "partial", "1990s": "full",    "2000s": "full",    "2010s": "full", "2020s": "full" },
+  "Past performance": { "1980s": "partial", "1990s": "full",    "2000s": "full",    "2010s": "full", "2020s": "full" },
+  "Racecards":        { "1980s": "none",    "1990s": "none",    "2000s": "partial", "2010s": "full", "2020s": "full" },
+  "Sectionals":       { "1980s": "partial", "1990s": "full",    "2000s": "full",    "2010s": "full", "2020s": "full" },
+  "Tote pools":       { "1980s": "none",    "1990s": "none",    "2000s": "full",    "2010s": "full", "2020s": "full" },
+  "Veterinary":       { "1980s": "none",    "1990s": "none",    "2000s": "partial", "2010s": "full", "2020s": "full" },
+};
+
+const cellClass = (v: "full"|"partial"|"none") =>
+  v === "full" ? "bg-brand-gold text-brand-navy font-bold" :
+  v === "partial" ? "bg-brand-gold/40 text-brand-navy" :
+  "bg-slate-100 text-slate-400";
+
+const methodologyIcons = [
+  "lucide:layers",
+  "lucide:git-compare-arrows",
+  "lucide:clock-4",
+  "lucide:check-circle-2",
+  "lucide:send",
+];
+---
+
+<BaseLayout
+  title="Why Horsorion — 40+ Years of Hong Kong Racing Data Coverage & Methodology"
+  description="Horsorion's Hong Kong racing data coverage and quality methodology: 1980 to today, 30,000+ races, point-in-time storage, multi-source cross-validation, 12-hour post-race QC, and going-allowance correction. The stable data layer for syndicates, quant teams, and AI product teams."
+  locale={locale}
+  currentPath="/en/why"
+  schema={faqSchema}
+>
+  <!-- Hero -->
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Why Horsorion</p>
+      <h1 class="mt-4 text-4xl font-bold">{content.heroTitle}</h1>
+      <p class="mt-4 max-w-3xl text-white/80">{content.heroSubtitle}</p>
+    </div>
+  </section>
+
+  <!-- Coverage -->
+  <section class="section-shell py-14">
+    <p class="eyebrow text-brand-navy">Coverage</p>
+    <h2 class="mt-3 text-3xl font-bold text-brand-navy">{content.coverageTitle}</h2>
+    <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600">{content.coverageDescription}</p>
+
+    <div class="mt-10 overflow-hidden rounded-3xl bg-white p-6 shadow-card sm:p-8">
+      <p class="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">Historical coverage · 1980 → Today</p>
+      <div class="relative flex items-center" style="height:48px">
+        <div class="absolute inset-x-0 h-2 rounded-full bg-brand-slate"></div>
+        <div class="absolute left-0 h-2 rounded-full bg-brand-gold" style="width:100%"></div>
+        {decades.map((d) => {
+          const pct = ((d.year - 1980) / totalSpan) * 100;
+          return (
+            <div class="absolute flex flex-col items-center" style={`left:${pct}%;transform:translateX(-50%)`}>
+              <div class="h-4 w-0.5 bg-brand-navy/40"></div>
+              <span class="mt-1 whitespace-nowrap font-mono text-xs font-semibold text-brand-navy">{d.label}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-start gap-8">
+        <div class="flex items-center gap-3">
+          <div class="relative flex h-14 w-14 items-center justify-center">
+            <svg viewBox="0 0 40 48" class="h-14 w-14" aria-hidden="true">
+              <ellipse cx="20" cy="44" rx="8" ry="3" fill="rgba(0,0,0,0.12)"/>
+              <path d="M20 2C13.4 2 8 7.4 8 14c0 9 12 28 12 28s12-19 12-28c0-6.6-5.4-12-12-12z" fill="#1a2e4a"/>
+              <circle cx="20" cy="14" r="5" fill="#c9a227"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-brand-navy">Sha Tin</p>
+            <p class="font-mono text-xs text-slate-500">Sha Tin Racecourse</p>
+            <p class="font-mono text-[11px] text-slate-400">Main turf venue</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="relative flex h-14 w-14 items-center justify-center">
+            <svg viewBox="0 0 40 48" class="h-14 w-14" aria-hidden="true">
+              <ellipse cx="20" cy="44" rx="8" ry="3" fill="rgba(0,0,0,0.12)"/>
+              <path d="M20 2C13.4 2 8 7.4 8 14c0 9 12 28 12 28s12-19 12-28c0-6.6-5.4-12-12-12z" fill="#1a2e4a"/>
+              <circle cx="20" cy="14" r="5" fill="#c9a227"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-brand-navy">Happy Valley</p>
+            <p class="font-mono text-xs text-slate-500">Happy Valley Racecourse</p>
+            <p class="font-mono text-[11px] text-slate-400">Mid-week night meetings</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Completeness heatmap -->
+    <div class="mt-10 overflow-x-auto rounded-2xl border border-brand-navy/10 bg-white p-6 shadow-card">
+      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Dataset completeness × decade</p>
+      <table class="w-full min-w-[480px] text-center text-xs">
+        <thead>
+          <tr>
+            <th class="py-2 pr-4 text-left text-slate-600">Dataset</th>
+            {heatmapDecades.map((d) => (
+              <th class="py-2 text-slate-600">{d}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {heatmapDatasets.map((ds) => (
+            <tr class="border-t border-brand-navy/5">
+              <td class="py-2 pr-4 text-left font-medium text-slate-700">{ds}</td>
+              {heatmapDecades.map((decade) => {
+                const val = heatmapData[ds]?.[decade] ?? "none";
+                return (
+                  <td class="py-2">
+                    <span class:list={["inline-block rounded px-2 py-1", cellClass(val)]}>
+                      {val === "full" ? "✔" : val === "partial" ? "◐" : "—"}
+                    </span>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div class="mt-3 flex flex-wrap gap-4 text-xs text-slate-500">
+        <span><span class="font-bold text-brand-gold">✔</span> Full</span>
+        <span><span class="font-bold text-amber-500">◐</span> Partial</span>
+        <span><span>—</span> Not covered</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Methodology -->
+  <section class="bg-white py-14">
+    <div class="section-shell">
+      <p class="eyebrow text-brand-navy">Data pipeline</p>
+      <h2 class="mt-3 text-3xl font-bold text-brand-navy">{content.methodologyTitle}</h2>
+      <div class="mt-10 flex flex-col gap-3 lg:flex-row lg:items-stretch">
+        {content.methodology.map((item, i) => (
+          <div class="flex flex-1 flex-col items-center gap-0 lg:flex-row">
+            <article class="flex w-full flex-col items-center rounded-2xl border border-brand-navy/10 bg-brand-slate p-5 text-center">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+                <Icon name={methodologyIcons[i] ?? "lucide:check"} class="h-5 w-5" aria-hidden="true" />
+              </div>
+              <p class="mt-2 text-xs font-semibold text-brand-gold">0{i + 1}</p>
+              <h3 class="mt-1 text-sm font-semibold text-brand-navy">{item.title}</h3>
+              <p class="mt-2 text-xs leading-5 text-slate-600">{item.description}</p>
+            </article>
+            {i < content.methodology.length - 1 && (
+              <div class="my-1 flex items-center justify-center text-brand-navy/30 lg:mx-1 lg:my-0">
+                <Icon name="lucide:chevron-right" class="hidden h-5 w-5 rotate-0 lg:block" aria-hidden="true" />
+                <Icon name="lucide:chevron-down" class="block h-5 w-5 lg:hidden" aria-hidden="true" />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- HK advantage + compliance -->
+  <section class="section-shell py-14">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div>
+        <p class="eyebrow text-brand-navy">HK advantage</p>
+        <h2 class="mt-3 text-3xl font-bold text-brand-navy">{content.hkAdvantageTitle}</h2>
+        <ul class="mt-6 space-y-3">
+          {content.hkAdvantage.map((item) => (
+            <li class="flex items-start gap-3 rounded-xl bg-white px-4 py-3 shadow-card text-sm">
+              <Icon name="lucide:check-circle-2" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              <span class="leading-6 text-slate-600">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow text-brand-navy">Compliance</p>
+        <h2 class="mt-3 text-3xl font-bold text-brand-navy">{content.complianceTitle}</h2>
+        <ul class="mt-6 space-y-3">
+          {content.compliance.map((item) => (
+            <li class="flex items-start gap-3 rounded-xl bg-white px-4 py-3 shadow-card text-sm">
+              <Icon name="lucide:shield-check" class="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
+              <span class="leading-6 text-slate-600">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-brand-navy py-16 text-white" id="faq">
+    <div class="section-shell">
+      <h2 class="text-3xl font-bold">{content.faqTitle}</h2>
+      <div class="mt-8 space-y-4">
+        {content.faq.map((item) => (
+          <details class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <summary class="cursor-pointer text-base font-semibold">{item.question}</summary>
+            <p class="mt-3 text-sm leading-7 text-white/75">{item.answer}</p>
+          </details>
+        ))}
+      </div>
+      <button type="button" class="btn-primary mt-10" data-lead-intent="talk-to-us">
+        Talk to us
+      </button>
+    </div>
+  </section>
+
+</BaseLayout>

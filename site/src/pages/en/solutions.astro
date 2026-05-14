@@ -1,0 +1,91 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+import { getSolutionsContent } from "@/lib/content";
+
+const locale = "en";
+const content = getSolutionsContent(locale);
+
+const personaIcons = ["lucide:users", "lucide:line-chart", "lucide:activity", "lucide:cpu"];
+const personaOutcomes = [
+  "\"A 10-person syndicate deployed a feature pipeline in three weeks and lifted seasonal selection accuracy.\"",
+  "\"A market-making desk stabilised its quoting workflow with clean pool + racecard data, cutting reconciliation time in half.\"",
+  "\"A race-day analytics team closed the loop from pre-race review to post-race insight using vet + track data under one vendor.\"",
+  "\"An AI product team built on Horsorion as a stable data layer, graduating an experimental notebook into a production SaaS.\"",
+];
+const personaCtaIntent = ["talk-to-us", "request-sample", "request-dictionary", "talk-to-us"];
+const personaCtaLabel = ["Talk to similar teams", "Request sample data", "Request data dictionary", "Discuss a custom build"];
+---
+
+<BaseLayout
+  title="Solutions for Syndicates, Quant Teams & Market-Makers — Hong Kong Racing Data | Horsorion"
+  description="Horsorion's Hong Kong horse racing data powers four professional team types: (1) quantitative ML syndicates (2) market-making desks (3) race-day analytics teams (4) AI / SaaS product teams. Deep coverage, point-in-time storage, flexible delivery."
+  locale={locale}
+  currentPath="/en/solutions"
+>
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Solutions</p>
+      <h1 class="mt-4 text-4xl font-bold">{content.heroTitle}</h1>
+      <p class="mt-4 max-w-3xl text-white/80">{content.heroSubtitle}</p>
+    </div>
+  </section>
+
+  <section class="section-shell py-14">
+    <div class="grid gap-10">
+      {content.personas.map((persona, i) => (
+        <article class="surface-card overflow-hidden">
+          <div class="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-start">
+            <div>
+              <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+                  <Icon name={personaIcons[i] ?? "lucide:users"} class="h-5 w-5" aria-hidden="true" />
+                </div>
+                <h2 class="text-2xl font-bold text-brand-navy">{persona.title}</h2>
+              </div>
+              <p class="mt-4 text-sm leading-8 text-slate-600">{persona.outcome}</p>
+              <blockquote class="mt-5 rounded-xl border-l-4 border-brand-gold bg-brand-slate px-5 py-4 text-sm italic text-slate-700">
+                {personaOutcomes[i]}
+              </blockquote>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  class="btn-primary"
+                  data-lead-intent={personaCtaIntent[i]}
+                >
+                  {personaCtaLabel[i]}
+                </button>
+              </div>
+            </div>
+            <div class="rounded-2xl bg-brand-slate p-5">
+              <h3 class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Datasets</h3>
+              <ul class="space-y-2 text-sm">
+                {persona.datasets.map((ds) => (
+                  <li class="flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm">
+                    <Icon name="lucide:check" class="h-3.5 w-3.5 shrink-0 text-emerald-500" aria-hidden="true" />
+                    {ds}
+                  </li>
+                ))}
+              </ul>
+              <h3 class="mb-2 mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Delivery</h3>
+              <p class="text-sm text-slate-700">{persona.delivery}</p>
+              <h3 class="mb-2 mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Signals</h3>
+              <p class="text-sm text-slate-700">{persona.signals}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-navy py-14 text-white">
+    <div class="section-shell text-center">
+      <h2 class="text-2xl font-bold">Don't see your use case?</h2>
+      <p class="mt-3 text-sm text-white/80">We tailor every engagement to your scope, use case, and delivery format — from a single dataset to a full pipeline.</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-4">
+        <button type="button" class="btn-primary" data-lead-intent="talk-to-us">Contact us directly</button>
+        <a href="/en/data" class="btn-secondary">View data catalogue</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

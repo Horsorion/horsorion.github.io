@@ -1,0 +1,78 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import { getTechArticleSchema } from "@/lib/schema";
+
+const locale = "zh-Hant";
+const currentPath = "/methodology/point-in-time";
+const url = `https://www.horsorion.com${currentPath}`;
+const title = "Point-in-Time 數據儲存方法論 — 避免回測前視偏差 | Horsorion";
+const description =
+  "Horsorion 如何以 point-in-time（PIT）原則儲存排位資料、評分變動及賠率快照，確保回測（back-test）時看到嘅永遠係賽前可見資料，避免 look-ahead bias。";
+
+const schema = getTechArticleSchema(locale, {
+  headline: "Point-in-Time 數據儲存方法論",
+  description: "完整闡述 Horsorion 嘅 PIT 儲存策略、變更追蹤機制與查詢介面。",
+  url,
+  about: ["Point-in-time data", "Look-ahead bias", "Back-testing", "Horse racing"],
+});
+---
+
+<BaseLayout title={title} description={description} locale={locale} currentPath={currentPath} schema={schema}>
+  <section class="bg-brand-mist py-20">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Methodology · Point-in-Time</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold text-brand-navy md:text-5xl">
+        Point-in-Time 數據儲存
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-slate-600">
+        所有排位資料、評分變動與賠率快照均以 <strong>point-in-time（PIT）</strong> 原則儲存：研究員回測歷史模型時，永遠只能睇到當時公開嘅資料，避免 look-ahead bias。
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="section-shell prose prose-slate mx-auto max-w-3xl">
+      <h2>為何重要</h2>
+      <p>賽馬數據嘅大部分欄位（評分、檔位、騎師、負磅、退賽情況）會於賽前多次修訂。如果用最終定案版本回測歷史模型，等於默認模型可以「預先」知道改動 — 所有結果都會嚴重高估。</p>
+
+      <h2>儲存模型</h2>
+      <p>Horsorion 對每張可變表（racecard、ratings、odds_snapshots、scratchings）採用 <strong>bi-temporal</strong> 設計：</p>
+      <ul>
+        <li><code>valid_from</code> / <code>valid_to</code> — 該紀錄反映嘅事實有效期。</li>
+        <li><code>recorded_at</code> — 該紀錄被 Horsorion 寫入庫嘅時間（系統時鐘）。</li>
+      </ul>
+      <p>查詢「賽事 X 開閘前 5 分鐘可見嘅 racecard」即等於：</p>
+
+      <TerminalCodeBlock caption="sql">
+        <pre><code>{`SELECT *
+FROM racecard
+WHERE race_id = 'ST-241110-08'
+  AND valid_from <= jump_time - INTERVAL '5 minutes'
+  AND (valid_to IS NULL OR valid_to > jump_time - INTERVAL '5 minutes')
+  AND recorded_at <= jump_time - INTERVAL '5 minutes'
+ORDER BY horse_no;`}</code></pre>
+      </TerminalCodeBlock>
+
+      <h2>變更追蹤</h2>
+      <p>每次 racecard、評分或賠率變動，Horsorion 寫入新一行（不覆寫舊行）。客戶可以重建任何過去時刻嘅完整快照。</p>
+
+      <h2>賠率快照頻率</h2>
+      <p>時序賠率以 <strong>固定間隔（每 10 秒）</strong> + <strong>事件觸發（每筆莊家盤口變動）</strong> 雙策略採集，視乎客戶交付方式而定。</p>
+
+      <h2>適用情境</h2>
+      <ul>
+        <li>歷史模型回測，需要嚴格防 look-ahead。</li>
+        <li>盤口微觀結構研究（market microstructure）。</li>
+        <li>機器學習特徵工程，需要 feature snapshot 可重現。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="Point-in-Time 數據儲存方法論" url={url} />
+    </div>
+  </section>
+</BaseLayout>

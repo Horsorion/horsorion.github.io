@@ -1,0 +1,13 @@
+# Deploy: from /site run `npm run worker:deploy` (after `npx wrangler login`).
+# Secret: `npx wrangler secret put RESEND_API_KEY` in this directory context:
+#   cd site && npx wrangler secret put RESEND_API_KEY --config workers/wrangler.toml
+# First deploy prints a *.workers.dev URL — use that as PUBLIC_LEAD_ENDPOINT (POST root is fine).
+# Optional: add a Workers route for lead.horsorion.com in the Cloudflare dashboard.
+
+name = "horsorion-lead"
+main = "lead.ts"
+compatibility_date = "2024-11-01"
+
+[vars]
+LEAD_TO_EMAIL = "horsorion@gmail.com"
+LEAD_FROM_EMAIL = "Horsorion <onboarding@resend.dev>"

@@ -1,0 +1,164 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import StatusPill from "@/components/StatusPill.astro";
+import SampleDownloadForm from "@/components/SampleDownloadForm";
+import { Icon } from "astro-icon/components";
+import { catalog, bucketLabel } from "@/lib/catalog";
+
+const locale = "zh-Hant";
+const categoryIcons: Record<string, string> = {
+  "pre-race":  "lucide:list-ordered",
+  "post-race": "lucide:trophy",
+  "general":   "lucide:database",
+  "odds":      "lucide:bar-chart-3",
+};
+const productCount = catalog.reduce((s, c) => s + c.products.length, 0);
+---
+
+<BaseLayout
+  title="香港賽馬數據目錄 — Race Card / Sectional / Odds / Past Performance | Horsorion"
+  description="Horsorion 香港賽馬數據目錄：賽前 (排位、預測配速)、賽後 (結果、分段時間、彩池派彩)、馬匹基礎、時序賠率四大類別共 30+ 個產品。涵蓋 1980 年至今、800 萬+ 結構化紀錄、point-in-time 儲存。"
+  locale={locale}
+  currentPath="/data"
+>
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Data Catalogue</p>
+      <h1 class="mt-4 text-4xl font-bold">數據目錄</h1>
+      <p class="mt-4 max-w-3xl text-white/80">
+        <span class="font-mono text-brand-gold">{productCount}+</span> 個數據產品，分四大類別。
+        所有數據經多重驗證，以 point-in-time 原則儲存，支援回測與實盤應用。
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <button type="button" class="btn-primary" data-lead-intent="request-sample">索取樣本數據</button>
+        <button type="button" class="btn-secondary" data-lead-intent="request-dictionary">索取完整字典</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ 4 CATEGORIES ═══════════════════ -->
+  <section class="section-shell py-14">
+    {catalog.map((cat) => (
+      <div class="mb-12" id={cat.id}>
+        <div class="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+                <Icon name={categoryIcons[cat.id]} class="h-5 w-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.18em] text-brand-gold">{cat.titleEn}</p>
+                <h2 class="text-2xl font-bold text-brand-navy">{cat.title}</h2>
+              </div>
+            </div>
+            <p class="mt-3 max-w-2xl text-sm text-slate-600">{cat.description}</p>
+          </div>
+          <span class="hidden font-mono text-xs text-slate-400 sm:inline">
+            {cat.products.length} products
+          </span>
+        </div>
+
+        <!-- Product grid (dark sub-cards) -->
+        <div class="overflow-hidden rounded-2xl border border-brand-navy/10">
+          <div class="grid divide-y divide-brand-navy/5 sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-3">
+            {cat.products.map((p) => (
+              <article class="group flex items-start justify-between gap-3 bg-white p-4 transition hover:bg-brand-slate sm:border-b sm:border-brand-navy/5 last:sm:border-b-0">
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-brand-navy">{p.name}</p>
+                  <p class="mt-0.5 font-mono text-[11px] text-slate-400">{p.nameEn}</p>
+                  <p class="mt-2 font-mono text-xs text-slate-600 tabular-nums">{bucketLabel[p.historyBucket]} 歷史</p>
+                </div>
+                <StatusPill variant={p.status} />
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- ═══════════════════ SAMPLE PREVIEW (terminal style) ═══════════════════ -->
+  <section class="bg-brand-navy py-14 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Sample Preview</p>
+      <h2 class="mt-3 text-3xl font-bold">真實 Race-Day 數據格式</h2>
+      <p class="mt-3 max-w-2xl text-sm text-white/75">
+        以下為 Past Performance 數據集節選（6 行）。完整 1 日賽事 CSV（含 watermark）可免費下載評估。
+      </p>
+
+      <div class="mt-8 max-w-5xl">
+        <TerminalCodeBlock caption="horsorion-sample.tsv  ·  Past Performance">
+          <pre><span class="text-emerald-400"># Race Results - Sha Tin · Sample (watermarked)</span>
+<span class="text-sky-400">Race_Key     Horse_ID  Rank  Finish_Time  LBW   Draw  Rating  Jockey      Odds</span>
+20XX1110+01  H001      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:09.82</span>      0.00  4     112     Z.Purton    <span class="text-amber-300">2.2</span>
+20XX1110+01  H002      <span class="text-emerald-300">2</span>     <span class="text-amber-300">1:09.91</span>      0.75  7     109     R.Maia      <span class="text-amber-300">5.3</span>
+20XX1110+01  H003      <span class="text-emerald-300">3</span>     <span class="text-amber-300">1:09.95</span>      1.25  2     107     B.Shinn     <span class="text-amber-300">6.1</span>
+20XX1110+02  H011      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:34.41</span>      0.00  5     118     J.Moreira   <span class="text-amber-300">3.1</span>
+20XX1110+02  H012      <span class="text-emerald-300">2</span>     <span class="text-amber-300">1:34.55</span>      1.00  3     115     Z.Purton    <span class="text-amber-300">2.8</span>
+20XX1110+03  H021      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:21.38</span>      0.00  6     120     J.Moreira   <span class="text-amber-300">2.5</span>
+<span class="text-slate-500"># Full schema (40+ fields) and additional datasets shared after contact.</span></pre>
+        </TerminalCodeBlock>
+      </div>
+
+      <!-- Email-gated download -->
+      <div class="mt-10 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+        <h3 class="text-base font-semibold">下載 1 日完整賽事樣本 CSV</h3>
+        <p class="mt-2 text-sm text-white/70">輸入電郵即時下載。所有樣本含 watermark，僅供評估用途。</p>
+        <div class="mt-4">
+          <SampleDownloadForm
+            client:load
+            label="下載樣本"
+            sampleUrl="/samples/horsorion-sample-2024-11-10.csv"
+            submitLabel="下載"
+            successLabel="樣本已開始下載！"
+            errorLabel="提交出錯，請稍後再試或 WhatsApp 聯絡。"
+            emailLabel="電郵地址"
+            disclaimer="Watermarked · For evaluation only"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ DELIVERY ═══════════════════ -->
+  <section class="section-shell py-14" id="delivery">
+    <p class="eyebrow text-brand-navy">Delivery</p>
+    <h2 class="mt-3 text-3xl font-bold text-brand-navy">交付方式</h2>
+    <p class="mt-3 max-w-2xl text-sm text-slate-600">
+      所有產品按賽季 (season) 為單位交付，按需求調整數據範圍與更新方式。
+    </p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {[
+        { icon: "lucide:file-spreadsheet", title: "CSV / Excel",  desc: "通用格式，立即可用" },
+        { icon: "lucide:database",         title: "Parquet / SQL", desc: "適合大型 pipeline / data warehouse" },
+        { icon: "lucide:cloud-download",   title: "SFTP / S3",    desc: "加密傳輸，定期 push" },
+        { icon: "lucide:plug-2",           title: "REST API",     desc: "規劃中 — 索取 waitlist" },
+      ].map((opt) => (
+        <article class="surface-card">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy/8 text-brand-navy">
+            <Icon name={opt.icon} class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h3 class="mt-4 text-sm font-semibold text-brand-navy">{opt.title}</h3>
+          <p class="mt-2 text-xs leading-6 text-slate-600">{opt.desc}</p>
+        </article>
+      ))}
+    </div>
+    <p class="mt-6 text-xs text-slate-500">
+      標準交付時間：2–3 個工作天（資料） · 8–10 個工作天（影片）。定價及合約細節請聯絡我們。
+    </p>
+  </section>
+
+  <!-- ═══════════════════ CTA ═══════════════════ -->
+  <section class="bg-brand-slate py-12">
+    <div class="section-shell text-center">
+      <h2 class="text-2xl font-bold text-brand-navy">想評估我們的數據？</h2>
+      <p class="mt-3 text-sm text-slate-600">索取完整數據字典或樣本 CSV，24 小時內回覆。</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-4">
+        <button type="button" class="btn-primary" data-lead-intent="request-dictionary">索取完整字典</button>
+        <button type="button" class="btn-outline" data-lead-intent="talk-to-us">聯絡洽談</button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

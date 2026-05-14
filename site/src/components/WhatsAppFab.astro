@@ -1,0 +1,23 @@
+---
+import type { SiteCopy } from "@/lib/i18n";
+
+interface Props {
+  copy: SiteCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<a
+  href="https://wa.me/85296005554"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="fixed bottom-20 right-4 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:scale-[1.02] sm:bottom-6 sm:right-6"
+  aria-label={`${copy.cta.whatsapp} — opens WhatsApp in a new tab`}
+>
+  <!-- WhatsApp SVG icon -->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.1-1.34A9.93 9.93 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.07 13.73c-.22.61-1.27 1.17-1.75 1.24-.44.07-.99.1-1.6-.1-.37-.12-.84-.28-1.44-.55-2.53-1.09-4.18-3.64-4.31-3.81-.12-.17-.99-1.32-.99-2.51s.63-1.78.85-2.02c.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.55.42l.75 1.82c.06.14.1.31.02.47l-.28.52c-.09.17-.19.35-.08.55.49.88 1.06 1.55 1.72 2.1.67.54 1.37.88 1.88 1.07.2.08.36.07.49-.04l.4-.44c.14-.16.27-.13.44-.08l1.64.77c.19.09.32.14.36.22.05.25-.06 1-.28 1.61z"/>
+  </svg>
+  <span class="hidden sm:inline">{copy.cta.whatsapp}</span>
+</a>

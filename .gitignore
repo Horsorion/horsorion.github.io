@@ -1,0 +1,19 @@
+# Secrets & local env (never commit)
+.env
+.env.*
+!.env.example
+site/.env
+site/.env.local
+
+# Dependencies & Astro output
+site/node_modules/
+site/dist/
+
+# Logs & caches
+*.log
+site/node_modules/.cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/

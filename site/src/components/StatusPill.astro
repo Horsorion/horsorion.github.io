@@ -1,0 +1,28 @@
+---
+// Status pill — communicates data freshness type per dataset.
+// Variants: live, race-day, post-race, daily, historical, pre-race, video
+type Variant = "live" | "race-day" | "post-race" | "daily" | "historical" | "pre-race" | "video";
+
+interface Props {
+  variant: Variant;
+  label?: string;
+}
+
+const { variant, label } = Astro.props;
+
+const styles: Record<Variant, { cls: string; defaultLabel: string }> = {
+  "live":       { cls: "bg-emerald-500/12 text-emerald-400 border-emerald-500/30",   defaultLabel: "Live" },
+  "race-day":   { cls: "bg-emerald-500/12 text-emerald-400 border-emerald-500/30",   defaultLabel: "Race day" },
+  "post-race":  { cls: "bg-amber-500/12 text-amber-400 border-amber-500/30",         defaultLabel: "Post-race" },
+  "daily":      { cls: "bg-sky-500/12 text-sky-400 border-sky-500/30",               defaultLabel: "Daily" },
+  "historical": { cls: "bg-slate-500/12 text-slate-400 border-slate-500/30",         defaultLabel: "Historical" },
+  "pre-race":   { cls: "bg-violet-500/12 text-violet-400 border-violet-500/30",      defaultLabel: "Pre-race" },
+  "video":      { cls: "bg-pink-500/12 text-pink-400 border-pink-500/30",            defaultLabel: "Video" },
+};
+
+const { cls, defaultLabel } = styles[variant];
+---
+
+<span class:list={["inline-block rounded-md border px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.06em]", cls]}>
+  {label ?? defaultLabel}
+</span>

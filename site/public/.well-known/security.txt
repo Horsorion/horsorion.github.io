@@ -1,0 +1,4 @@
+Contact: mailto:horsorion@gmail.com
+Preferred-Languages: en, zh-Hant
+Canonical: https://www.horsorion.com/.well-known/security.txt
+Policy: https://www.horsorion.com/privacy

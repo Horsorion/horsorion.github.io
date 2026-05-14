@@ -1,0 +1,103 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import { getPlaceSchema, getDatasetSchema } from "@/lib/schema";
+
+const locale = "zh-Hant";
+const currentPath = "/courses/sha-tin";
+const url = `https://www.horsorion.com${currentPath}`;
+const title = "沙田馬場數據 — 草地 1800m / Polytrack 1551m 全紀錄 | Horsorion";
+const description =
+  "Horsorion 沙田馬場（Sha Tin Racecourse）數據覆蓋詳情：草地周長 1800 米，全天候 Polytrack 1551 米，賽程 1000–2400m。歷史紀錄涵蓋班次、檔位、騎師、分段時間、終場賠率，由 1980 年代起。";
+
+const placeSchema = getPlaceSchema({
+  name: "Sha Tin Racecourse 沙田馬場",
+  description: "Sha Tin Racecourse — Hong Kong Jockey Club's flagship racecourse, opened 1978. Turf circumference 1,800 m and all-weather Polytrack 1,551 m. Hosts most weekend day meetings.",
+  url,
+  latitude: 22.4017,
+  longitude: 114.2067,
+  addressLocality: "Sha Tin, New Territories, Hong Kong",
+});
+
+const datasetSchema = getDatasetSchema(locale, {
+  name: "Horsorion 沙田馬場歷史賽事數據",
+  description:
+    "覆蓋香港沙田馬場（草地及全天候跑道）由 1980 年代至今嘅全部正式賽事，包含排位、結果、分段時間、終場賠率與彩池資料。",
+  url,
+  keywords: ["Sha Tin", "Hong Kong horse racing", "HKJC", "Polytrack", "racecard", "sectional time"],
+  temporalStart: "1980",
+  accessMode: "contact",
+});
+
+const facts = [
+  { k: "場地代號",         v: "ST" },
+  { k: "啟用年份",         v: "1978" },
+  { k: "草地周長",         v: "1,800 米" },
+  { k: "全天候跑道",       v: "1,551 米 (Polytrack)" },
+  { k: "草地賽程範圍",     v: "1,000m / 1,200m / 1,400m / 1,600m / 1,800m / 2,000m / 2,200m / 2,400m" },
+  { k: "全天候跑道賽程",   v: "1,200m / 1,650m / 1,800m / 2,000m" },
+  { k: "賽事日類型",       v: "週末日賽為主，部分週中夜賽" },
+  { k: "Horsorion 數據起點", v: "1980 年代（按產品而異）" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  currentPath={currentPath}
+  schema={[placeSchema, datasetSchema]}
+>
+  <section class="bg-brand-navy py-20 text-white">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Sha Tin · 沙田馬場</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold md:text-5xl">沙田馬場數據</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/80">
+        沙田馬場（Sha Tin Racecourse, ST）係香港賽馬會兩大馬場中較大者，亦係大部分週末日賽嘅舉行場地。
+        本頁列出 Horsorion 喺沙田賽事嘅完整數據覆蓋深度與場館事實，方便研究團隊評估資料適用性。
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="section-shell grid gap-10 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <h2 class="text-2xl font-bold text-brand-navy">場館事實</h2>
+        <dl class="mt-6 divide-y divide-brand-navy/10 rounded-2xl border border-brand-navy/10 bg-brand-mist/40">
+          {facts.map((f) => (
+            <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-3">
+              <dt class="font-mono text-xs uppercase tracking-wide text-brand-gold sm:col-span-1">{f.k}</dt>
+              <dd class="text-sm text-slate-700 sm:col-span-2">{f.v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <h2 class="mt-12 text-2xl font-bold text-brand-navy">數據要點</h2>
+        <ul class="mt-4 space-y-2 text-sm text-slate-700">
+          <li>· 全部 ST 賽事按 Horsorion <code class="font-mono text-xs">race_id = ST-YYMMDD-NN</code> 編碼</li>
+          <li>· 草地與全天候賽事獨立區分（<code class="font-mono text-xs">surface = TURF / AWT</code>）</li>
+          <li>· 分段時間於草地賽事：每 200 米；全天候賽事：每 400 米</li>
+          <li>· 場地容差（Going Allowance）按 HKJC 公佈值 + Horsorion 內部修正</li>
+          <li>· Point-in-time 排位資料保留閘前最後狀態，避免回測前視偏差</li>
+        </ul>
+      </div>
+
+      <aside class="rounded-3xl border border-brand-navy/10 bg-brand-mist/40 p-6">
+        <h3 class="text-sm font-semibold uppercase tracking-wide text-brand-gold">相關連結</h3>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li><a class="hover:text-brand-gold" href="/courses/happy-valley">→ 跑馬地馬場數據</a></li>
+          <li><a class="hover:text-brand-gold" href="/coverage">→ 完整數據覆蓋表</a></li>
+          <li><a class="hover:text-brand-gold" href="/methodology/sectional-timing">→ 分段時間方法論</a></li>
+          <li><a class="hover:text-brand-gold" href="/glossary">→ 賽馬術語表</a></li>
+          <li><a class="hover:text-brand-gold" href="/open-data">→ 免費 CSV 樣本</a></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="沙田馬場數據" url={url} />
+    </div>
+  </section>
+</BaseLayout>

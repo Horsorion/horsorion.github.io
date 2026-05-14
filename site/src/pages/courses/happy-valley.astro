@@ -1,0 +1,101 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import { getPlaceSchema, getDatasetSchema } from "@/lib/schema";
+
+const locale = "zh-Hant";
+const currentPath = "/courses/happy-valley";
+const url = `https://www.horsorion.com${currentPath}`;
+const title = "跑馬地馬場數據 — 1450m 草地、夜賽全紀錄 | Horsorion";
+const description =
+  "Horsorion 跑馬地馬場（Happy Valley Racecourse）數據覆蓋：1450 米草地周長，週中夜賽主場館。歷史紀錄涵蓋排位、結果、分段時間、終場賠率，由 1980 年代起持續更新。";
+
+const placeSchema = getPlaceSchema({
+  name: "Happy Valley Racecourse 跑馬地馬場",
+  description: "Happy Valley Racecourse — Hong Kong's iconic city-centre turf racecourse. Established 1845, current configuration 1,450 m turf circumference. Hosts most midweek night meetings.",
+  url,
+  latitude: 22.2735,
+  longitude: 114.1822,
+  addressLocality: "Happy Valley, Hong Kong Island, Hong Kong",
+});
+
+const datasetSchema = getDatasetSchema(locale, {
+  name: "Horsorion 跑馬地馬場歷史賽事數據",
+  description:
+    "覆蓋香港跑馬地馬場由 1980 年代至今嘅全部正式賽事，包含排位、結果、分段時間、終場賠率與彩池資料。",
+  url,
+  keywords: ["Happy Valley", "Hong Kong horse racing", "HKJC", "racecard", "sectional time", "night racing"],
+  temporalStart: "1980",
+  accessMode: "contact",
+});
+
+const facts = [
+  { k: "場地代號",         v: "HV" },
+  { k: "創立年份",         v: "1845" },
+  { k: "草地周長",         v: "1,450 米（單一草地跑道）" },
+  { k: "賽程範圍",         v: "1,000m / 1,200m / 1,650m / 1,800m / 2,200m" },
+  { k: "賽事日類型",       v: "週中夜賽為主（每週三晚）" },
+  { k: "彎位特點",         v: "彎位窄而急，較利前領馬及低檔位" },
+  { k: "Horsorion 數據起點", v: "1980 年代（按產品而異）" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  currentPath={currentPath}
+  schema={[placeSchema, datasetSchema]}
+>
+  <section class="bg-brand-navy py-20 text-white">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Happy Valley · 跑馬地馬場</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold md:text-5xl">跑馬地馬場數據</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/80">
+        跑馬地（Happy Valley, HV）係香港最具標誌性嘅市中心夜賽場館，1845 年啟用。
+        賽道周長僅 1,450 米、彎位較窄，賽事節奏快，對策略選擇有顯著影響。
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="section-shell grid gap-10 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <h2 class="text-2xl font-bold text-brand-navy">場館事實</h2>
+        <dl class="mt-6 divide-y divide-brand-navy/10 rounded-2xl border border-brand-navy/10 bg-brand-mist/40">
+          {facts.map((f) => (
+            <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-3">
+              <dt class="font-mono text-xs uppercase tracking-wide text-brand-gold sm:col-span-1">{f.k}</dt>
+              <dd class="text-sm text-slate-700 sm:col-span-2">{f.v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <h2 class="mt-12 text-2xl font-bold text-brand-navy">數據要點</h2>
+        <ul class="mt-4 space-y-2 text-sm text-slate-700">
+          <li>· 跑馬地賽事按 <code class="font-mono text-xs">race_id = HV-YYMMDD-NN</code> 編碼</li>
+          <li>· 由於彎位短，<code class="font-mono text-xs">draw</code>（檔位）係最重要嘅單一特徵之一</li>
+          <li>· 分段時間以每 200 米記錄，配速曲線通常呈「快起步、慢中段」</li>
+          <li>· 夜間光照、氣溫差會反映於 <code class="font-mono text-xs">weather</code> 表</li>
+        </ul>
+      </div>
+
+      <aside class="rounded-3xl border border-brand-navy/10 bg-brand-mist/40 p-6">
+        <h3 class="text-sm font-semibold uppercase tracking-wide text-brand-gold">相關連結</h3>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li><a class="hover:text-brand-gold" href="/courses/sha-tin">→ 沙田馬場數據</a></li>
+          <li><a class="hover:text-brand-gold" href="/coverage">→ 完整數據覆蓋表</a></li>
+          <li><a class="hover:text-brand-gold" href="/methodology/sectional-timing">→ 分段時間方法論</a></li>
+          <li><a class="hover:text-brand-gold" href="/glossary">→ 賽馬術語表</a></li>
+          <li><a class="hover:text-brand-gold" href="/open-data">→ 免費 CSV 樣本</a></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="跑馬地馬場數據" url={url} />
+    </div>
+  </section>
+</BaseLayout>

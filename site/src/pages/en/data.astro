@@ -1,0 +1,161 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import StatusPill from "@/components/StatusPill.astro";
+import SampleDownloadForm from "@/components/SampleDownloadForm";
+import { Icon } from "astro-icon/components";
+import { catalog, bucketLabelEn } from "@/lib/catalog";
+
+const locale = "en";
+const categoryIcons: Record<string, string> = {
+  "pre-race":  "lucide:list-ordered",
+  "post-race": "lucide:trophy",
+  "general":   "lucide:database",
+  "odds":      "lucide:bar-chart-3",
+};
+const productCount = catalog.reduce((s, c) => s + c.products.length, 0);
+---
+
+<BaseLayout
+  title="Hong Kong Horse Racing Data Catalogue — Racecards, Sectionals, Odds, Past Performance | Horsorion"
+  description="Horsorion's Hong Kong horse racing data catalogue: 30+ products across Pre-Race (racecards, predicted pacing), Post-Race (results, sectional times, dividends), General (horse, vet, trackwork), and Odds (final + time-series). Decades of point-in-time history."
+  locale={locale}
+  currentPath="/en/data"
+>
+  <!-- HERO -->
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Data Catalogue</p>
+      <h1 class="mt-4 text-4xl font-bold">Data catalogue</h1>
+      <p class="mt-4 max-w-3xl text-white/80">
+        <span class="font-mono text-brand-gold">{productCount}+</span> data products across four categories.
+        All datasets are cross-validated and stored under point-in-time principles, ready for backtesting and live use.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <button type="button" class="btn-primary" data-lead-intent="request-sample">Request sample data</button>
+        <button type="button" class="btn-secondary" data-lead-intent="request-dictionary">Request full dictionary</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 CATEGORIES -->
+  <section class="section-shell py-14">
+    {catalog.map((cat) => (
+      <div class="mb-12" id={cat.id}>
+        <div class="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+                <Icon name={categoryIcons[cat.id]} class="h-5 w-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.18em] text-brand-gold">Category {cat.id.replace("-", " ")}</p>
+                <h2 class="text-2xl font-bold text-brand-navy">{cat.titleEn}</h2>
+              </div>
+            </div>
+            <p class="mt-3 max-w-2xl text-sm text-slate-600">{cat.descriptionEn}</p>
+          </div>
+          <span class="hidden font-mono text-xs text-slate-400 sm:inline">
+            {cat.products.length} products
+          </span>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-brand-navy/10">
+          <div class="grid divide-y divide-brand-navy/5 sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-3">
+            {cat.products.map((p) => (
+              <article class="group flex items-start justify-between gap-3 bg-white p-4 transition hover:bg-brand-slate sm:border-b sm:border-brand-navy/5 last:sm:border-b-0">
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-brand-navy">{p.nameEn}</p>
+                  <p class="mt-2 font-mono text-xs text-slate-600 tabular-nums">{bucketLabelEn[p.historyBucket]} of history</p>
+                </div>
+                <StatusPill variant={p.status} />
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- SAMPLE PREVIEW -->
+  <section class="bg-brand-navy py-14 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Sample Preview</p>
+      <h2 class="mt-3 text-3xl font-bold">Real race-day data format</h2>
+      <p class="mt-3 max-w-2xl text-sm text-white/75">
+        Sample below shows Past Performance data (6 rows). The full 1-day race-day CSV (watermarked) is available for free evaluation.
+      </p>
+
+      <div class="mt-8 max-w-5xl">
+        <TerminalCodeBlock caption="horsorion-sample.tsv  ·  Past Performance">
+          <pre><span class="text-emerald-400"># Race Results - Sha Tin · Sample (watermarked)</span>
+<span class="text-sky-400">Race_Key     Horse_ID  Rank  Finish_Time  LBW   Draw  Rating  Jockey      Odds</span>
+20XX1110+01  H001      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:09.82</span>      0.00  4     112     Z.Purton    <span class="text-amber-300">2.2</span>
+20XX1110+01  H002      <span class="text-emerald-300">2</span>     <span class="text-amber-300">1:09.91</span>      0.75  7     109     R.Maia      <span class="text-amber-300">5.3</span>
+20XX1110+01  H003      <span class="text-emerald-300">3</span>     <span class="text-amber-300">1:09.95</span>      1.25  2     107     B.Shinn     <span class="text-amber-300">6.1</span>
+20XX1110+02  H011      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:34.41</span>      0.00  5     118     J.Moreira   <span class="text-amber-300">3.1</span>
+20XX1110+02  H012      <span class="text-emerald-300">2</span>     <span class="text-amber-300">1:34.55</span>      1.00  3     115     Z.Purton    <span class="text-amber-300">2.8</span>
+20XX1110+03  H021      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:21.38</span>      0.00  6     120     J.Moreira   <span class="text-amber-300">2.5</span>
+<span class="text-slate-500"># Full schema (40+ fields) and additional datasets shared after contact.</span></pre>
+        </TerminalCodeBlock>
+      </div>
+
+      <div class="mt-10 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+        <h3 class="text-base font-semibold">Download a full-day race sample CSV</h3>
+        <p class="mt-2 text-sm text-white/70">Enter your email to download. All samples are watermarked for evaluation only.</p>
+        <div class="mt-4">
+          <SampleDownloadForm
+            client:load
+            label="Download sample"
+            sampleUrl="/samples/horsorion-sample-2024-11-10.csv"
+            submitLabel="Download"
+            successLabel="Download started — check your folder."
+            errorLabel="Submission failed. Please try again or contact us on WhatsApp."
+            emailLabel="Email address"
+            disclaimer="Watermarked · For evaluation only"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERY -->
+  <section class="section-shell py-14" id="delivery">
+    <p class="eyebrow text-brand-navy">Delivery</p>
+    <h2 class="mt-3 text-3xl font-bold text-brand-navy">Delivery options</h2>
+    <p class="mt-3 max-w-2xl text-sm text-slate-600">
+      All products are delivered per season with flexible scope and update cadence.
+    </p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {[
+        { icon: "lucide:file-spreadsheet", title: "CSV / Excel",   desc: "Universal format, ready for analysis" },
+        { icon: "lucide:database",         title: "Parquet / SQL", desc: "For large pipelines and data warehouses" },
+        { icon: "lucide:cloud-download",   title: "SFTP / S3",     desc: "Encrypted transfer, scheduled push" },
+        { icon: "lucide:plug-2",           title: "REST API",      desc: "On roadmap — join the waitlist" },
+      ].map((opt) => (
+        <article class="surface-card">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy/8 text-brand-navy">
+            <Icon name={opt.icon} class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h3 class="mt-4 text-sm font-semibold text-brand-navy">{opt.title}</h3>
+          <p class="mt-2 text-xs leading-6 text-slate-600">{opt.desc}</p>
+        </article>
+      ))}
+    </div>
+    <p class="mt-6 text-xs text-slate-500">
+      Standard turnaround: 2–3 business days (data) · 8–10 business days (video). Pricing and contract details available on request.
+    </p>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-brand-slate py-12">
+    <div class="section-shell text-center">
+      <h2 class="text-2xl font-bold text-brand-navy">Ready to evaluate our data?</h2>
+      <p class="mt-3 text-sm text-slate-600">Request the full data dictionary or sample CSV — we reply within 24 hours.</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-4">
+        <button type="button" class="btn-primary" data-lead-intent="request-dictionary">Request full dictionary</button>
+        <button type="button" class="btn-outline" data-lead-intent="talk-to-us">Talk to us</button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

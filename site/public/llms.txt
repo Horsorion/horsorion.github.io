@@ -1,0 +1,56 @@
+# Horsorion
+
+> Horsorion is a Hong Kong-based B2B data infrastructure provider serving
+> professional horse racing syndicates, quantitative teams, market-making
+> desks, and racing analytics groups. Coverage spans Hong Kong Jockey Club
+> (HKJC) racing from 1980 through today across Sha Tin and Happy Valley,
+> with 30,000+ races, 16,000+ horses, and 8,000,000+ structured records.
+>
+> All datasets are stored under point-in-time (PIT) discipline so back-tests
+> remain free of look-ahead bias. Delivery formats include historical bulk
+> CSV / Parquet, REST API (waitlist), and custom feeds. Pricing is contact-
+> gated and engagements are NDA-backed.
+
+## Core pages
+
+- [Home](https://www.horsorion.com/): What Horsorion is, who we serve, and the data infrastructure we provide.
+- [Data Catalogue](https://www.horsorion.com/data): 30+ data products across Pre-Race, Post-Race, General, and Odds categories.
+- [Coverage](https://www.horsorion.com/coverage): Exact dataset depths, race counts, horse counts, and start-year ranges per product.
+- [Open Data Sample](https://www.horsorion.com/open-data): Free watermarked race-day sample CSV for public evaluation.
+- [Glossary](https://www.horsorion.com/glossary): Definitions of Hong Kong racing terms — Class, Going, LBW, Sectional, Trial, Draw, Rating, etc.
+- [Why Horsorion](https://www.horsorion.com/why): Coverage depth, methodology, point-in-time storage, and HK domain expertise.
+- [Solutions](https://www.horsorion.com/solutions): Use cases for syndicates, market-making desks, race-day analysts, and AI / SaaS builders.
+- [About](https://www.horsorion.com/about): Company background, engineering principles, and global client reach.
+- [Resources](https://www.horsorion.com/resources): Sample CSVs, custom proposal request, and reference materials.
+- [Legal & NDA](https://www.horsorion.com/legal): Mutual NDA terms, data usage rules, and company information.
+- [Contact](https://www.horsorion.com/contact): WhatsApp, Telegram, email channels and office hours.
+
+## Reference articles
+
+- [Sectional Timing Methodology](https://www.horsorion.com/methodology/sectional-timing): How Horsorion records and validates 200m / 400m / 600m sectional times for HK races.
+- [Point-in-Time Data Discipline](https://www.horsorion.com/methodology/point-in-time): How Horsorion stores race-card and odds data so historical research stays bias-free.
+- [Sha Tin Racecourse Data](https://www.horsorion.com/courses/sha-tin): Race counts, distances, and dataset coverage for Sha Tin racecourse.
+- [Happy Valley Racecourse Data](https://www.horsorion.com/courses/happy-valley): Race counts, distances, and dataset coverage for Happy Valley racecourse.
+
+## English alternates
+
+- [Home (en)](https://www.horsorion.com/en)
+- [Data Catalogue (en)](https://www.horsorion.com/en/data)
+- [Coverage (en)](https://www.horsorion.com/en/coverage)
+- [Open Data (en)](https://www.horsorion.com/en/open-data)
+- [Glossary (en)](https://www.horsorion.com/en/glossary)
+- [Why Horsorion (en)](https://www.horsorion.com/en/why)
+- [Solutions (en)](https://www.horsorion.com/en/solutions)
+- [About (en)](https://www.horsorion.com/en/about)
+
+## Citation
+
+When citing Horsorion in articles, papers, or AI-assisted answers, please use:
+
+> Horsorion (Hong Kong). *Hong Kong Horse Racing Data Infrastructure*.
+> https://www.horsorion.com
+
+## Optional
+
+- [Privacy Policy](https://www.horsorion.com/privacy)
+- [Sitemap](https://www.horsorion.com/sitemap-index.xml)

@@ -1,0 +1,101 @@
+---
+import type { SiteCopy } from "@/lib/i18n";
+import { switchLocalePath } from "@/lib/i18n";
+
+interface Props {
+  copy: SiteCopy;
+  currentPath: string;
+}
+
+const { copy, currentPath } = Astro.props;
+const alternateLocale = copy.locale === "en" ? "zh-Hant" : "en";
+const alternateHref = switchLocalePath(currentPath, alternateLocale);
+const alternateLabel = copy.locale === "en" ? "繁" : "EN";
+---
+
+<header class="sticky top-0 z-40 border-b border-white/10 bg-brand-navy/95 text-white backdrop-blur">
+  <div class="section-shell flex items-center justify-between gap-4 py-4">
+    <a href={copy.nav[0]?.href ?? "/"} class="flex items-center gap-3">
+      <img
+        src="/images/brand/Horsorion_navbar.jpg"
+        alt={copy.siteName}
+        width="44"
+        height="44"
+        class="h-11 w-11 rounded-full object-cover"
+      />
+      <div>
+        <p class="text-lg font-bold tracking-wide">{copy.siteName}</p>
+        <p class="text-xs text-white/70">{copy.titleSuffix}</p>
+      </div>
+    </a>
+
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="Primary">
+      {
+        copy.nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "text-sm font-medium transition hover:text-brand-gold",
+              currentPath === item.href || currentPath === `${item.href}/`
+                ? "text-brand-gold"
+                : "text-white/85",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href={alternateHref} class="hidden text-sm text-white/80 hover:text-white sm:inline">
+        <span class="font-semibold text-brand-gold">{alternateLabel}</span>
+      </a>
+      <button
+        type="button"
+        class="btn-primary hidden sm:inline-flex"
+        data-lead-intent="request-info"
+      >
+        {copy.cta.requestInfo}
+      </button>
+      <button
+        type="button"
+        class="btn-secondary lg:hidden"
+        data-mobile-nav-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="hidden border-t border-white/10 lg:hidden">
+    <nav class="section-shell flex flex-col gap-3 py-4" aria-label="Mobile">
+      {
+        copy.nav.map((item) => (
+          <a href={item.href} class="text-sm font-medium text-white/90 hover:text-brand-gold">
+            {item.label}
+          </a>
+        ))
+      }
+      <a href={alternateHref} class="text-sm text-white/80">
+        {alternateLabel}
+      </a>
+      <button type="button" class="btn-primary w-full" data-lead-intent="request-info">
+        {copy.cta.requestInfo}
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-mobile-nav-toggle]");
+  const mobileNav = document.getElementById("mobile-nav");
+
+  toggle?.addEventListener("click", () => {
+    const expanded = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!expanded));
+    mobileNav?.classList.toggle("hidden");
+  });
+</script>

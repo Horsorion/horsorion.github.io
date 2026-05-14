@@ -1,0 +1,208 @@
+---
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import WhatsAppFab from "@/components/WhatsAppFab.astro";
+import CookieBanner from "@/components/CookieBanner.astro";
+import LeadCaptureModal from "@/components/LeadCaptureModal";
+import { getCopy, switchLocalePath, type Locale } from "@/lib/i18n";
+import {
+  getOrganizationSchema,
+  getWebSiteSchema,
+  getBreadcrumbSchema,
+} from "@/lib/schema";
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  currentPath: string;
+  /** Page-specific JSON-LD blocks (BreadcrumbList + Org + WebSite are auto-injected). */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  /** Optional explicit breadcrumb segments (after Home). Defaults to deriving from currentPath. */
+  breadcrumbs?: { name: string; path: string }[];
+  /** Default robots index/follow; pass false to noindex. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale,
+  currentPath,
+  schema,
+  breadcrumbs,
+  noindex = false,
+} = Astro.props;
+
+const copy = getCopy(locale);
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const siteBase = Astro.site ?? new URL("https://www.horsorion.com");
+const canonical = new URL(currentPath === "/" ? "/" : currentPath, siteBase);
+
+// hreflang alternates
+const zhPath = locale === "zh-Hant" ? currentPath : switchLocalePath(currentPath, "zh-Hant");
+const enPath = locale === "en" ? currentPath : switchLocalePath(currentPath, "en");
+const zhUrl = new URL(zhPath, siteBase);
+const enUrl = new URL(enPath, siteBase);
+
+// OG image
+const ogImage = new URL("/images/og.png", siteBase);
+const ogLocale = locale === "en" ? "en_US" : "zh_HK";
+const ogLocaleAlt = locale === "en" ? "zh_HK" : "en_US";
+
+// ─── Auto-derive breadcrumbs if not supplied ──────────────────────────────
+const homeName = locale === "en" ? "Home" : "主頁";
+const homePath = locale === "en" ? "/en" : "/";
+
+function deriveBreadcrumbs(): { name: string; path: string }[] {
+  if (currentPath === "/" || currentPath === "/en") return [];
+  // Strip locale prefix
+  const stripped =
+    locale === "en" && currentPath.startsWith("/en")
+      ? currentPath.slice(3) || "/"
+      : currentPath;
+  const parts = stripped.split("/").filter(Boolean);
+  const labelMap: Record<string, { zh: string; en: string }> = {
+    data:        { zh: "數據目錄",   en: "Data Catalogue" },
+    coverage:    { zh: "覆蓋",       en: "Coverage" },
+    "open-data": { zh: "開放數據",   en: "Open Data" },
+    glossary:    { zh: "術語表",     en: "Glossary" },
+    solutions:   { zh: "解決方案",   en: "Solutions" },
+    why:         { zh: "為何選擇",   en: "Why Horsorion" },
+    about:       { zh: "關於",       en: "About" },
+    resources:   { zh: "資源",       en: "Resources" },
+    contact:     { zh: "聯絡",       en: "Contact" },
+    legal:       { zh: "法律",       en: "Legal" },
+    privacy:     { zh: "私隱",       en: "Privacy" },
+    courses:     { zh: "賽馬場",     en: "Racecourses" },
+    "sha-tin":   { zh: "沙田",       en: "Sha Tin" },
+    "happy-valley": { zh: "跑馬地",  en: "Happy Valley" },
+    methodology: { zh: "方法論",     en: "Methodology" },
+    "sectional-timing": { zh: "分段時間", en: "Sectional Timing" },
+    "point-in-time": { zh: "Point-in-Time", en: "Point-in-Time" },
+  };
+  const acc: { name: string; path: string }[] = [];
+  let runningPath = locale === "en" ? "/en" : "";
+  for (const part of parts) {
+    runningPath += "/" + part;
+    const m = labelMap[part];
+    const name = m ? (locale === "en" ? m.en : m.zh) : part;
+    acc.push({ name, path: runningPath });
+  }
+  return acc;
+}
+
+const crumbs = breadcrumbs ?? deriveBreadcrumbs();
+const breadcrumbSchema =
+  crumbs.length > 0
+    ? getBreadcrumbSchema([
+        { name: homeName, url: new URL(homePath, siteBase).toString() },
+        ...crumbs.map((c) => ({ name: c.name, url: new URL(c.path, siteBase).toString() })),
+      ])
+    : null;
+
+// ─── Build the final JSON-LD payload (always include Org + WebSite) ───────
+const baseSchemas: Record<string, unknown>[] = [
+  getOrganizationSchema(locale),
+  getWebSiteSchema(locale),
+];
+if (breadcrumbSchema) baseSchemas.push(breadcrumbSchema as Record<string, unknown>);
+
+let pageSchemas: Record<string, unknown>[] = [];
+if (Array.isArray(schema)) pageSchemas = schema;
+else if (schema) pageSchemas = [schema];
+
+const allSchemas = [...baseSchemas, ...pageSchemas];
+---
+
+<!doctype html>
+<html lang={copy.langTag}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0e2f62" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"} />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Canonical & hreflang -->
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="zh-Hant" href={zhUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={zhUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Horsorion" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Horsorion — Hong Kong horse racing data" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Geo signals (HK target market) -->
+    <meta name="geo.region" content="HK" />
+    <meta name="geo.placename" content="Hong Kong" />
+
+    <link rel="icon" type="image/png" href="/images/brand/Horsorion_favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&family=Noto+Sans+TC:wght@300;500;700&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+
+    {allSchemas.map((s) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+
+    {
+      gaId ? (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+          <script is:inline define:vars={{ gaId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          </script>
+        </>
+      ) : null
+    }
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <Header copy={copy} currentPath={currentPath} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer copy={copy} />
+    <WhatsAppFab copy={copy} />
+    <LeadCaptureModal client:load copy={copy} />
+    <CookieBanner locale={locale} />
+    <script is:inline>
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const trigger = target.closest("[data-lead-intent]");
+        if (!trigger) return;
+        event.preventDefault();
+        const intent = trigger.getAttribute("data-lead-intent") ?? "request-info";
+        window.dispatchEvent(new CustomEvent("open-lead-modal", { detail: { intent } }));
+      });
+    </script>
+  </body>
+</html>

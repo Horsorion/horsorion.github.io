@@ -1,0 +1,163 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+
+const datasetHighlights = [
+  { label: "賽前資料", note: "Race info · 排位表 · 場地報告 · 預測配速 · 分析評論 · 等" },
+  { label: "賽後資料", note: "賽事結果 · 分段位置／時間／配速 · 派彩 · 彩池 · 練評 · 重播影片" },
+  { label: "馬匹一般資料", note: "馬匹資料 · 獸醫紀錄 · 晨操 · 馬匹新聞 · 試閘場次／結果／評語／影片" },
+  { label: "賠率數據", note: "獨贏 · 位置 · 連贏 · 連位 · 單 T · 孖寶 — 含終場及時間序列" },
+];
+
+const blogPlaceholders = [
+  {
+    title: "HKJC Data 101：公開數據 vs. 整理後數據的分別",
+    summary: "為何爬蟲得到的原始數據和經清洗的 dataset 有本質差距？從 encoding、缺漏、重複條目說起。",
+    icon: "lucide:book-open",
+  },
+  {
+    title: "Point-in-Time Pitfalls：為何你的回測虛高了？",
+    summary: "Look-ahead bias 如何偷偷進入你的 feature pipeline，以及 PIT store 的正確設計方式。",
+    icon: "lucide:clock",
+  },
+  {
+    title: "From CSV to Feature Store：Syndicate 的完整數據管道",
+    summary: "以 Polars + DuckDB 構建一個低成本、可重現的 HK 賽馬 feature store 的實踐分享。",
+    icon: "lucide:layers",
+  },
+];
+---
+
+<BaseLayout
+  title="香港賽馬數據資源中心 — 樣本 CSV、術語表、技術文章 | Horsorion"
+  description="Horsorion 資源中心：免費單日 race-day 樣本 CSV、香港賽馬術語表、覆蓋報告、分段時間方法論及客製化提案申請。"
+  locale="zh-Hant"
+  currentPath="/resources"
+>
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Resources</p>
+      <h1 class="mt-4 text-4xl font-bold">資源中心</h1>
+      <p class="mt-4 max-w-2xl text-white/80">免費下載 race-day 樣本 CSV，查閱完整數據集一覽，或索取為你團隊度身訂造的方案文件。</p>
+    </div>
+  </section>
+
+  <!-- Sample CSV + Custom proposal request -->
+  <section class="section-shell py-14">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <!-- Sample CSV (real download, no email gate) -->
+      <div class="surface-card">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+            <Icon name="lucide:table" class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h2 class="text-xl font-bold text-brand-navy">Race-Day 樣本 CSV</h2>
+        </div>
+        <p class="mt-3 text-sm leading-7 text-slate-600">
+          沙田全日 Past Performance 樣本（含 watermark）。可直接以 Python / R 載入驗證 schema 及欄位完整度。
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+          {[
+            "完整一日賽事（共 10 場、約 120 行）",
+            "27 個欄位，包含 sectional time、odds、騎師／練馬師",
+            "Watermark 標記不影響數值精度",
+          ].map((item) => (
+            <li class="flex items-start gap-2">
+              <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <a
+          href="/samples/horsorion-sample-2024-11-10.csv"
+          download
+          class="btn-primary mt-6 inline-flex"
+        >
+          <Icon name="lucide:download" class="mr-2 h-4 w-4" aria-hidden="true" />
+          直接下載（無需登入）
+        </a>
+      </div>
+
+      <!-- Custom proposal request -->
+      <div class="surface-card">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+            <Icon name="lucide:file-text" class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h2 class="text-xl font-bold text-brand-navy">客製化方案文件</h2>
+        </div>
+        <p class="mt-3 text-sm leading-7 text-slate-600">
+          直接傳送你關心的數據範圍、用例及預算考量，我們會以 PDF 形式準備一份適合你團隊的方案 — Coverage、交付方式、合作條款，一頁看清。
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+          {[
+            "24 小時內回覆，附上初步建議",
+            "簽署互保 NDA 後提供完整 schema 及估價",
+            "歡迎附上你現有的 pipeline / 範本以加快對焦",
+          ].map((item) => (
+            <li class="flex items-start gap-2">
+              <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <button type="button" class="btn-primary mt-6 inline-flex" data-lead-intent="request-info">
+          <Icon name="lucide:mail" class="mr-2 h-4 w-4" aria-hidden="true" />
+          索取方案資料
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Datasets reference -->
+  <section class="bg-white py-14">
+    <div class="section-shell">
+      <p class="eyebrow text-brand-navy">Datasets</p>
+      <h2 class="mt-3 text-3xl font-bold text-brand-navy">數據集一覽</h2>
+      <p class="mt-3 text-sm text-slate-600">四大類別，30+ 個數據產品，按賽季交付。</p>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+        {datasetHighlights.map((entry) => (
+          <li class="rounded-2xl border border-brand-navy/10 bg-brand-slate p-5">
+            <p class="font-mono text-xs uppercase tracking-[0.15em] text-brand-gold">{entry.label}</p>
+            <p class="mt-2 text-sm leading-7 text-slate-700">{entry.note}</p>
+          </li>
+        ))}
+      </ul>
+      <a href="/data" class="btn-outline mt-6 inline-flex">查看完整 Data Catalogue →</a>
+    </div>
+  </section>
+
+  <!-- Blog placeholders -->
+  <section class="section-shell py-14">
+    <p class="eyebrow text-brand-navy">Blog</p>
+    <h2 class="mt-3 text-3xl font-bold text-brand-navy">技術文章（即將推出）</h2>
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      {blogPlaceholders.map((post) => (
+        <article class="surface-card flex flex-col gap-4 opacity-80">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy/10 text-brand-navy">
+            <Icon name={post.icon} class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h3 class="text-base font-semibold text-brand-navy">{post.title}</h3>
+          <p class="flex-1 text-sm leading-7 text-slate-600">{post.summary}</p>
+          <p class="font-mono text-xs text-slate-400">Coming soon</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="bg-brand-navy py-14 text-white">
+    <div class="section-shell text-center">
+      <h2 class="text-2xl font-bold">準備好討論你的數據需求？</h2>
+      <p class="mt-3 text-sm text-white/80">索取 schema、樣本或方案，我們 24 小時內回覆。</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <button type="button" class="btn-primary" data-lead-intent="request-info">
+          索取方案資料
+        </button>
+        <a href="/contact" class="btn-secondary">
+          查看完整聯絡方式
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

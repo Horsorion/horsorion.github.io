@@ -1,0 +1,161 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+
+const datasetHighlights = [
+  { label: "Pre-Race",  note: "Race info · Racecards · Race readings · Predicted pacing · Analyst comments · etc." },
+  { label: "Post-Race", note: "Results · Sectional position / time / pacing · Dividends · Pool sizes · Comments · Replay video" },
+  { label: "General",   note: "Horse info · Veterinary · Trackwork · News · Barrier trials (info / results / comments / video)" },
+  { label: "Odds",      note: "Win · Place · Quinella · Quinella Place · Trio · Double — both final and time-series" },
+];
+
+const blogPlaceholders = [
+  {
+    title: "HKJC Data 101: Raw scrapes vs. cleaned datasets",
+    summary: "Why scraped data and properly cleaned datasets are fundamentally different — encoding, gaps, duplicates.",
+    icon: "lucide:book-open",
+  },
+  {
+    title: "Point-in-Time Pitfalls: Why your backtest is inflated",
+    summary: "How look-ahead bias sneaks into feature pipelines and how to design a proper PIT store.",
+    icon: "lucide:clock",
+  },
+  {
+    title: "From CSV to Feature Store: A syndicate's full data pipeline",
+    summary: "Building a low-cost, reproducible HK racing feature store with Polars + DuckDB.",
+    icon: "lucide:layers",
+  },
+];
+---
+
+<BaseLayout
+  title="Hong Kong Horse Racing Data Resources — Sample CSV, Glossary, Methodology | Horsorion"
+  description="Horsorion resource hub: free single-day race-day sample CSV, Hong Kong racing glossary, coverage report, sectional timing methodology, and tailored proposal requests."
+  locale="en"
+  currentPath="/en/resources"
+>
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Resources</p>
+      <h1 class="mt-4 text-4xl font-bold">Resources</h1>
+      <p class="mt-4 max-w-2xl text-white/80">Free race-day sample CSV, full dataset reference, and a tailored proposal request for your team.</p>
+    </div>
+  </section>
+
+  <section class="section-shell py-14">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <!-- Sample CSV (real download, no email gate) -->
+      <div class="surface-card">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+            <Icon name="lucide:table" class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h2 class="text-xl font-bold text-brand-navy">Race-day sample CSV</h2>
+        </div>
+        <p class="mt-3 text-sm leading-7 text-slate-600">
+          Full-day Past Performance sample (watermarked). Load directly in Python or R to verify schema and field
+          completeness.
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+          {[
+            "Complete race day (10 races, ~120 rows)",
+            "27 columns including sectional time, odds, jockey / trainer",
+            "Watermark does not affect numerical precision",
+          ].map((item) => (
+            <li class="flex items-start gap-2">
+              <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <a
+          href="/samples/horsorion-sample-2024-11-10.csv"
+          download
+          class="btn-primary mt-6 inline-flex"
+        >
+          <Icon name="lucide:download" class="mr-2 h-4 w-4" aria-hidden="true" />
+          Direct download (no signup)
+        </a>
+      </div>
+
+      <!-- Custom proposal request -->
+      <div class="surface-card">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+            <Icon name="lucide:file-text" class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h2 class="text-xl font-bold text-brand-navy">Tailored proposal document</h2>
+        </div>
+        <p class="mt-3 text-sm leading-7 text-slate-600">
+          Send us your data scope, use case, and budget context — we prepare a one-page PDF proposal covering
+          coverage, delivery, and engagement terms tailored to your team.
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+          {[
+            "24-hour response with initial recommendations",
+            "Full schema and pricing released after mutual NDA",
+            "Attach your existing pipeline or templates to accelerate alignment",
+          ].map((item) => (
+            <li class="flex items-start gap-2">
+              <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <button type="button" class="btn-primary mt-6 inline-flex" data-lead-intent="request-info">
+          <Icon name="lucide:mail" class="mr-2 h-4 w-4" aria-hidden="true" />
+          Request proposal
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-14">
+    <div class="section-shell">
+      <p class="eyebrow text-brand-navy">Datasets</p>
+      <h2 class="mt-3 text-3xl font-bold text-brand-navy">Dataset reference</h2>
+      <p class="mt-3 text-sm text-slate-600">Four categories, 30+ products, delivered per season.</p>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+        {datasetHighlights.map((entry) => (
+          <li class="rounded-2xl border border-brand-navy/10 bg-brand-slate p-5">
+            <p class="font-mono text-xs uppercase tracking-[0.15em] text-brand-gold">{entry.label}</p>
+            <p class="mt-2 text-sm leading-7 text-slate-700">{entry.note}</p>
+          </li>
+        ))}
+      </ul>
+      <a href="/en/data" class="btn-outline mt-6 inline-flex">View full data catalogue →</a>
+    </div>
+  </section>
+
+  <section class="section-shell py-14">
+    <p class="eyebrow text-brand-navy">Blog</p>
+    <h2 class="mt-3 text-3xl font-bold text-brand-navy">Technical articles (coming soon)</h2>
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      {blogPlaceholders.map((post) => (
+        <article class="surface-card flex flex-col gap-4 opacity-80">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy/10 text-brand-navy">
+            <Icon name={post.icon} class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h3 class="text-base font-semibold text-brand-navy">{post.title}</h3>
+          <p class="flex-1 text-sm leading-7 text-slate-600">{post.summary}</p>
+          <p class="font-mono text-xs text-slate-400">Coming soon</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-navy py-14 text-white">
+    <div class="section-shell text-center">
+      <h2 class="text-2xl font-bold">Ready to talk about your data needs?</h2>
+      <p class="mt-3 text-sm text-white/80">Request schemas, samples, or a tailored proposal — we reply within 24 hours.</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <button type="button" class="btn-primary" data-lead-intent="request-info">
+          Request information
+        </button>
+        <a href="/en/contact" class="btn-secondary">
+          See full contact details
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

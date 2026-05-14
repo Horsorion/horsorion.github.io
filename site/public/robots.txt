@@ -1,0 +1,105 @@
+# Horsorion — Hong Kong horse racing data infrastructure
+# https://www.horsorion.com
+
+# ─── General rule (default-allow, sample dir disallowed) ─────────────────
+User-agent: *
+Allow: /
+Disallow: /samples/
+Disallow: /thank-you/
+Disallow: /404
+Disallow: /api/
+
+# ─── AI / LLM crawlers (explicitly allowed for citation & training) ──────
+# Be explicit: many sites accidentally block these via wildcard rules.
+# We WANT to be cited by ChatGPT, Claude, Perplexity, Gemini, etc.
+
+User-agent: GPTBot
+Allow: /
+Disallow: /samples/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /samples/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /samples/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /samples/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /samples/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /samples/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /samples/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /samples/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /samples/
+
+User-agent: GoogleOther
+Allow: /
+Disallow: /samples/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /samples/
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /samples/
+
+User-agent: Bytespider
+Allow: /
+Disallow: /samples/
+
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /samples/
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /samples/
+
+User-agent: cohere-training-data-crawler
+Allow: /
+Disallow: /samples/
+
+User-agent: Diffbot
+Allow: /
+Disallow: /samples/
+
+User-agent: DuckAssistBot
+Allow: /
+Disallow: /samples/
+
+User-agent: MistralAI-User
+Allow: /
+Disallow: /samples/
+
+User-agent: YouBot
+Allow: /
+Disallow: /samples/
+
+User-agent: PetalBot
+Allow: /
+Disallow: /samples/
+
+# ─── Sitemaps ────────────────────────────────────────────────────────────
+Sitemap: https://www.horsorion.com/sitemap-index.xml
+
+# ─── LLM-friendly index ──────────────────────────────────────────────────
+# https://llmstxt.org — machine-readable summary of the site
+# Read /llms.txt for a curated list of canonical URLs.

@@ -1,0 +1,45 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0e2f62"/>
+  <!-- Gold accent bar -->
+  <rect x="0" y="0" width="8" height="630" fill="#c9a227"/>
+  <!-- Radial glow -->
+  <radialGradient id="g1" cx="75%" cy="40%" r="50%">
+    <stop offset="0%" stop-color="#c9a227" stop-opacity="0.18"/>
+    <stop offset="100%" stop-color="#0e2f62" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#g1)"/>
+
+  <!-- Site name -->
+  <text x="80" y="120" font-size="72" font-weight="800" fill="#ffffff" letter-spacing="-2">Horsorion</text>
+
+  <!-- Tagline -->
+  <text x="80" y="185" font-size="32" fill="#c9a227" font-weight="600">HK Racing Data for Syndicates</text>
+
+  <!-- Divider -->
+  <line x1="80" y1="220" x2="600" y2="220" stroke="#c9a227" stroke-width="2" stroke-opacity="0.5"/>
+
+  <!-- Description -->
+  <text x="80" y="280" font-size="24" fill="rgba(255,255,255,0.8)">40+ years · Sha Tin + Happy Valley</text>
+  <text x="80" y="320" font-size="24" fill="rgba(255,255,255,0.8)">T+0 updates · B2B Only · NDA available</text>
+
+  <!-- Stats -->
+  <text x="80" y="420" font-size="18" fill="rgba(255,255,255,0.5)">Past Performance · Sectionals · Tote Pools · Vet Records</text>
+  <text x="80" y="450" font-size="18" fill="rgba(255,255,255,0.5)">Python / R / API · CSV · Parquet</text>
+
+  <!-- URL -->
+  <text x="80" y="560" font-size="22" fill="#c9a227">www.horsorion.com</text>
+
+  <!-- Right graphic: simple data grid illustration -->
+  <g opacity="0.15">
+    <rect x="850" y="80" width="280" height="20" rx="4" fill="#c9a227"/>
+    <rect x="850" y="115" width="220" height="20" rx="4" fill="white"/>
+    <rect x="850" y="150" width="260" height="20" rx="4" fill="white"/>
+    <rect x="850" y="185" width="200" height="20" rx="4" fill="white"/>
+    <rect x="850" y="220" width="240" height="20" rx="4" fill="white"/>
+    <rect x="850" y="255" width="210" height="20" rx="4" fill="white"/>
+    <rect x="850" y="290" width="250" height="20" rx="4" fill="white"/>
+    <rect x="850" y="325" width="190" height="20" rx="4" fill="white"/>
+    <rect x="850" y="360" width="230" height="20" rx="4" fill="white"/>
+  </g>
+</svg>

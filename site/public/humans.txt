@@ -1,0 +1,16 @@
+/* TEAM */
+Company: Horsorion
+Role: Hong Kong horse racing data infrastructure for syndicates and quant teams
+Location: Hong Kong SAR
+Contact: horsorion [at] gmail.com
+
+/* SITE */
+Standards: HTML5, JSON-LD (Schema.org), Hreflang, llms.txt
+Components: Astro 4, TypeScript, Tailwind CSS, React (islands), Framer Motion
+Hosting: GitHub Pages (static)
+Coverage: Hong Kong horse racing data, 1980 – Today
+Languages: zh-Hant-HK, en
+
+/* THANKS */
+HKJC for setting the gold standard of Hong Kong racing operations.
+Open Source community: Astro, React, Tailwind, Lucide, Framer Motion.

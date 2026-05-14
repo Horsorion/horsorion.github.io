@@ -1,0 +1,51 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ContactLeadForm from "@/components/ContactLeadForm";
+import { getContactContent } from "@/lib/content";
+import { getCopy } from "@/lib/i18n";
+import { resolveLeadIntent } from "@/lib/lead";
+
+const locale = "zh-Hant";
+const content = getContactContent(locale);
+const copy = getCopy(locale);
+const initialIntent = resolveLeadIntent(Astro.url.searchParams.get("intent"));
+---
+
+<BaseLayout
+  title="聯絡 Horsorion — WhatsApp / Email / Telegram，1 個工作天內回覆"
+  description="聯絡 Horsorion 香港賽馬數據團隊。WhatsApp +852 9600 5554、Telegram @Horsorion、Email horsorion@gmail.com，1 個工作天內回覆。提供 NDA、樣本數據、客製化提案。"
+  locale={locale}
+  currentPath="/contact"
+>
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell text-left">
+      <p class="eyebrow">Contact</p>
+      <h1 class="mt-4 text-4xl font-bold">{content.heroTitle}</h1>
+      <p class="mt-4 max-w-3xl text-lg text-white/80">{content.heroSubtitle}</p>
+    </div>
+  </section>
+
+  <section class="section-shell grid gap-10 py-16 lg:grid-cols-[1fr_1.1fr]">
+    <div>
+      <h2 class="text-2xl font-bold text-brand-navy">{content.channelsTitle}</h2>
+      <ul class="mt-6 space-y-4 text-sm text-slate-700">
+        <li class="rounded-2xl bg-white p-4 shadow-card">
+          <a href="https://wa.me/85296005554" target="_blank" rel="noopener noreferrer">
+            WhatsApp: {copy.contact.whatsapp}
+          </a>
+        </li>
+        <li class="rounded-2xl bg-white p-4 shadow-card">
+          <a href="https://telegram.me/Horsorion" target="_blank" rel="noopener noreferrer">
+            Telegram: {copy.contact.telegram}
+          </a>
+        </li>
+        <li class="rounded-2xl bg-white p-4 shadow-card">
+          <a href={`mailto:${copy.contact.email}`}>{copy.contact.email}</a>
+        </li>
+      </ul>
+      <p class="mt-6 text-sm text-slate-600">{copy.contact.officeHours}</p>
+      <p class="mt-2 text-sm text-slate-600">{copy.contact.responseTime}</p>
+    </div>
+    <ContactLeadForm client:load copy={copy} initialIntent={initialIntent} />
+  </section>
+</BaseLayout>

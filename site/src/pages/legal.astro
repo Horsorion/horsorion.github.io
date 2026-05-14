@@ -1,0 +1,114 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<BaseLayout
+  title="法律及 NDA — 數據使用條款（香港） | Horsorion"
+  description="Horsorion 法律資訊：互簽 NDA 流程、數據使用條款摘要、責任限制及香港特別行政區法律管轄說明。所有商務洽談以 NDA 為前提。"
+  locale="zh-Hant"
+  currentPath="/legal"
+>
+  <section class="bg-brand-navy py-14 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Legal</p>
+      <h1 class="mt-4 text-3xl font-bold">法律文件 & NDA</h1>
+      <p class="mt-3 max-w-2xl text-white/80">
+        所有商業合作均以保密協議 (NDA) 為前提。下方說明合作條款摘要 — 詳細條文於正式洽談時提供。
+      </p>
+    </div>
+  </section>
+
+  <section class="section-shell py-14">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <!-- NDA — contact-gated, no download -->
+      <div class="surface-card">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+            <Icon name="lucide:file-lock" class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h2 class="text-xl font-bold text-brand-navy">保密協議 (NDA)</h2>
+        </div>
+        <p class="mt-3 text-sm leading-7 text-slate-600">
+          進入商業洽談階段時，雙方先簽署互保 NDA — 數據範本、定價、客製化方案才會釋出。條款會根據你的合規需求調整。
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+          {[
+            "涵蓋數據保密、禁止再分發及用途限制",
+            "適用香港法律，香港法院管轄",
+            "可按你公司既有 NDA 範本互簽，亦可使用我們的版本",
+            "簽署後 24 小時內提供完整數據樣本及方案文件",
+          ].map((item) => (
+            <li class="flex items-start gap-2">
+              <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button type="button" class="btn-primary" data-lead-intent="request-info">
+            <Icon name="lucide:mail" class="mr-2 h-4 w-4" aria-hidden="true" />
+            電郵索取 NDA
+          </button>
+          <a
+            href="https://wa.me/85296005554?text=Hi%20Horsorion%2C%20I%27d%20like%20to%20discuss%20NDA%20terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-outline"
+          >
+            <Icon name="lucide:message-circle" class="mr-2 h-4 w-4" aria-hidden="true" />
+            WhatsApp 直接傾
+          </a>
+        </div>
+      </div>
+
+      <!-- Usage terms summary -->
+      <div class="surface-card">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+            <Icon name="lucide:scroll-text" class="h-5 w-5" aria-hidden="true" />
+          </div>
+          <h2 class="text-xl font-bold text-brand-navy">數據使用條款摘要</h2>
+        </div>
+        <div class="mt-4 space-y-4 text-sm leading-7 text-slate-600">
+          <div>
+            <p class="font-semibold text-brand-navy">許可用途</p>
+            <p>數據僅限於已簽署合約的用途，包括：內部建模、回測、研究及特定商業應用。</p>
+          </div>
+          <div>
+            <p class="font-semibold text-brand-navy">禁止用途</p>
+            <p>未經書面授權，不得再分發、出售、公開發佈或轉移予第三方。</p>
+          </div>
+          <div>
+            <p class="font-semibold text-brand-navy">Watermark 政策</p>
+            <p>樣本數據含 watermark 標記，不得移除。商業數據交付以合約為準。</p>
+          </div>
+          <div>
+            <p class="font-semibold text-brand-navy">法律管轄</p>
+            <p>所有合約適用香港特別行政區法律，由香港法院管轄。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Company info -->
+    <div class="mt-8 rounded-2xl border border-brand-navy/10 bg-brand-slate p-6">
+      <h2 class="text-xl font-bold text-brand-navy">公司基本資料</h2>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+        {[
+          { label: "公司名稱", value: "Horsorion" },
+          { label: "法律地位", value: "香港商業登記（Hong Kong Business Registration）" },
+          { label: "成立年份", value: "2015" },
+          { label: "辦公地點", value: "香港特別行政區（Hong Kong SAR）" },
+          { label: "電郵", value: "horsorion@gmail.com" },
+          { label: "法律文件查詢", value: "請以電郵聯絡，標題：Legal Enquiry" },
+        ].map((item) => (
+          <div class="rounded-xl bg-white px-4 py-3">
+            <p class="text-xs text-slate-500">{item.label}</p>
+            <p class="font-medium text-brand-navy">{item.value}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

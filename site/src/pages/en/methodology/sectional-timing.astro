@@ -1,0 +1,83 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import { getTechArticleSchema } from "@/lib/schema";
+
+const locale = "en";
+const currentPath = "/en/methodology/sectional-timing";
+const url = `https://www.horsorion.com${currentPath}`;
+const title = "Hong Kong Horse Racing Sectional Timing Methodology | Horsorion";
+const description =
+  "How Horsorion records, cleans, and validates Hong Kong horse racing sectional times — measurement intervals, coordinate system, going allowance, cross-venue comparison, and the exact schema delivered.";
+
+const schema = getTechArticleSchema(locale, {
+  headline: "Horsorion Sectional Timing Methodology",
+  description: "Complete spec of how Horsorion measures and validates 200m/400m/600m sectional times in Hong Kong racing, with delivery schema.",
+  url,
+  about: ["Sectional time", "Hong Kong horse racing", "Race timing methodology"],
+});
+---
+
+<BaseLayout title={title} description={description} locale={locale} currentPath={currentPath} schema={schema}>
+  <section class="bg-brand-mist py-20">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Methodology · Sectional Timing</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold text-brand-navy md:text-5xl">
+        Sectional timing methodology
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-slate-600">
+        Sectional times are the foundation of Hong Kong pricing and pace research.
+        This page documents Horsorion's measurement standard, cleaning pipeline,
+        going-allowance correction, and the exact schema delivered to clients.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="section-shell prose prose-slate mx-auto max-w-3xl">
+      <h2>1. Measurement intervals</h2>
+      <p>Sha Tin turf races are recorded at <strong>every 200 m</strong>; the all-weather track at <strong>every 400 m</strong>; Happy Valley at <strong>every 200 m</strong>.</p>
+
+      <h2>2. Coordinate system</h2>
+      <p>Sectionals are computed <strong>backward from the finish line</strong> (Last 600 m, Last 400 m, Last 200 m), with forward measurements (First 800 m, First 600 m) reconstructed for symmetry. All values are recorded to 0.01 s precision.</p>
+
+      <h2>3. Pipeline</h2>
+      <ol>
+        <li>Pull official sectionals from HKJC's public timing system.</li>
+        <li>Cross-check against RFID / camera-tracked positions; flag clock drift.</li>
+        <li>Run a second QC within 12 hours post-race against finish times and pass-through positions.</li>
+        <li>Anomalies are flagged via <code>quality_flag</code> so clients can choose to include or exclude them.</li>
+      </ol>
+
+      <h2>4. Going allowance</h2>
+      <p>For each meeting Horsorion computes a <strong>going allowance</strong> grouped by distance × surface × going, regressing toward the long-run mean. The output is an additive correction (seconds) clients can apply directly.</p>
+
+      <h2>5. Cross-venue comparison</h2>
+      <p>Sha Tin turf, Sha Tin all-weather, and Happy Valley have materially different baselines, turn geometry, and surface friction. Horsorion does <strong>not</strong> merge raw seconds across venues; instead we publish a <strong>Speed Rating</strong> derivative for like-for-like comparison.</p>
+
+      <h2>6. Delivery schema</h2>
+      <TerminalCodeBlock caption="schema.sectional">
+        <pre><code>{`race_id                varchar  -- "ST-241110-08"
+horse_id               int      -- canonical horse id
+horse_no               int      -- saddlecloth number
+sec_first_800m         numeric  -- seconds from gate to the 800m mark
+sec_first_600m         numeric
+sec_last_600m          numeric
+sec_last_400m          numeric
+sec_last_200m          numeric
+position_at_800m       int      -- in-field position at that point
+position_at_600m       int
+position_at_400m       int
+going_allowance        numeric  -- additive correction (seconds)
+quality_flag           text     -- "OK" / "TIMER_DRIFT" / "MISSING_RFID"`}</code></pre>
+      </TerminalCodeBlock>
+    </div>
+  </section>
+
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="Sectional timing methodology" url={url} />
+    </div>
+  </section>
+</BaseLayout>

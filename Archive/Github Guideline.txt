@@ -1,0 +1,25 @@
+1. open command prompt
+2. go to the folder path
+2.1 G:
+2.2 cd "G:/My Drive/LSC/Data Science/Project/Horsorion/Website Development/Working"
+
+###3. git init (no need to run this la) // rm -f .git/index.lock
+4. git add .
+5. git commit -m "WebPage"
+# 6. git remote add origin https://github.com/Horsorion/horsorion.github.io.git
+
+
+6.1 git remote set-url origin https://github.com/Horsorion/horsorion.github.io.git
+6.2 git remote -v
+
+#7. git config --global user.name "horsorion"
+#8. git config --global user.email horsorion@gmail.com
+9. git config --list
+10. git push origin master
+11. git config --local credential.helper ""
+12. git push origin master
+#13. git push origin master --force
+
+horsorion
+horsorion@gmail.com
+g31289596

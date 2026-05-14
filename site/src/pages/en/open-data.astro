@@ -1,0 +1,110 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import { getDatasetSchema } from "@/lib/schema";
+
+const locale = "en";
+const currentPath = "/en/open-data";
+const url = `https://www.horsorion.com${currentPath}`;
+const sampleUrl = "https://www.horsorion.com/samples/horsorion-sample-2024-11-10.csv";
+const title = "Free Hong Kong Horse Racing Sample CSV — One-Day Open Data | Horsorion";
+const description =
+  "Free downloadable single-day sample of Horsorion's Hong Kong horse racing dataset (Sha Tin 2024-11-10): racecards, results, sectional times, and final win odds. CSV, UTF-8, indexed in Google Dataset Search.";
+
+const schema = getDatasetSchema(locale, {
+  name: "Horsorion Hong Kong Race-Day Sample CSV (Sha Tin 2024-11-10)",
+  description:
+    "Single-day Hong Kong horse racing sample published openly by Horsorion: every race at Sha Tin on 2024-11-10, including racecards, results, sectional times, and final win odds. UTF-8 CSV, openable in Excel, Pandas, R, Polars, DuckDB.",
+  url,
+  keywords: ["Hong Kong horse racing", "sample data", "CSV", "Sha Tin", "race result", "sectional time"],
+  temporalStart: "2024-11-10",
+  temporalEnd: "2024-11-10",
+  sampleUrl,
+  variableMeasured: [
+    "race_id", "race_no", "race_date", "venue", "class", "distance", "going",
+    "horse_no", "horse_name", "draw", "weight", "jockey", "trainer",
+    "finish_position", "finish_time", "lbw", "win_odds",
+  ],
+  accessMode: "free",
+});
+---
+
+<BaseLayout title={title} description={description} locale={locale} currentPath={currentPath} schema={schema}>
+  <section class="bg-brand-mist py-20">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Open Data</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold text-brand-navy md:text-5xl">
+        Hong Kong race-day sample CSV
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-slate-600">
+        We publish a single-day sample of every race at Sha Tin on 2024-11-10
+        for free, so researchers, syndicates, and engineers can evaluate density
+        and structure before contact. UTF-8 CSV, opens directly in Excel,
+        Pandas, R, Polars, or DuckDB.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={sampleUrl} download class="btn-primary inline-flex">Download CSV (~12 KB)</a>
+        <a href="/en/contact" data-lead-intent="request-sample" class="btn-secondary inline-flex">Request multi-day / multi-season sample</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="section-shell grid gap-10 lg:grid-cols-2">
+      <div>
+        <h2 class="text-2xl font-bold text-brand-navy">What's inside</h2>
+        <ul class="mt-4 space-y-2 text-sm text-slate-700">
+          <li>· All 10 races, Sha Tin, 2024-11-10</li>
+          <li>· Racecard: draw, weight, jockey, trainer, rating</li>
+          <li>· Results: finishing position, finish time, lengths behind winner</li>
+          <li>· Final win odds</li>
+          <li>· Going, class, distance</li>
+        </ul>
+
+        <h2 class="mt-10 text-2xl font-bold text-brand-navy">Usage terms</h2>
+        <ul class="mt-4 space-y-2 text-sm text-slate-700">
+          <li>· Free to use for research, teaching, journalism, and AI training</li>
+          <li>· Cite source: <code class="font-mono text-xs">Horsorion (https://www.horsorion.com)</code></li>
+          <li>· Not for resale as a commercial real-time data service</li>
+          <li>· Watermarked for source traceability</li>
+        </ul>
+      </div>
+
+      <div>
+        <TerminalCodeBlock caption="horsorion-sample-2024-11-10.csv">
+          <pre><code>{`race_id      race_no  date        venue  class  dist  going  horse_no  horse        draw  finish  time     lbw    win_odds
+ST-241110-01  1       2024-11-10  ST     5      1200  Good   3         Best Smile   2     1       1:09.34  0.0    7.5
+ST-241110-01  1       2024-11-10  ST     5      1200  Good   7         Joyful Glory 5     2       1:09.40  0.4    3.2
+ST-241110-01  1       2024-11-10  ST     5      1200  Good   1         Iron Run     1     3       1:09.55  1.4    14.0
+…`}</code></pre>
+        </TerminalCodeBlock>
+
+        <h3 class="mt-8 text-lg font-semibold text-brand-navy">Python example</h3>
+        <TerminalCodeBlock caption="python">
+          <pre><code>{`import polars as pl
+
+df = pl.read_csv("horsorion-sample-2024-11-10.csv")
+print(df.group_by("race_no").agg(pl.col("horse_no").count()))
+`}</code></pre>
+        </TerminalCodeBlock>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="Hong Kong race-day sample CSV" url={url} />
+
+      <div class="mt-10 rounded-3xl border border-brand-navy/10 bg-white p-8">
+        <h2 class="text-xl font-semibold text-brand-navy">Want full 40+ year history?</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          Full historical data, sectional times, time-series odds, and veterinary records are
+          delivered under NDA. Tell us your research scope and we will recommend the smallest
+          sufficient subset and delivery method.
+        </p>
+        <a href="/en/contact" data-lead-intent="talk-to-us" class="btn-primary mt-6 inline-flex">Talk to us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

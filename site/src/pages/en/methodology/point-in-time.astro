@@ -1,0 +1,81 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import { getTechArticleSchema } from "@/lib/schema";
+
+const locale = "en";
+const currentPath = "/en/methodology/point-in-time";
+const url = `https://www.horsorion.com${currentPath}`;
+const title = "Point-in-Time Data Storage — Avoiding Look-Ahead Bias | Horsorion";
+const description =
+  "How Horsorion stores Hong Kong racecards, rating changes, and odds snapshots under bi-temporal point-in-time (PIT) discipline so back-tests only see what was publicly visible at the time.";
+
+const schema = getTechArticleSchema(locale, {
+  headline: "Point-in-Time Data Storage Methodology",
+  description: "How Horsorion uses bi-temporal storage to deliver leak-free historical snapshots for back-testing.",
+  url,
+  about: ["Point-in-time data", "Look-ahead bias", "Back-testing", "Horse racing"],
+});
+---
+
+<BaseLayout title={title} description={description} locale={locale} currentPath={currentPath} schema={schema}>
+  <section class="bg-brand-mist py-20">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Methodology · Point-in-Time</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold text-brand-navy md:text-5xl">
+        Point-in-Time data storage
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-slate-600">
+        Every racecard field, rating change, and odds snapshot is stored under
+        <strong>point-in-time (PIT)</strong> discipline. When researchers replay
+        historical models, they only see what was publicly visible at that
+        timestamp — eliminating look-ahead bias.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="section-shell prose prose-slate mx-auto max-w-3xl">
+      <h2>Why it matters</h2>
+      <p>Many race-card fields (rating, draw, jockey, weight, scratchings) are revised multiple times before a race. Back-testing on the final cleaned version implicitly assumes the model could see those revisions in advance — every result will be optimistically biased.</p>
+
+      <h2>Storage model</h2>
+      <p>Each mutable table (racecard, ratings, odds_snapshots, scratchings) is stored <strong>bi-temporally</strong>:</p>
+      <ul>
+        <li><code>valid_from</code> / <code>valid_to</code> — the period during which the recorded fact was true.</li>
+        <li><code>recorded_at</code> — when Horsorion ingested the row (system clock).</li>
+      </ul>
+      <p>Asking "what did the racecard look like 5 minutes before the off?" becomes:</p>
+
+      <TerminalCodeBlock caption="sql">
+        <pre><code>{`SELECT *
+FROM racecard
+WHERE race_id = 'ST-241110-08'
+  AND valid_from <= jump_time - INTERVAL '5 minutes'
+  AND (valid_to IS NULL OR valid_to > jump_time - INTERVAL '5 minutes')
+  AND recorded_at <= jump_time - INTERVAL '5 minutes'
+ORDER BY horse_no;`}</code></pre>
+      </TerminalCodeBlock>
+
+      <h2>Change tracking</h2>
+      <p>Every racecard, rating, or odds revision is written as a new row — Horsorion never overwrites. Clients can reconstruct any past moment's snapshot.</p>
+
+      <h2>Odds-snapshot cadence</h2>
+      <p>Time-series odds are sampled both at a <strong>fixed interval (every 10 seconds)</strong> and on <strong>event triggers (every market move)</strong>, depending on the chosen delivery profile.</p>
+
+      <h2>Use cases</h2>
+      <ul>
+        <li>Historical model back-tests requiring strict leakage prevention.</li>
+        <li>Market microstructure research on tote pools.</li>
+        <li>Machine-learning feature engineering with reproducible snapshots.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="Point-in-Time data storage methodology" url={url} />
+    </div>
+  </section>
+</BaseLayout>

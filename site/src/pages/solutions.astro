@@ -1,0 +1,97 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+import { getSolutionsContent } from "@/lib/content";
+
+const locale = "zh-Hant";
+const content = getSolutionsContent(locale);
+
+const personaIcons = ["lucide:users", "lucide:line-chart", "lucide:activity", "lucide:cpu"];
+const personaOutcomes = [
+  "「10 人 syndicate 團隊，3 週內完成 feature pipeline 部署，賽季選馬勝率明顯提升。」",
+  "「莊家市場制定組，以乾淨彩池 + 排位數據穩定報價流程，對賬時間減半。」",
+  "「賽日分析團隊，以獸醫 + 場地數據完成賽前到賽後分析閉環，產出更具洞察。」",
+  "「AI 產品團隊以 Horsorion 為穩定資料層，將實驗性 notebook 升級為 SaaS 產品。」",
+];
+const personaCtaIntent = ["talk-to-us", "request-sample", "request-dictionary", "talk-to-us"];
+const personaCtaLabel = ["與同類團隊聯絡", "索取樣本數據", "索取數據字典", "洽談自訂方案"];
+---
+
+<BaseLayout
+  title="Syndicate / 量化團隊 / 做市組 解決方案 — 香港賽馬數據 | Horsorion"
+  description="Horsorion 為四類專業團隊提供香港賽馬數據解決方案：(1) 量化 ML Syndicate (2) 莊家做市組 (3) 賽日分析團隊 (4) AI / SaaS 產品團隊。完整覆蓋、point-in-time 儲存、彈性交付。"
+  locale={locale}
+  currentPath="/solutions"
+>
+  <!-- Hero -->
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Solutions</p>
+      <h1 class="mt-4 text-4xl font-bold">{content.heroTitle}</h1>
+      <p class="mt-4 max-w-3xl text-white/80">{content.heroSubtitle}</p>
+    </div>
+  </section>
+
+  <!-- Persona deck cards -->
+  <section class="section-shell py-14">
+    <div class="grid gap-10">
+      {content.personas.map((persona, i) => (
+        <article class="surface-card overflow-hidden">
+          <div class="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-start">
+            <!-- Left: narrative -->
+            <div>
+              <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold">
+                  <Icon name={personaIcons[i] ?? "lucide:users"} class="h-5 w-5" aria-hidden="true" />
+                </div>
+                <h2 class="text-2xl font-bold text-brand-navy">{persona.title}</h2>
+              </div>
+              <p class="mt-4 text-sm leading-8 text-slate-600">{persona.outcome}</p>
+              <!-- Anonymized outcome quote -->
+              <blockquote class="mt-5 rounded-xl border-l-4 border-brand-gold bg-brand-slate px-5 py-4 text-sm italic text-slate-700">
+                {personaOutcomes[i]}
+              </blockquote>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  class="btn-primary"
+                  data-lead-intent={personaCtaIntent[i]}
+                >
+                  {personaCtaLabel[i]}
+                </button>
+              </div>
+            </div>
+            <!-- Right: datasets + delivery -->
+            <div class="rounded-2xl bg-brand-slate p-5">
+              <h3 class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Datasets</h3>
+              <ul class="space-y-2 text-sm">
+                {persona.datasets.map((ds) => (
+                  <li class="flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm">
+                    <Icon name="lucide:check" class="h-3.5 w-3.5 shrink-0 text-emerald-500" aria-hidden="true" />
+                    {ds}
+                  </li>
+                ))}
+              </ul>
+              <h3 class="mb-2 mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Delivery</h3>
+              <p class="text-sm text-slate-700">{persona.delivery}</p>
+              <h3 class="mb-2 mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Signals</h3>
+              <p class="text-sm text-slate-700">{persona.signals}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA strip -->
+  <section class="bg-brand-navy py-14 text-white">
+    <div class="section-shell text-center">
+      <h2 class="text-2xl font-bold">找不到你的使用場景？</h2>
+      <p class="mt-3 text-sm text-white/80">我們會按你的數據範圍、用例及交付方式量身配置 — 從單一 dataset 至完整 pipeline 均可。</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-4">
+        <button type="button" class="btn-primary" data-lead-intent="talk-to-us">直接聯絡洽談</button>
+        <a href="/data" class="btn-secondary">查看完整 Data Catalogue</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,129 @@
+---
+import type { SiteCopy } from "@/lib/i18n";
+
+interface Props {
+  copy: SiteCopy;
+}
+
+const { copy } = Astro.props;
+const year = new Date().getFullYear();
+const isEn = copy.locale === "en";
+const prefix = isEn ? "/en" : "";
+
+const quickLinks = isEn
+  ? [
+      { href: `${prefix}/data`,           label: "Data Catalogue" },
+      { href: `${prefix}/coverage`,       label: "Coverage" },
+      { href: `${prefix}/open-data`,      label: "Open Data Sample" },
+      { href: `${prefix}/glossary`,       label: "Racing Glossary" },
+      { href: `${prefix}/solutions`,      label: "Solutions" },
+      { href: `${prefix}/resources`,      label: "Resources" },
+      { href: `${prefix}/legal`,          label: "Legal & NDA" },
+      { href: `${prefix}/contact`,        label: "Contact" },
+    ]
+  : [
+      { href: `${prefix}/data`,           label: "數據目錄" },
+      { href: `${prefix}/coverage`,       label: "覆蓋範圍" },
+      { href: `${prefix}/open-data`,      label: "開放數據樣本" },
+      { href: `${prefix}/glossary`,       label: "賽馬術語表" },
+      { href: `${prefix}/solutions`,      label: "解決方案" },
+      { href: `${prefix}/resources`,      label: "資源中心" },
+      { href: `${prefix}/legal`,          label: "法律及 NDA" },
+      { href: `${prefix}/contact`,        label: "聯絡我們" },
+    ];
+
+const referenceLinks = isEn
+  ? [
+      { href: `${prefix}/courses/sha-tin`,                      label: "Sha Tin Racecourse" },
+      { href: `${prefix}/courses/happy-valley`,                 label: "Happy Valley Racecourse" },
+      { href: `${prefix}/methodology/sectional-timing`,         label: "Sectional Timing Methodology" },
+      { href: `${prefix}/methodology/point-in-time`,            label: "Point-in-Time Data" },
+    ]
+  : [
+      { href: `${prefix}/courses/sha-tin`,                      label: "沙田馬場數據" },
+      { href: `${prefix}/courses/happy-valley`,                 label: "跑馬地馬場數據" },
+      { href: `${prefix}/methodology/sectional-timing`,         label: "分段時間方法論" },
+      { href: `${prefix}/methodology/point-in-time`,            label: "Point-in-Time 數據" },
+    ];
+const referenceHeading = isEn ? "Reference" : "參考資料";
+
+const liveIndicatorLabel = isEn
+  ? "Race-day updates · 40+ years of history"
+  : "賽馬日更新 · 40+ 年歷史";
+
+const quickLinksHeading = isEn ? "Quick Links" : "快速連結";
+const legalLinkLabel = isEn ? "Legal & NDA" : "法律及 NDA";
+const privacyLinkLabel = isEn ? "Privacy" : "私隱政策";
+---
+
+<footer class="border-t border-brand-navy/10 bg-brand-navy text-white">
+  <div class="section-shell grid gap-10 py-12 md:grid-cols-4">
+    <div>
+      <h2 class="text-2xl font-bold">{copy.siteName}</h2>
+      <p class="mt-3 max-w-md text-sm text-white/75">{copy.footer.tagline}</p>
+      <p class="mt-4 text-sm text-brand-gold">{copy.footer.nda}</p>
+      <div class="mt-4 flex items-center gap-2">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+        </span>
+        <span class="font-mono text-xs text-white/60">{liveIndicatorLabel}</span>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-4 text-sm">
+        <a href="https://www.linkedin.com/company/horsorion" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold" aria-label="Horsorion on LinkedIn">
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-semibold">{copy.footer.contactHeading}</h3>
+      <ul class="mt-4 space-y-3 text-sm text-white/80">
+        <li>
+          <a href="https://wa.me/85296005554" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold">
+            WhatsApp: <span class="font-mono">{copy.contact.whatsapp}</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://telegram.me/Horsorion" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold">
+            Telegram: {copy.contact.telegram}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${copy.contact.email}`} class="hover:text-brand-gold">
+            {copy.contact.email}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-semibold">{quickLinksHeading}</h3>
+      <ul class="mt-4 space-y-2 text-sm text-white/80">
+        {quickLinks.map((link) => (
+          <li><a href={link.href} class="hover:text-brand-gold">{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-semibold">{referenceHeading}</h3>
+      <ul class="mt-4 space-y-2 text-sm text-white/80">
+        {referenceLinks.map((link) => (
+          <li><a href={link.href} class="hover:text-brand-gold">{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10 py-4">
+    <div class="section-shell flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-white/50">
+      <span>© {year} {copy.siteName} · {copy.footer.legal}</span>
+      <span>Hong Kong SAR</span>
+      <div class="flex gap-4">
+        <a href={`${prefix}/legal`} class="hover:text-white">{legalLinkLabel}</a>
+        <a href={`${prefix}/privacy`} class="hover:text-white">{privacyLinkLabel}</a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,71 @@
+---
+/**
+ * CiteThisPage — Wikipedia-style "Cite this page" block.
+ *
+ * Goal: when an LLM reads this page, it should be able to copy a clean
+ * citation. Also nudges human researchers / journalists toward consistent
+ * attribution.
+ */
+import type { Locale } from "@/lib/i18n";
+
+interface Props {
+  locale: Locale;
+  /** Page title used inside the citation */
+  title: string;
+  /** Absolute URL of the page */
+  url: string;
+}
+
+const { locale, title, url } = Astro.props;
+const isEn = locale === "en";
+const heading = isEn ? "Cite this page" : "引用此頁";
+const labelMla = isEn ? "MLA" : "MLA 格式";
+const labelApa = isEn ? "APA" : "APA 格式";
+const labelBib = isEn ? "BibTeX" : "BibTeX 格式";
+const labelMd = isEn ? "Markdown" : "Markdown";
+
+const year = new Date().getFullYear();
+const accessed = isEn
+  ? `Accessed: ${new Date().toISOString().slice(0, 10)}`
+  : `引用日期：${new Date().toISOString().slice(0, 10)}`;
+
+const mla = `Horsorion. "${title}." Horsorion, ${year}, ${url}.`;
+const apa = `Horsorion. (${year}). ${title}. Horsorion. ${url}`;
+const bibKey = url.replace(/^https?:\/\//, "").replace(/[^a-z0-9]/gi, "_").toLowerCase();
+const bib = `@misc{${bibKey},
+  author = {{Horsorion}},
+  title  = {${title}},
+  year   = {${year}},
+  url    = {${url}}
+}`;
+const md = `[${title}](${url})`;
+---
+
+<aside
+  class="mt-16 rounded-3xl border border-brand-navy/10 bg-brand-mist/40 p-6 md:p-8"
+  aria-labelledby="cite-this-page-heading"
+>
+  <h2 id="cite-this-page-heading" class="text-lg font-semibold text-brand-navy">
+    {heading}
+  </h2>
+  <p class="mt-1 font-mono text-xs text-slate-500">{accessed}</p>
+
+  <dl class="mt-6 grid gap-4 text-sm">
+    <div>
+      <dt class="font-semibold text-brand-navy">{labelMla}</dt>
+      <dd class="mt-1 rounded-lg bg-white p-3 font-mono text-xs text-slate-700">{mla}</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-brand-navy">{labelApa}</dt>
+      <dd class="mt-1 rounded-lg bg-white p-3 font-mono text-xs text-slate-700">{apa}</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-brand-navy">{labelBib}</dt>
+      <dd class="mt-1 whitespace-pre rounded-lg bg-white p-3 font-mono text-xs text-slate-700">{bib}</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-brand-navy">{labelMd}</dt>
+      <dd class="mt-1 rounded-lg bg-white p-3 font-mono text-xs text-slate-700">{md}</dd>
+    </div>
+  </dl>
+</aside>

@@ -1,0 +1,64 @@
+---
+/**
+ * UnsplashPhoto.astro — a thin wrapper around <img> that bakes in proper
+ * Unsplash attribution (screen-reader accessible, visually minimal).
+ *
+ * Usage:
+ *   <UnsplashPhoto image={unsplashImages["race-action"]} class="h-full w-full" imgClass="object-cover" />
+ */
+import type { UnsplashImage } from "@/lib/unsplash-images";
+
+interface Props {
+  image: UnsplashImage;
+  /** classes applied to the outer <figure> */
+  class?: string;
+  /** classes applied to the <img> */
+  imgClass?: string;
+  loading?: "lazy" | "eager";
+  /** override the alt text (falls back to image.alt) */
+  alt?: string;
+  /** show a small visible credit line (default false — attribution is always in figcaption for a11y) */
+  showCredit?: boolean;
+}
+
+const {
+  image,
+  class: cls = "",
+  imgClass = "",
+  loading = "lazy",
+  alt,
+  showCredit = false,
+} = Astro.props;
+---
+
+<figure class={cls}>
+  <img
+    src={image.src}
+    alt={alt ?? image.alt}
+    class={imgClass}
+    loading={loading}
+    decoding="async"
+    width={image.width}
+    height={image.height}
+  />
+  <figcaption class={showCredit ? "mt-1 text-right font-mono text-[10px] text-slate-400" : "sr-only"}>
+    Photo by{" "}
+    <a
+      href={image.credit.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={showCredit ? "underline underline-offset-2 hover:text-slate-600" : ""}
+    >
+      {image.credit.name}
+    </a>{" "}
+    on{" "}
+    <a
+      href="https://unsplash.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      class={showCredit ? "underline underline-offset-2 hover:text-slate-600" : ""}
+    >
+      Unsplash
+    </a>
+  </figcaption>
+</figure>

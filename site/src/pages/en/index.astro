@@ -1,0 +1,361 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrustCounters from "@/components/TrustCounters";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import StatusPill from "@/components/StatusPill.astro";
+import UnsplashPhoto from "@/components/UnsplashPhoto.astro";
+import { Icon } from "astro-icon/components";
+import { getHomeContent } from "@/lib/content";
+import { getProductSchema, getServiceSchema } from "@/lib/schema";
+import { unsplashImages } from "@/lib/unsplash-images";
+
+const locale = "en";
+const content = getHomeContent(locale);
+const title = "Hong Kong Horse Racing Data API & Datasets for Syndicates | Horsorion";
+const description =
+  "Horsorion provides Hong Kong horse racing data infrastructure for syndicates, quant teams, market-makers, and AI product teams. 1980 → today coverage across Sha Tin & Happy Valley — 30,000+ races, 16,000+ horses, 8,000,000+ structured records. Historical bulk, REST API (waitlist), and custom feeds.";
+
+const pillarIcons = ["lucide:database", "lucide:shield-check", "lucide:zap"];
+const categoryIcons: Record<string, string> = {
+  "Race data": "lucide:flag",
+  "Horse profiles": "lucide:heart-pulse",
+  "Past performance": "lucide:trophy",
+  "Racecards": "lucide:list-ordered",
+  "Sectionals": "lucide:timer",
+  "Veterinary reports": "lucide:stethoscope",
+  "Weather": "lucide:cloud-sun",
+  "Tote pools": "lucide:bar-chart-2",
+  "Trial commentary": "lucide:message-square",
+  "Race video": "lucide:video",
+  "Custom signals": "lucide:settings-2",
+  "Custom data": "lucide:layers",
+};
+const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:clock-4", "lucide:check-circle-2", "lucide:send"];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  currentPath="/en"
+  schema={[getProductSchema(locale), getServiceSchema(locale)]}
+>
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="relative min-h-[600px] overflow-hidden bg-brand-navy text-white">
+    <div class="absolute inset-0 z-0">
+      <video
+        autoplay muted loop playsinline
+        class="h-full w-full object-cover opacity-30 motion-reduce:hidden"
+        aria-hidden="true"
+      >
+        <source src="/images/background/home_cover_bg.mp4" type="video/mp4" />
+      </video>
+      <img
+        src="/images/background/home_powerby.jpeg"
+        alt="" aria-hidden="true"
+        class="absolute inset-0 h-full w-full object-cover opacity-25 motion-safe:hidden"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/90 to-brand-navy/50"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(201,162,39,0.15),transparent_40%)]"></div>
+    </div>
+
+    <div class="section-shell relative z-10 grid gap-10 py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-3 py-1.5">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+          </span>
+          <span class="font-mono text-xs text-white/70">Race-day data · T+0 updates</span>
+        </div>
+        <h1 class="mt-5 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+          {content.hero.title}
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-white/80">{content.hero.subtitle}</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <button type="button" class="btn-primary text-base px-7 py-3.5" data-lead-intent="request-info">
+            {content.hero.primaryCta}
+          </button>
+          <a href="https://wa.me/85296005554" target="_blank" rel="noopener noreferrer" class="btn-secondary text-base px-7 py-3.5">
+            {content.hero.secondaryCta}
+          </a>
+          <a href="/samples/horsorion-sample-2024-11-10.csv" download class="btn-secondary text-base px-7 py-3.5" data-lead-intent="request-sample">
+            Download sample CSV
+          </a>
+        </div>
+        <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs text-white/55">
+          <span>40+ years of HK racing data</span>
+          <span aria-hidden="true">·</span>
+          <span>Sha Tin + Happy Valley</span>
+          <span aria-hidden="true">·</span>
+          <span>NDA available</span>
+        </div>
+      </div>
+
+      <div>
+        <TerminalCodeBlock caption="GET race_results · sample">
+          <pre><span class="text-emerald-400"># Past Performance — Sha Tin (watermarked sample)</span>
+<span class="text-sky-400">Race_Key</span>     <span class="text-sky-400">Horse_ID</span>  <span class="text-sky-400">Rank</span>  <span class="text-sky-400">Time</span>     <span class="text-sky-400">Odds</span>
+20XX1110+01  H001      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:09.82</span>  <span class="text-amber-300">2.2</span>
+20XX1110+01  H002      <span class="text-emerald-300">2</span>     <span class="text-amber-300">1:09.91</span>  <span class="text-amber-300">5.3</span>
+20XX1110+01  H003      <span class="text-emerald-300">3</span>     <span class="text-amber-300">1:09.95</span>  <span class="text-amber-300">6.1</span>
+20XX1110+02  H011      <span class="text-emerald-300">1</span>     <span class="text-amber-300">1:34.41</span>  <span class="text-amber-300">3.1</span>
+...
+<span class="text-slate-500"># Full schema (40+ fields) shared after contact</span></pre>
+        </TerminalCodeBlock>
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <StatusPill variant="race-day" label="Race day" />
+          <StatusPill variant="post-race" label="Post-race" />
+          <StatusPill variant="daily" label="Daily" />
+          <StatusPill variant="historical" label="Historical" />
+          <StatusPill variant="video" label="Video" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ TRUST COUNTERS ═══════════════════════ -->
+  <section class="section-shell py-14">
+    <TrustCounters client:visible counters={content.counters} />
+  </section>
+
+  <!-- ═══════════════════════ 3 PILLARS ═══════════════════════ -->
+  <section class="section-shell pb-16">
+    <div class="grid gap-6 lg:grid-cols-3">
+      {content.pillars.map((pillar, i) => (
+        <article class="surface-card flex flex-col gap-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-navy text-brand-gold">
+            <Icon name={pillarIcons[i] ?? "lucide:database"} class="h-6 w-6" aria-hidden="true" />
+          </div>
+          <h2 class="text-xl font-semibold text-brand-navy">{pillar.title}</h2>
+          <p class="text-sm leading-7 text-slate-600">{pillar.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ DATASET CATEGORIES ═══════════════════════ -->
+  <section class="bg-white py-16">
+    <div class="section-shell">
+      <p class="eyebrow text-brand-navy">{content.categoriesHeading}</p>
+      <h2 class="mt-3 max-w-3xl text-3xl font-bold text-brand-navy">{content.categoriesSubheading}</h2>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {content.categories.map((category) => (
+          <article class="flex gap-4 rounded-2xl border border-brand-navy/10 bg-brand-slate p-5 transition hover:shadow-card">
+            <div class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-navy/10 text-brand-navy">
+              <Icon name={categoryIcons[category.name] ?? "lucide:table-2"} class="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div>
+              <h3 class="font-semibold text-brand-navy">{category.name}</h3>
+              <p class="mt-1 text-sm leading-6 text-slate-600">{category.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="mt-6 text-center text-xs text-slate-500">
+        Full schema and sample data shared after contact.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ EDITORIAL STRIP ═══════════════════════ -->
+  <div class="relative h-[380px] overflow-hidden">
+    <UnsplashPhoto
+      image={unsplashImages["race-action"]}
+      class="absolute inset-0 h-full w-full"
+      imgClass="h-full w-full object-cover object-[50%_60%]"
+      loading="eager"
+      alt="Jockeys racing — Hong Kong horseracing"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/75 to-brand-navy/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent"></div>
+    <div class="relative flex h-full items-end section-shell pb-10">
+      <blockquote>
+        <p class="max-w-xl font-display text-3xl font-bold leading-snug text-white sm:text-4xl">
+          "T+0 updates on race day.<br />40 years of data, one key."
+        </p>
+        <cite class="mt-4 block font-mono text-xs not-italic text-brand-gold/80">
+          — Horsorion data engineering standard
+        </cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ INTEGRATION ═══════════════════════ -->
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Integration-ready</p>
+      <h2 class="mt-3 text-3xl font-bold">Two lines of code, 40+ years of data</h2>
+      <p class="mt-4 max-w-2xl text-sm text-white/75">
+        First-class support for Python (Polars / pandas) and R (data.table). Direct SFTP or S3 delivery also available.
+      </p>
+      <div class="mt-8 grid gap-5 lg:grid-cols-2">
+        <TerminalCodeBlock caption="python · polars">
+          <pre><span class="text-violet-400">import</span> polars <span class="text-violet-400">as</span> pl
+
+<span class="text-emerald-400"># Load Past Performance (40+ years)</span>
+df = pl.read_parquet(
+    <span class="text-amber-300">"horsorion_results.parquet"</span>
+)
+
+<span class="text-emerald-400"># Filter to Sha Tin, 2024 season</span>
+df = df.filter(
+    (pl.col(<span class="text-amber-300">"Race_Venue"</span>) == <span class="text-amber-300">"ST"</span>) &amp;
+    (pl.col(<span class="text-amber-300">"Race_Season"</span>) == <span class="text-amber-300">2024</span>)
+)
+<span class="text-violet-400">print</span>(df.shape)  <span class="text-emerald-400"># (~800, 40+)</span></pre>
+        </TerminalCodeBlock>
+        <TerminalCodeBlock caption="r · data.table">
+          <pre><span class="text-violet-400">library</span>(data.table)
+
+<span class="text-emerald-400"># Load race results + sectionals</span>
+res &lt;- fread(<span class="text-amber-300">"horsorion_results.csv"</span>)
+sec &lt;- fread(<span class="text-amber-300">"horsorion_sectional.csv"</span>)
+
+<span class="text-emerald-400"># Join on Race_Key + Horse_ID</span>
+merged &lt;- merge(res, sec,
+  by = <span class="text-amber-300">c("Race_Key", "Horse_ID")</span>)
+
+cat(<span class="text-violet-400">nrow</span>(merged), <span class="text-amber-300">"rows merged\n"</span>)</pre>
+        </TerminalCodeBlock>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <button type="button" class="btn-primary" data-lead-intent="request-dictionary">
+          Request full schema
+        </button>
+        <a href="/samples/horsorion-sample-2024-11-10.csv" download class="btn-secondary" data-lead-intent="request-sample">
+          Download sample
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ USE CASES — editorial split ═══════════════════════ -->
+  <section class="section-shell py-16">
+    <div class="overflow-hidden rounded-3xl lg:grid lg:grid-cols-[0.9fr_1.1fr]">
+      <div class="relative min-h-[360px]">
+        <UnsplashPhoto
+          image={unsplashImages["crowd-stands"]}
+          class="absolute inset-0 h-full w-full"
+          imgClass="h-full w-full object-cover object-[50%_40%]"
+          alt="Horse racing crowd in the grandstands"
+        />
+        <div class="absolute inset-0 bg-brand-navy/35"></div>
+        <p class="absolute bottom-3 right-4 font-mono text-[10px] text-white/40">
+          Photo: <a href={unsplashImages["crowd-stands"].credit.photoUrl} target="_blank" rel="noopener noreferrer" class="hover:text-white/70">{unsplashImages["crowd-stands"].credit.name}</a> / Unsplash
+        </p>
+      </div>
+      <div class="bg-brand-slate px-8 py-10 lg:px-12 lg:py-12">
+        <p class="eyebrow text-brand-navy">{content.useCasesHeading}</p>
+        <h2 class="mt-3 text-2xl font-bold text-brand-navy">Who uses Horsorion?</h2>
+        <div class="mt-8 divide-y divide-brand-navy/10">
+          {content.useCases.map((useCase) => (
+            <div class="py-5 first:pt-0 last:pb-0">
+              <h3 class="font-semibold text-brand-navy">{useCase.title}</h3>
+              <p class="mt-1.5 text-sm italic leading-7 text-slate-500">"{useCase.quote}"</p>
+            </div>
+          ))}
+        </div>
+        <div class="mt-8">
+          <button type="button" class="btn-primary" data-lead-intent="request-info">
+            Learn about working with us
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ METHODOLOGY ═══════════════════════ -->
+  <section class="bg-brand-navy py-16 text-white">
+    <div class="section-shell">
+      <p class="eyebrow">Quality assurance</p>
+      <h2 class="mt-3 text-3xl font-bold">{content.methodologyHeading}</h2>
+      <div class="mt-10 grid gap-4 lg:grid-cols-5">
+        {content.methodology.map((step, index) => (
+          <article class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gold/20 text-brand-gold">
+              <Icon name={methodologyIcons[index] ?? "lucide:check"} class="h-5 w-5" aria-hidden="true" />
+            </div>
+            <p class="mt-3 text-xs font-semibold text-brand-gold">0{index + 1}</p>
+            <h3 class="mt-2 text-base font-semibold">{step.title}</h3>
+            <p class="mt-2 text-xs leading-6 text-white/70">{step.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ INTEGRATION ROADMAP ═══════════════════════ -->
+  <section class="section-shell py-16" id="integration">
+    <p class="eyebrow text-brand-navy">Integration Roadmap</p>
+    <h2 class="mt-3 text-3xl font-bold text-brand-navy">Delivery options & integration roadmap</h2>
+    <p class="mt-3 max-w-2xl text-sm text-slate-600">
+      Horsorion currently delivers via bulk files (CSV / Parquet / SQL) and secure transfer (SFTP / S3),
+      minimising integration overhead. Real-time REST API and WebSocket are on the roadmap with an open waitlist.
+    </p>
+    <div class="mt-10 grid gap-4 md:grid-cols-3">
+      <article class="surface-card border-2 border-emerald-500/30">
+        <div class="flex items-center gap-2">
+          <span class="inline-block rounded-md border border-emerald-500/30 bg-emerald-500/12 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-600">Available now</span>
+        </div>
+        <h3 class="mt-3 text-base font-semibold text-brand-navy">Bulk · Files</h3>
+        <p class="mt-2 text-sm leading-7 text-slate-600">
+          CSV · Excel · Parquet · SQL dump · Avro. Delivered per season, 2–3 business days.
+        </p>
+        <ul class="mt-3 space-y-1 font-mono text-xs text-slate-500">
+          <li>· Email attachment / cloud link</li>
+          <li>· Encrypted SFTP / S3 transfer</li>
+          <li>· Custom schema mapping</li>
+        </ul>
+      </article>
+
+      <article class="surface-card border-2 border-emerald-500/30">
+        <div class="flex items-center gap-2">
+          <span class="inline-block rounded-md border border-emerald-500/30 bg-emerald-500/12 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-600">Available now</span>
+        </div>
+        <h3 class="mt-3 text-base font-semibold text-brand-navy">Direct DB · Login</h3>
+        <p class="mt-2 text-sm leading-7 text-slate-600">
+          Long-term clients can access a read-only database query interface, secured by NDA and IP whitelist.
+        </p>
+        <ul class="mt-3 space-y-1 font-mono text-xs text-slate-500">
+          <li>· Race-day T+0 updates</li>
+          <li>· Read-only credentials</li>
+          <li>· Direct SQL queries / export</li>
+        </ul>
+      </article>
+
+      <article class="surface-card border-2 border-dashed border-slate-300 bg-brand-slate">
+        <div class="flex items-center gap-2">
+          <span class="inline-block rounded-md border border-slate-400/40 bg-slate-200 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-slate-600">Roadmap · Waitlist</span>
+        </div>
+        <h3 class="mt-3 text-base font-semibold text-brand-navy">REST API + WebSocket</h3>
+        <p class="mt-2 text-sm leading-7 text-slate-600">
+          REST API and real-time odds WebSocket are in planning. API key + IP whitelist + TLS 1.3.
+          Waitlist members notified before launch.
+        </p>
+        <button type="button" class="btn-outline mt-4 w-full justify-center" data-lead-intent="api-waitlist">
+          Join API waitlist
+        </button>
+      </article>
+    </div>
+    <p class="mt-6 font-mono text-xs text-slate-400">
+      * Launch timing depends on client feedback and compliance review. No public commitment to specific dates.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════ FINAL CTA ═══════════════════════ -->
+  <section class="section-shell pb-16">
+    <div class="rounded-3xl bg-white p-8 text-center shadow-card sm:p-12">
+      <h2 class="text-3xl font-bold text-brand-navy">{content.finalCta.title}</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600">{content.finalCta.description}</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <button type="button" class="btn-primary" data-lead-intent="request-info">
+          {content.finalCta.button}
+        </button>
+        <a href="/en/data" class="btn-outline">
+          View data catalogue
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

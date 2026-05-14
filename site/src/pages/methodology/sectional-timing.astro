@@ -1,0 +1,81 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CiteThisPage from "@/components/CiteThisPage.astro";
+import TerminalCodeBlock from "@/components/TerminalCodeBlock.astro";
+import { getTechArticleSchema } from "@/lib/schema";
+
+const locale = "zh-Hant";
+const currentPath = "/methodology/sectional-timing";
+const url = `https://www.horsorion.com${currentPath}`;
+const title = "香港賽馬分段時間方法論 — Horsorion 200m / 400m / 600m 採集標準";
+const description =
+  "Horsorion 如何記錄、清洗、驗證香港賽馬嘅分段時間（sectional time）：採集間隔、座標系定義、場地容差校正、跨場地比較規則。供研究員與量化團隊使用。";
+
+const schema = getTechArticleSchema(locale, {
+  headline: "Horsorion 香港賽馬分段時間方法論",
+  description: "完整闡述 Horsorion 採集香港賽馬分段時間嘅標準、座標系、場地容差校正及交付欄位。",
+  url,
+  about: ["Sectional time", "Hong Kong horse racing", "Race timing methodology"],
+});
+---
+
+<BaseLayout title={title} description={description} locale={locale} currentPath={currentPath} schema={schema}>
+  <section class="bg-brand-mist py-20">
+    <div class="section-shell">
+      <p class="font-mono text-sm uppercase tracking-[0.3em] text-brand-gold">Methodology · 分段時間</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-extrabold text-brand-navy md:text-5xl">
+        香港賽馬分段時間方法論
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-slate-600">
+        分段時間（sectional time）係香港賽馬定價與配速研究嘅基石。本頁說明 Horsorion 嘅採集標準、清洗流程、場地容差校正及交付欄位，方便研究團隊評估資料是否符合自身研究框架。
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="section-shell prose prose-slate mx-auto max-w-3xl">
+      <h2>1. 量度間隔</h2>
+      <p>沙田（ST）草地賽事採用 <strong>每 200 米</strong> 紀錄；全天候跑道（AWT）採用 <strong>每 400 米</strong> 紀錄；跑馬地（HV）為單一草地跑道，亦採用每 200 米紀錄。</p>
+
+      <h2>2. 座標系與起點</h2>
+      <p>分段時間以 <strong>由終點線回溯</strong> 計算（即 Last 600m、Last 400m、Last 200m），並補回 First 800m / First 600m 等正向量度。所有時間以 0.01 秒為精度。</p>
+
+      <h2>3. 採集流程</h2>
+      <ol>
+        <li>由 HKJC 公開計時系統取得官方分段時間。</li>
+        <li>對沖比對 RFID / 攝影機軌跡，剔除明顯時鐘漂移。</li>
+        <li>賽後 12 小時內進行二次 QC，與賽果及通過位置交叉驗算。</li>
+        <li>異常值標記 <code>quality_flag</code>，研究客戶可自行決定是否納入。</li>
+      </ol>
+
+      <h2>4. 場地容差校正</h2>
+      <p>每個賽日 Horsorion 計算 <strong>going allowance</strong>（場地容差），按賽程及場地狀況分組，回歸至同距離 / 同班次 / 同場地嘅長期均值，輸出可加性嘅修正值（單位：秒）。</p>
+
+      <h2>5. 跨場地比較</h2>
+      <p>沙田草地、沙田全天候、跑馬地草地三者嘅基準時間、彎位設計、表面摩擦差異顯著。Horsorion 不直接合併三者嘅原始秒數，而是先轉換為 <strong>速度指數（Speed Rating）</strong> 後再比較。</p>
+
+      <h2>6. 交付欄位</h2>
+      <TerminalCodeBlock caption="schema.sectional">
+        <pre><code>{`race_id                varchar  -- "ST-241110-08"
+horse_id               int      -- 馬匹唯一識別
+horse_no               int      -- 馬匹編號
+sec_first_800m         numeric  -- 起步至 800m 處秒數
+sec_first_600m         numeric
+sec_last_600m          numeric
+sec_last_400m          numeric
+sec_last_200m          numeric
+position_at_800m       int      -- 該位置嘅場內名次
+position_at_600m       int
+position_at_400m       int
+going_allowance        numeric  -- 場地容差修正值（秒）
+quality_flag           text     -- "OK" / "TIMER_DRIFT" / "MISSING_RFID"`}</code></pre>
+      </TerminalCodeBlock>
+    </div>
+  </section>
+
+  <section class="bg-brand-mist py-16">
+    <div class="section-shell">
+      <CiteThisPage locale={locale} title="香港賽馬分段時間方法論" url={url} />
+    </div>
+  </section>
+</BaseLayout>
