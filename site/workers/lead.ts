@@ -150,7 +150,9 @@ export default {
       });
     }
 
-    // 1) Notification to inbox — must succeed for the lead to count.
+    const errors: string[] = [];
+
+    // 1) Notification to inbox — best-effort; always return 200 to the user.
     try {
       await sendResendEmail(
         env,
@@ -159,15 +161,10 @@ export default {
         buildLeadHtml(payload),
       );
     } catch (error) {
-      return new Response(
-        JSON.stringify({ ok: false, error: `Notify failed: ${String(error)}` }),
-        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      errors.push(`notify: ${String(error)}`);
     }
 
-    // 2) Confirmation to user — best-effort. Often fails on free Resend tiers
-    //    until the sending domain is verified; do not fail the request.
-    let confirmationOk = true;
+    // 2) Confirmation to user — best-effort.
     try {
       await sendResendEmail(
         env,
@@ -175,18 +172,18 @@ export default {
         "Horsorion enquiry received",
         buildConfirmationHtml(payload.locale),
       );
-    } catch {
-      confirmationOk = false;
+    } catch (error) {
+      errors.push(`confirm: ${String(error)}`);
     }
 
     // 3) Notion mirror — best-effort.
     try {
       await appendNotionRow(env, payload);
-    } catch {
-      // ignore — Notion is optional
+    } catch (error) {
+      errors.push(`notion: ${String(error)}`);
     }
 
-    return new Response(JSON.stringify({ ok: true, confirmationOk }), {
+    return new Response(JSON.stringify({ ok: true, errors }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
