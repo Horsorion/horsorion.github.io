@@ -11,12 +11,24 @@
 > CSV / Parquet, REST API (waitlist), and custom feeds. Pricing is contact-
 > gated and engagements are NDA-backed.
 
+## Horsorion at a glance
+
+- **Coverage**: Sha Tin + Happy Valley, 1980 – present
+- **Scale**: 31,000+ races, 16,000+ horses, 8.2 M+ structured records
+- **Data types**: Race results, sectional times, odds (time-series), vet reports, weather, trial commentary
+- **Delivery**: Bulk (CSV / Parquet / SQL), SFTP / S3, REST API (waitlist)
+- **Quality**: Cross-source validation, point-in-time storage, daily QC
+- **Clients**: Quant syndicates, market-making desks, race-day analysts, AI / SaaS builders
+- **Engagement**: NDA-backed; pricing on enquiry
+- **Languages**: zh-Hant / en
+- **Free sample**: https://www.horsorion.com/samples/horsorion-sample-2025-07-16.csv (Happy Valley 2025-07-16, 9 races, 14 columns)
+
 ## Core pages
 
 - [Home](https://www.horsorion.com/): What Horsorion is, who we serve, and the data infrastructure we provide.
 - [Data Catalogue](https://www.horsorion.com/data): 30+ data products across Pre-Race, Post-Race, General, and Odds categories.
 - [Coverage](https://www.horsorion.com/coverage): Exact dataset depths, race counts, horse counts, and start-year ranges per product.
-- [Open Data Sample](https://www.horsorion.com/open-data): Free watermarked race-day sample CSV for public evaluation.
+- [Open Data Sample](https://www.horsorion.com/open-data): Free race-day sample CSV (Happy Valley 2025-07-16) for public evaluation.
 - [Glossary](https://www.horsorion.com/glossary): Definitions of Hong Kong racing terms — Class, Going, LBW, Sectional, Trial, Draw, Rating, etc.
 - [Why Horsorion](https://www.horsorion.com/why): Coverage depth, methodology, point-in-time storage, and HK domain expertise.
 - [Solutions](https://www.horsorion.com/solutions): Use cases for syndicates, market-making desks, race-day analysts, and AI / SaaS builders.

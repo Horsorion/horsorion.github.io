@@ -59,7 +59,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
     </div>
 
     <div class="section-shell relative z-10 grid gap-10 py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-      <div>
+      <div class="min-w-0">
         <div class="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-3 py-1.5">
           <span class="relative flex h-2 w-2">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
@@ -67,7 +67,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
           </span>
           <span class="font-mono text-xs text-white/70">Race-day data · T+0 updates</span>
         </div>
-        <h1 class="mt-5 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+        <h1 class="mt-5 max-w-3xl font-display text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
           {content.hero.title}
         </h1>
         <p class="mt-6 max-w-2xl text-lg text-white/80">{content.hero.subtitle}</p>
@@ -91,7 +91,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
         </div>
       </div>
 
-      <div>
+      <div class="min-w-0">
         <TerminalCodeBlock caption="GET race_results · 2025-07-16 · Happy Valley">
           <pre><span class="text-emerald-400"># Race Results — Happy Valley · 2025-07-16 (sample)</span>
 <span class="text-sky-400">Race_Key</span>       <span class="text-sky-400">Horse_ID</span>       <span class="text-sky-400">Rank</span>  <span class="text-sky-400">Time</span>     <span class="text-sky-400">Odds</span>
@@ -184,38 +184,40 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
   <section class="bg-brand-navy py-16 text-white">
     <div class="section-shell">
       <p class="eyebrow">Integration-ready</p>
-      <h2 class="mt-3 text-3xl font-bold">Two lines of code, 40+ years of data</h2>
+      <h2 class="mt-3 text-3xl font-bold">Two delivery modes, history and race day</h2>
       <p class="mt-4 max-w-2xl text-sm text-white/75">
-        First-class support for Python (Polars / pandas) and R (data.table). Direct SFTP or S3 delivery also available.
+        Pull 40+ years of historical bulk straight from S3 (Parquet / CSV).
+        Stream race-day updates with T+0 latency over a REST API. SFTP and
+        VPC peering available on request.
       </p>
       <div class="mt-8 grid gap-5 lg:grid-cols-2">
-        <TerminalCodeBlock caption="python · polars">
-          <pre><span class="text-violet-400">import</span> polars <span class="text-violet-400">as</span> pl
+        <TerminalCodeBlock caption="aws s3 · historical bulk">
+          <pre><span class="text-emerald-400"># Pull a full 2024 season of race results (Parquet)</span>
+$ aws s3 cp \
+    <span class="text-amber-300">s3://horsorion-prod/results/year=2024/</span> \
+    ./local/ <span class="text-violet-400">--recursive</span>
 
-<span class="text-emerald-400"># Load Past Performance (40+ years)</span>
-df = pl.read_parquet(
-    <span class="text-amber-300">"horsorion_results.parquet"</span>
-)
-
-<span class="text-emerald-400"># Filter to Sha Tin, 2024 season</span>
-df = df.filter(
-    (pl.col(<span class="text-amber-300">"Race_Venue"</span>) == <span class="text-amber-300">"ST"</span>) &amp;
-    (pl.col(<span class="text-amber-300">"Race_Season"</span>) == <span class="text-amber-300">2024</span>)
-)
-<span class="text-violet-400">print</span>(df.shape)  <span class="text-emerald-400"># (~800, 40+)</span></pre>
+<span class="text-emerald-400"># One partition per year — incremental sync friendly</span>
+download: results/year=2024/month=07/race_results.parquet
+download: results/year=2024/month=07/sectionals.parquet
+download: results/year=2024/month=07/odds_timeseries.parquet
+<span class="text-slate-500"># IAM policy &amp; bucket ACL configured per NDA</span></pre>
         </TerminalCodeBlock>
-        <TerminalCodeBlock caption="r · data.table">
-          <pre><span class="text-violet-400">library</span>(data.table)
+        <TerminalCodeBlock caption="rest · race-day live">
+          <pre><span class="text-emerald-400"># GET race-day cards + odds time-series</span>
+$ curl <span class="text-amber-300">https://api.horsorion.com/v1/races</span> \
+    -H <span class="text-amber-300">"Authorization: Bearer $TOKEN"</span> \
+    -G --data-urlencode <span class="text-amber-300">"date=2025-07-16"</span> \
+       --data-urlencode <span class="text-amber-300">"venue=HV"</span>
 
-<span class="text-emerald-400"># Load race results + sectionals</span>
-res &lt;- fread(<span class="text-amber-300">"horsorion_results.csv"</span>)
-sec &lt;- fread(<span class="text-amber-300">"horsorion_sectional.csv"</span>)
-
-<span class="text-emerald-400"># Join on Race_Key + Horse_ID</span>
-merged &lt;- merge(res, sec,
-  by = <span class="text-amber-300">c("Race_Key", "Horse_ID")</span>)
-
-cat(<span class="text-violet-400">nrow</span>(merged), <span class="text-amber-300">"rows merged\n"</span>)</pre>
+<span class="text-sky-400">200 OK</span>  application/json
+&#123;
+  <span class="text-amber-300">"race_key"</span>: <span class="text-amber-300">"20250716_839"</span>,
+  <span class="text-amber-300">"venue"</span>: <span class="text-amber-300">"HV"</span>,
+  <span class="text-amber-300">"runners"</span>: 12,
+  <span class="text-amber-300">"odds_snapshots"</span>: 47
+&#125;
+<span class="text-slate-500"># API on waitlist · webhook push optional</span></pre>
         </TerminalCodeBlock>
       </div>
       <div class="mt-8 flex flex-wrap gap-4">

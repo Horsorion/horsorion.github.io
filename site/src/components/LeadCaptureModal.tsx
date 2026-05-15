@@ -189,32 +189,35 @@ export default function LeadCaptureModal({ copy }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-label={step === 1 ? lf.title : (copy.locale === "zh-Hant" ? "補充資料（選填）" : "Additional details (optional)")}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={closeModal} />
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={closeModal} />
 
-      {/* Panel */}
-      <div
-        ref={modalRef}
-        className="relative z-10 w-full max-w-lg rounded-3xl bg-white p-8 shadow-2xl"
-      >
-        {/* Close button */}
-        <button
-          type="button"
-          className="absolute right-5 top-5 flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs text-slate-500 hover:bg-slate-100"
-          onClick={closeModal}
-          aria-label={copy.locale === "zh-Hant" ? "關閉" : "Close"}
+      {/* Scrollable wrapper — flex centers when content fits, scrolls when it doesn't */}
+      <div className="relative z-10 flex min-h-full items-start justify-center p-4 sm:items-center sm:p-6">
+        <div
+          ref={modalRef}
+          className="relative my-4 w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl sm:my-0 sm:p-8"
         >
-          {copy.locale === "zh-Hant" ? "關閉" : "Close"}
-          <span aria-hidden="true" className="text-base leading-none">×</span>
-        </button>
+          {/* Close button — sticky so it follows the user when scrolling */}
+          <div className="sticky top-0 z-10 -mt-2 mb-2 flex justify-end">
+            <button
+              type="button"
+              className="flex items-center gap-1 rounded-xl bg-white/95 px-3 py-1.5 text-xs text-slate-500 backdrop-blur hover:bg-slate-100"
+              onClick={closeModal}
+              aria-label={copy.locale === "zh-Hant" ? "關閉" : "Close"}
+            >
+              {copy.locale === "zh-Hant" ? "關閉" : "Close"}
+              <span aria-hidden="true" className="text-base leading-none">×</span>
+            </button>
+          </div>
 
-        {/* Step indicator */}
-        <div className="mb-6 flex items-center gap-2">
+          {/* Step indicator */}
+          <div className="mb-6 flex items-center gap-2">
           <div className={`h-2 w-2 rounded-full ${step === 1 ? "bg-brand-navy" : "bg-brand-gold"}`} />
           <div className={`h-2 w-2 rounded-full ${step === 2 ? "bg-brand-navy" : "bg-slate-200"}`} />
           <span className="ml-2 text-xs text-slate-500">
@@ -364,6 +367,7 @@ export default function LeadCaptureModal({ copy }: Props) {
             </div>
           </form>
         )}
+        </div>
       </div>
     </div>
   );

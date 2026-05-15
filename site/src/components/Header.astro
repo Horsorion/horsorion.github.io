@@ -1,6 +1,7 @@
 ---
 import type { SiteCopy } from "@/lib/i18n";
 import { switchLocalePath } from "@/lib/i18n";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   copy: SiteCopy;
@@ -14,18 +15,18 @@ const alternateLabel = copy.locale === "en" ? "繁" : "EN";
 ---
 
 <header class="sticky top-0 z-40 border-b border-white/10 bg-brand-navy/95 text-white backdrop-blur">
-  <div class="section-shell flex items-center justify-between gap-4 py-4">
-    <a href={copy.nav[0]?.href ?? "/"} class="flex items-center gap-3">
+  <div class="section-shell flex items-center justify-between gap-3 py-4 sm:gap-4">
+    <a href={copy.nav[0]?.href ?? "/"} class="flex min-w-0 items-center gap-3">
       <img
         src="/images/brand/logo.jpg"
         alt={copy.siteName}
         width="44"
         height="44"
-        class="h-11 w-11 rounded-full object-cover"
+        class="h-10 w-10 shrink-0 rounded-full object-cover sm:h-11 sm:w-11"
       />
-      <div>
-        <p class="text-lg font-bold tracking-wide">{copy.siteName}</p>
-        <p class="text-xs text-white/70">{copy.titleSuffix}</p>
+      <div class="min-w-0">
+        <p class="truncate text-base font-bold tracking-wide sm:text-lg">{copy.siteName}</p>
+        <p class="hidden truncate text-xs text-white/70 sm:block">{copy.titleSuffix}</p>
       </div>
     </a>
 
@@ -47,7 +48,7 @@ const alternateLabel = copy.locale === "en" ? "繁" : "EN";
       }
     </nav>
 
-    <div class="flex items-center gap-3">
+    <div class="flex shrink-0 items-center gap-2 sm:gap-3">
       <a href={alternateHref} class="hidden text-sm text-white/80 hover:text-white sm:inline">
         <span class="font-semibold text-brand-gold">{alternateLabel}</span>
       </a>
@@ -60,12 +61,13 @@ const alternateLabel = copy.locale === "en" ? "繁" : "EN";
       </button>
       <button
         type="button"
-        class="btn-secondary lg:hidden"
+        class="btn-secondary inline-flex items-center justify-center px-3 py-2 lg:hidden"
         data-mobile-nav-toggle
         aria-expanded="false"
         aria-controls="mobile-nav"
+        aria-label={copy.locale === "zh-Hant" ? "選單" : "Menu"}
       >
-        Menu
+        <Icon name="lucide:menu" class="h-5 w-5" aria-hidden="true" />
       </button>
     </div>
   </div>

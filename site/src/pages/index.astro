@@ -59,7 +59,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
 
     <div class="section-shell relative z-10 grid gap-10 py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
       <!-- Left: headline + CTAs -->
-      <div>
+      <div class="min-w-0">
         <div class="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-3 py-1.5">
           <span class="relative flex h-2 w-2">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
@@ -67,7 +67,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
           </span>
           <span class="font-mono text-xs text-white/70">Race-day data · T+0 updates</span>
         </div>
-        <h1 class="mt-5 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+        <h1 class="mt-5 max-w-3xl font-display text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
           {content.hero.title}
         </h1>
         <p class="mt-6 max-w-2xl text-lg text-white/80">{content.hero.subtitle}</p>
@@ -92,7 +92,7 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
       </div>
 
       <!-- Right: terminal-style sample preview -->
-      <div>
+      <div class="min-w-0">
         <TerminalCodeBlock caption="GET race_results · 2025-07-16 · Happy Valley">
           <pre><span class="text-emerald-400"># Race Results — Happy Valley · 2025-07-16 (sample)</span>
 <span class="text-sky-400">Race_Key</span>       <span class="text-sky-400">Horse_ID</span>       <span class="text-sky-400">Rank</span>  <span class="text-sky-400">Time</span>     <span class="text-sky-400">Odds</span>
@@ -187,38 +187,39 @@ const methodologyIcons = ["lucide:layers", "lucide:git-compare-arrows", "lucide:
   <section class="bg-brand-navy py-16 text-white">
     <div class="section-shell">
       <p class="eyebrow">Integration-ready</p>
-      <h2 class="mt-3 text-3xl font-bold">兩行代碼，接入 40+ 年數據</h2>
+      <h2 class="mt-3 text-3xl font-bold">兩種接入方式，覆蓋歷史與賽馬日</h2>
       <p class="mt-4 max-w-2xl text-sm text-white/75">
-        支援 Python (Polars / pandas) 與 R (data.table)，亦可通過 SFTP 或 S3 直接接入。
+        歷史 bulk 透過 S3（Parquet / CSV）直接拉取；race-day 數據以 REST API
+        近實時推送，T+0 更新。可按需簽 SFTP 或 VPC peering。
       </p>
       <div class="mt-8 grid gap-5 lg:grid-cols-2">
-        <TerminalCodeBlock caption="python · polars">
-          <pre><span class="text-violet-400">import</span> polars <span class="text-violet-400">as</span> pl
+        <TerminalCodeBlock caption="aws s3 · historical bulk">
+          <pre><span class="text-emerald-400"># 拉取 2024 全季 race results (Parquet)</span>
+$ aws s3 cp \
+    <span class="text-amber-300">s3://horsorion-prod/results/year=2024/</span> \
+    ./local/ <span class="text-violet-400">--recursive</span>
 
-<span class="text-emerald-400"># Load Past Performance (40+ years)</span>
-df = pl.read_parquet(
-    <span class="text-amber-300">"horsorion_results.parquet"</span>
-)
-
-<span class="text-emerald-400"># Filter to Sha Tin, 2024 season</span>
-df = df.filter(
-    (pl.col(<span class="text-amber-300">"Race_Venue"</span>) == <span class="text-amber-300">"ST"</span>) &amp;
-    (pl.col(<span class="text-amber-300">"Race_Season"</span>) == <span class="text-amber-300">2024</span>)
-)
-<span class="text-violet-400">print</span>(df.shape)  <span class="text-emerald-400"># (~700, 40+)</span></pre>
+<span class="text-emerald-400"># 每年一個 partition，便於增量同步</span>
+download: results/year=2024/month=07/race_results.parquet
+download: results/year=2024/month=07/sectionals.parquet
+download: results/year=2024/month=07/odds_timeseries.parquet
+<span class="text-slate-500"># IAM 政策、bucket 權限按客戶 NDA 配置</span></pre>
         </TerminalCodeBlock>
-        <TerminalCodeBlock caption="r · data.table">
-          <pre><span class="text-violet-400">library</span>(data.table)
+        <TerminalCodeBlock caption="rest · race-day live">
+          <pre><span class="text-emerald-400"># GET 當日賽事 + 賠率時序</span>
+$ curl <span class="text-amber-300">https://api.horsorion.com/v1/races</span> \
+    -H <span class="text-amber-300">"Authorization: Bearer $TOKEN"</span> \
+    -G --data-urlencode <span class="text-amber-300">"date=2025-07-16"</span> \
+       --data-urlencode <span class="text-amber-300">"venue=HV"</span>
 
-<span class="text-emerald-400"># Load race results + sectionals</span>
-res &lt;- fread(<span class="text-amber-300">"horsorion_results.csv"</span>)
-sec &lt;- fread(<span class="text-amber-300">"horsorion_sectional.csv"</span>)
-
-<span class="text-emerald-400"># Join on Race_Key + Horse_ID</span>
-merged &lt;- merge(res, sec,
-  by = <span class="text-amber-300">c("Race_Key", "Horse_ID")</span>)
-
-cat(<span class="text-violet-400">nrow</span>(merged), <span class="text-amber-300">"rows merged\n"</span>)</pre>
+<span class="text-sky-400">200 OK</span>  application/json
+&#123;
+  <span class="text-amber-300">"race_key"</span>: <span class="text-amber-300">"20250716_839"</span>,
+  <span class="text-amber-300">"venue"</span>: <span class="text-amber-300">"HV"</span>,
+  <span class="text-amber-300">"runners"</span>: 12,
+  <span class="text-amber-300">"odds_snapshots"</span>: 47
+&#125;
+<span class="text-slate-500"># API 現開 waitlist · webhook 推送可選</span></pre>
         </TerminalCodeBlock>
       </div>
       <div class="mt-8 flex flex-wrap gap-4">
